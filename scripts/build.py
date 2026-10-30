@@ -1,5 +1,5 @@
 from pathlib import Path
-import os, sys, subprocess, urllib.request, zipfile, shutil, io, json
+import os, sys, subprocess, urllib.request, zipfile, shutil, io, json, argparse
 ROOT=Path(__file__).resolve().parents[1]
 os.chdir(ROOT)
 CACHE=ROOT/'.cache'; CACHE.mkdir(exist_ok=True)
@@ -7,6 +7,9 @@ BUILD=ROOT/'build'; BUILD.mkdir(exist_ok=True)
 JAVA=Path(os.environ.get('JAVA_HOME',r'C:\Program Files\Android\Android Studio\jbr'))/'bin'
 SDK=Path(os.environ.get('ANDROID_HOME',str(Path.home()/'AppData/Local/Android/Sdk')))
 SEP=os.pathsep
+parser=argparse.ArgumentParser(description='Build an App Inventor ExecuTorch extension')
+parser.add_argument('--abi',choices=['arm64-v8a','all'],default='arm64-v8a',help='Phone build by default; all adds x86_64 emulator support')
+args=parser.parse_args()
 
 def run(*args):
     subprocess.run([str(x) for x in args],check=True)
@@ -26,6 +29,8 @@ for group,name,version,ext in [('org.pytorch','executorch-android','1.5.1','aar'
         for n in z.namelist():
             if n.startswith(('jni/arm64-v8a/','jni/x86_64/')) and n.endswith('.so'):
                 _,abi,fn=n.split('/'); native[(abi,fn)]=z.read(n)
+if args.abi != 'all':
+    native={key:value for key,value in native.items() if key[0]==args.abi}
 classes=BUILD/'classes'; classes.mkdir(exist_ok=True)
 android=sorted((SDK/'platforms').glob('*/android.jar'))[0]
 deps=ROOT/'lib/appinventor'
@@ -80,7 +85,9 @@ licenses=ROOT/'licenses'
 if licenses.exists():
     for p in licenses.glob('*'): shutil.copyfile(p,stage/'files'/p.name)
 out=ROOT/'out'; out.mkdir(exist_ok=True)
-with zipfile.ZipFile(out/f'{package}.aix','w',zipfile.ZIP_DEFLATED) as z:
+with zipfile.ZipFile(out/f'{package}.aix','w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
     for p in stage.rglob('*'):
         if p.is_file(): z.write(p,p.relative_to(stage.parent).as_posix())
-print('Built',out/f'{package}.aix')
+artifact_name='ExecuTorch-ARM64.aix' if args.abi != 'all' else 'ExecuTorch-multi-ABI.aix'
+shutil.copyfile(out/f'{package}.aix',out/artifact_name)
+print('Built',out/artifact_name, '(bytes:',(out/artifact_name).stat().st_size,')')

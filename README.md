@@ -8,7 +8,7 @@ A small Android-only base repo for loading your own `.pte` model from an App Inv
 2. Build an APK for a 64-bit Android device (Android 8 or later). Prefer a compiled APK for the first test; 32-bit Companion processes cannot load this runtime.
 3. Tap the button. The expected output is `[2,3,4,5]`.
 
-Or import `out/org.community.executorch.aix` through **Extensions > Import extension**, drag ExecuTorch onto the screen, upload your `.pte` to Media, and wire these blocks:
+Or import `out/ExecuTorch-ARM64.aix` through **Extensions > Import extension**, drag ExecuTorch onto the screen, upload your `.pte` to Media, and wire these blocks:
 
 ```text
 when Button.Click:
@@ -67,9 +67,13 @@ To re-export the small model, use a separate Python environment with `executorch
 
 ## Native packaging
 
-The AIX contains Java bytecode for compiled apps, DEX for Companion, and arm64-v8a/x86_64 libraries. Standard native metadata lets the APK builder include 64-bit libraries. A second compressed native asset bundle supplies an explicit load path for extension class loaders. This duplication is intentional for the prototype; the archive is around 21 MB. The loader extracts only the current ABI into app-private storage. Native dependencies and licensing are listed in `THIRD_PARTY_NOTICES.md`.
+The default phone AIX contains Java bytecode for compiled apps, DEX for Companion, and arm64-v8a libraries. Use `python scripts/build.py --abi all` to add x86_64 emulator libraries. Standard native metadata lets the APK builder include 64-bit libraries. A second compressed native asset bundle supplies an explicit load path for extension class loaders. This duplication is intentional for the prototype; the phone archive is under 10 MB; the optional multi-ABI archive is around 19 MB. The loader extracts only the current ABI into app-private storage. Native dependencies and licensing are listed in `THIRD_PARTY_NOTICES.md`.
 
 A device must run a **64-bit app process**, not just have a 64-bit CPU. Restart Companion after rebuilding a native extension. iOS and 32-bit Android are unsupported. Coexistence with another extension using a different ExecuTorch/fbjni/NativeLoader version has not been tested.
+
+## Upload troubleshooting
+
+If MIT App Inventor reports "Upload Error", try the smaller `out/ExecuTorch-ARM64.aix` phone build. The earlier multi-ABI package was around 19 MB. The generic uploader error does not prove a size limit was the cause; server/session/network errors can produce it too. If it persists, capture the upload request status from the browser Network panel. The smaller build and archive checks pass locally; live server upload is not verified.
 
 ## Verification status
 

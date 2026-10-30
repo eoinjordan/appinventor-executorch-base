@@ -24,6 +24,8 @@ with zipfile.ZipFile('out/org.community.executorch.aix') as z:
     assert {e['name'] for e in descriptor['events']} == {
         'ModelLoaded', 'ModelUnloaded', 'InferenceCompleted', 'ErrorOccurred'}
     assert info['permissions'] == []
+    if not any(n.endswith('-x8a') for n in info['native']):
+        assert Path('out/org.community.executorch.aix').stat().st_size < 10_000_000, 'Phone archive exceeded upload size budget'
     for name in info['native']:
         suffix = '-v8a' if name.endswith('-v8a') else '-x8a'
         abi = 'arm64-v8a' if suffix == '-v8a' else 'x86_64'
@@ -32,7 +34,8 @@ with zipfile.ZipFile('out/org.community.executorch.aix') as z:
     with zipfile.ZipFile(io.BytesIO(z.read(prefix+'classes.jar'))) as dex:
         assert dex.read('classes.dex').startswith(b'dex\n')
     with zipfile.ZipFile(io.BytesIO(z.read(prefix+'assets/native-runtime.zip'))) as libs:
-        assert len(libs.namelist()) == 6
+        assert len(libs.namelist()) in (3, 6)
+        assert {n.split("/")[0] for n in libs.namelist()} >= {"arm64-v8a"}
     assert z.read(prefix+'extension.properties').decode().splitlines() == ['type=external']
 print('PASS: minimal block API, zero permissions, minSDK, native assets and DEX packaging')
 
