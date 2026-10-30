@@ -68,10 +68,13 @@ for item in info:
     item['libraries']=[]
     item['assets']=['native-runtime.zip']
     item['androidMinSdk']=['26']
-    item['native']=[fn+('-v8a' if abi=='arm64-v8a' else '-x8a') for abi,fn in native]
+    item['native']=[fn+('-v8a' if abi=='arm64-v8a' else '-x8a') for abi,fn in native if fn=='libc++_shared.so']
 (stage/'files/component_build_infos.json').write_text(json.dumps(info))
 shutil.copyfile(merged,stage/'files/AndroidRuntime.jar')
 for (abi,fn),data in native.items():
+    # Only the C++ library is also placed under lib/ to declare supported APK ABIs.
+    # NativeRuntime loads the other libraries from the private asset extraction.
+    if fn!='libc++_shared.so': continue
     suffix='-v8a' if abi=='arm64-v8a' else '-x8a'
     folder=stage/'files'/abi; folder.mkdir(exist_ok=True)
     (folder/fn).write_bytes(data)
