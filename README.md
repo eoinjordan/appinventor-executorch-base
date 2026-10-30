@@ -82,3 +82,7 @@ Java compilation, annotation generation, DEX compilation, input tests and AIX ar
 The fuller reference implementation remains in `../appinventor-executorch/`. Both projects use the same component/package name, so use one at a time in an App Inventor project. This repo has not been published or submitted upstream.
 
 Built from [MIT's extension template](https://github.com/mit-cml/extension-template) and [ExecuTorch's Android API](https://docs.pytorch.org/executorch/stable/using-executorch-android.html).
+
+## Architecture diagram
+
+Open [docs/architecture.drawio](docs/architecture.drawio) in https://app.diagrams.net using **File > Open From > Device**. All nodes and connectors are editable.
