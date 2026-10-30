@@ -15,3 +15,5 @@ Runtime dependencies packaged in the AIX:
 | Android NDK libc++_shared | Supplied by fbjni 0.7.0 | LLVM/Apache-2.0 with LLVM exceptions; see licenses/LLVM-LICENSE.txt |
 
 ExecuTorch and its distributed native binary also contain third-party code; consult its upstream third-party sources and notices at https://github.com/pytorch/executorch/tree/v1.5.1/third-party before redistribution. No pretrained third-party model weights are bundled in this base project. models/add_one.pte is generated from the add-one module in scripts/export_smoke.py and follows this project's license.
+
+Palette logo: unmodified ExecuTorch logo from https://github.com/pytorch/executorch/blob/v1.5.1/docs/source/_static/img/et-logo.png . ExecuTorch/PyTorch marks belong to their owners; this is a community extension, not an official MIT/PyTorch product.

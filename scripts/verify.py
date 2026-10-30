@@ -17,6 +17,10 @@ subprocess.run([str(java/'java'), '-cp', str(output), 'TensorDataTest'], check=T
 
 with zipfile.ZipFile('out/org.community.executorch.aix') as z:
     prefix = 'org.community.executorch/'
+    icon_info=json.loads(z.read(prefix+'components.json'))[0]
+    assert icon_info['iconName']=='aiwebres/executorch.png'
+    assert z.read(prefix+icon_info['iconName']).startswith(b'\x89PNG\r\n\x1a\n')
+    assert z.testzip() is None
     descriptor = json.loads(z.read(prefix+'components.json'))[0]
     info = json.loads(z.read(prefix+'files/component_build_infos.json'))[0]
     assert descriptor['androidMinSdk'] == '26'

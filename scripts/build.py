@@ -56,6 +56,12 @@ if stage.exists(): shutil.rmtree(stage)
 (stage/'files').mkdir(parents=True)
 components=json.loads((classes/'simple_components.json').read_text())
 info=json.loads((classes/'simple_components_build_info.json').read_text())
+# Package the palette icon at the descriptor's relative path.
+for component in components:
+    icon=component.get('iconName','')
+    if icon and not icon.startswith(('https:', 'http:')):
+        target=stage/icon; target.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(ROOT/'src'/Path(*package.split('.'))/icon,target)
 (stage/'extension.properties').write_text('type=external\n')
 (stage/'assets').mkdir(exist_ok=True)
 with zipfile.ZipFile(stage/'assets/native-runtime.zip','w',zipfile.ZIP_DEFLATED) as bundle:

@@ -30,7 +30,7 @@ import org.pytorch.executorch.Tensor;
     category = ComponentCategory.EXTENSION,
     nonVisible = true,
     androidMinSdk = 26,
-    iconName = "")
+    iconName = "aiwebres/executorch.png")
 @SimpleObject(external = true)
 public final class ExecuTorch extends AndroidNonvisibleComponent implements OnDestroyListener {
   private final Activity activity;
