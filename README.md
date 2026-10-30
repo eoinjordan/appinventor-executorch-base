@@ -4,9 +4,13 @@ A small Android-only base repo for loading your own `.pte` model from an App Inv
 
 ## Try it
 
-1. Import `examples/ExecuTorchSmoke.aia` into App Inventor. It includes the extension, model and blocks.
+1. Import `examples/ExecuTorchIris.aia` using **Projects > Import project (.aia) from my computer**. It includes the trained classifier, extension and working blocks.
 2. Build an APK for a 64-bit Android device (Android 8 or later). Prefer a compiled APK for the first test; 32-bit Companion processes cannot load this runtime.
-3. Tap the button. The expected output is `[2,3,4,5]`.
+3. Tap **Try setosa**, then **Classify flower**. Repeat for versicolor and virginica. Edit the four measurements (in cm) to try your own inputs.
+
+The included Iris classifier accepts raw measurements in this order: sepal length, sepal width, petal length, petal width. Normalization is included in the model. Its three output probabilities are setosa, versicolor and virginica. This is a teaching demo for Iris measurements, not a general plant identifier.
+
+The original `ExecuTorchSmoke.aia` add-one example remains available; the raw block example below refers to that diagnostic.
 
 Or import `out/ExecuTorch-ARM64.aix` through **Extensions > Import extension**, drag ExecuTorch onto the screen, upload your `.pte` to Media, and wire these blocks:
 
@@ -58,7 +62,9 @@ Requires Python 3, Git, JDK 17+ and an Android SDK with a platform and Build Too
 git submodule update --init --depth 1
 python scripts/build.py
 python scripts/make_example.py
+python scripts/make_iris_example.py
 python scripts/verify.py
+python scripts/verify_iris.py
 ```
 
 The App Inventor API jars are pinned by the `lib/appinventor` submodule. Maven coordinates are pinned in `scripts/build.py`; downloaded files go in `.cache/`. No Gradle or Ant installation is required. `build.xml` is the original MIT template's legacy build, retained for provenance; use the Python build for this project.
