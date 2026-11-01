@@ -38,6 +38,9 @@ with zipfile.ZipFile('out/org.community.executorch.aix') as z:
             assert data[:4] == b'\x7fELF' and data[4] == 2
         assert len(libs.namelist()) in (3, 6)
         assert {n.split("/")[0] for n in libs.namelist()} >= {"arm64-v8a"}
+        for abi in {n.split('/')[0] for n in libs.namelist()}:
+            assert {n.split('/')[1] for n in libs.namelist() if n.startswith(abi+'/')} == {
+                'libc++_shared.so', 'libfbjni.so', 'libexecutorch.so'}
         if {n.split('/')[0] for n in libs.namelist()} == {'arm64-v8a'}:
             assert Path('out/org.community.executorch.aix').stat().st_size < 10_000_000, 'Phone archive exceeded upload size budget'
     assert z.read(prefix+'extension.properties').decode().splitlines() == ['type=external']

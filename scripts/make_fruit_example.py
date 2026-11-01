@@ -8,7 +8,7 @@ xml=E.Element('xml',{'xmlns':'https://developers.google.com/blockly/xml'})
 contract=json.loads((ROOT/'models/fruit_contract.json').read_text())
 components=[]
 def component(name,kind,parent=None,**properties):
-    versions={'Label':'5','Button':'7','Image':'4','ImagePicker':'5','Camera':'3','ExecuTorch':'2','VerticalArrangement':'4','HorizontalArrangement':'4','ActivityStarter':'6'}
+    versions={'Label':'5','Button':'7','Image':'4','ImagePicker':'5','Camera':'3','ExecuTorch':'3','VerticalArrangement':'4','HorizontalArrangement':'4','ActivityStarter':'6'}
     item={'$Name':name,'$Type':kind,'$Version':versions.get(kind,'1'),'Uuid':str(component.counter),**properties}
     component.counter+=1
     (components if parent is None else parent.setdefault('$Components',[])).append(item)

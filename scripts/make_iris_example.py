@@ -11,7 +11,7 @@ xml=E.Element('xml',{'xmlns':NS})
 contract=json.loads((ROOT/'models/iris_contract.json').read_text())
 components=[]
 def component(name,kind,**properties):
-    versions={'Label':'5','Button':'7','TextBox':'6'}
+    versions={'Label':'5','Button':'7','TextBox':'6','ExecuTorch':'3'}
     item={'$Name':name,'$Type':kind,'$Version':versions.get(kind,'1'),'Uuid':str(len(components)+1),**properties}
     components.append(item)
 component('IntroLabel','Label',Text='Iris flower classifier\nEnter four measurements in centimetres, or choose a preset. Tap Classify to predict the species. This is a learning demo.',FontSize='18',Width='-2')

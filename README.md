@@ -178,6 +178,8 @@ If App Inventor reports **Upload Error**, use the ARM64 phone build (around 6.2 
 
 If an older project fails with **AttachNativeLibs: Unknown native lib type**, import the rebuilt sample; it removes the native declaration that triggers the server error. If **join** reports `*nothing*`, replace the older sample project: event arguments must use their actual names, such as `message`, not `get message`.
 
+For **UnsatisfiedLinkError: libfbjni.so not found**, including a `clns` namespace error, use extension version **3** or newer and rebuild the APK. Its loader explicitly loads `libc++_shared.so` and then `libfbjni.so` by absolute path before ExecuTorch, because Android does not search the extraction directory for transitive dependencies. The updated sample projects already include this loader. Fully close an older app or Companion process before testing a new native extension.
+
 ## Verification status
 
 Local checks pass for Java/DEX compilation, numeric inputs, native assets, project archives, prediction fixtures and fruit event argument bindings. The fruit project has been opened in App Inventor; reported APK packaging and event binding failures led to fixes. Successful APK compilation, native Android inference, camera/picker behaviour and the revised layout still need device verification. The local Windows Python native ExecuTorch runtime failed to load its DLL with the installed PyTorch; successful export is not a native runtime test.
