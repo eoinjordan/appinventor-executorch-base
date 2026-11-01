@@ -86,7 +86,7 @@ for button,starter,title,blurb,url in LEARNING_LINKS:
     component(button,'Button',parent=body,Text=title+'  ›',Width='-2',Height='44',FontSize='13',FontBold='True',TextColor=GREEN,BackgroundColor=WHITE,Shape='1')
     component(starter,'ActivityStarter',Action='android.intent.action.VIEW',DataUri=url)
 gap('CreditSpace',8)
-component('CreditLabel','Label',parent=body,Text='Photos: Mihai Oltean, Fruits-360 (CC BY-SA 4.0). Community project; not an official MIT App Inventor or PyTorch product.',FontSize='11',TextColor=MUTED,Width='-2')
+component('CreditLabel','Label',parent=body,Text='Photos: Mihai Oltean, Fruits-360 (CC BY-SA 4.0).',FontSize='11',TextColor=MUTED,Width='-2')
 gap('BottomSpace',12)
 component('Camera1','Camera')
 component('ExecuTorch1',TYPE)

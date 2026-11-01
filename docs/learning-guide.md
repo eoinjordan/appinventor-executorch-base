@@ -1,103 +1,67 @@
-# Learning guide: what the fruit app is doing
+# Learning guide
 
-Once you have the app running (see the [main README](../README.md)), use this guide
-to understand what happens between tapping a photo and seeing a label, and to try
-some experiments that show what the model can and cannot do.
+Start with the [main README](../README.md) to get the app running. This page explains
+what the app is doing and suggests experiments.
 
-## The idea in one paragraph
+## What you are learning
 
-**Image classification** means giving a whole image one label from a fixed list.
-This app's list has three entries: apple, banana and orange. The model does not find
-where the fruit is, count fruits, or draw boxes; it only answers "which of my three
-labels fits this picture best?" Everything it knows was learned from example photos
-before the app was built. Choosing a photo in the app does not teach it anything new.
+**Image classification** assigns a label to a whole image. This app chooses among three
+labels; it does not locate multiple objects or draw boxes around them.
 
-## Words you will meet
-
-| Term | What it means here |
+| Term | Meaning in this example |
 | --- | --- |
-| Dataset | The labelled fruit photos used to train and test the model |
-| Training | Adjusting the model's numbers so it predicts the training photos well. Done once, on a computer, before the app exists |
-| Model | The saved calculation that turns image numbers into three scores |
-| Inference | Running that calculation on a new photo. This is what the phone does |
-| Class / label | One of the possible answers: apple, banana or orange |
-| Tensor | A grid of numbers. A photo becomes a tensor of red, green and blue values |
-| Score | One number per class. The app shows the label with the highest score |
-| PyTorch | The Python library used to describe and export the model |
+| Dataset | Labelled fruit photos used for training and testing |
+| Training | Learning model parameters from examples; already done before this app runs |
+| Model | The saved calculation that turns image numbers into scores |
+| Inference | Running that calculation on a new photo |
+| Class / label | One possible answer: apple, banana or orange |
+| Tensor | A structured collection of numbers, such as image colour values |
+| Score | A value for each class; the app displays the highest-scoring label |
+| PyTorch | Tools used to represent and export the model in this project |
 | ExecuTorch | The runtime that executes the exported model on the phone |
 
-In this project the classifier is trained with scikit-learn, rebuilt as a PyTorch
-model, then exported to an ExecuTorch `.pte` file. App Inventor provides the screen,
-camera, photo picker and the blocks that tie it together.
+The classifier is trained with scikit-learn, represented as a PyTorch model, then
+exported to an ExecuTorch `.pte` file. App Inventor supplies the screen, camera, photo
+picker and event blocks. Choosing a photo does not add it to the training dataset or
+change the model.
 
 ## Follow one prediction through the blocks
 
-1. When the screen opens, **Screen.Initialize** calls `LoadModel("fruit_classifier.pte")`.
-   Loading happens in the background.
-2. When the model is ready, **ModelLoaded** fires and the app enables the sample and
-   photo buttons. Until then they stay greyed out.
-3. When you choose a photo, the app calls `RunImage(imagePath, 32)`. The extension
-   shrinks the photo to 32 × 32 pixels and turns its red, green and blue values into
-   a tensor of numbers between 0 and 1.
-4. The model runs and **InferenceCompleted** fires with three scores, in
-   **apple, banana, orange** order, plus the time it took. The app picks the
-   highest score and shows its label.
-5. If anything fails along the way, **ErrorOccurred** fires with the name of the step
-   and the original error message, and the app displays both.
+1. **Screen.Initialize** calls `LoadModel("fruit_classifier.pte")`.
+2. **ModelLoaded** enables the sample and photo controls and shows the model name under
+   **What is running on this phone**.
+3. Selecting a photo calls `RunImage(imagePath, 32)`. The extension resizes it to 32 by
+   32 pixels and converts its red, green and blue channels into numbers.
+4. **InferenceCompleted** returns three scores, in **apple, banana, orange** order, and
+   the elapsed time. The app displays the highest-scoring label.
+5. **ErrorOccurred** supplies the operation and message if a step fails.
 
-Loading and inference are asynchronous: the app waits for the completion event
-rather than assuming the work is done.
+Loading and inference finish asynchronously: use their completion events before
+starting the next step.
 
 ## Experiments to try
 
-- **Record a baseline.** Run each of the three sample photos and note the label and
-  all three scores. You now know what "working" looks like.
-- **Change one thing at a time.** Photograph the same fruit on a white surface, then
-  change only the lighting, then only the angle, then only the background. Which
-  changes move the scores most?
-- **Show it something it has never seen.** Try a pear, a tomato or an empty table.
-  The model still has to choose apple, banana or orange, and it may do so with a
-  high score. This is the most important lesson: a confident answer is not
-  necessarily a correct one.
-- **Prove it runs on the phone.** After the model loads, turn on airplane mode and
-  classify a sample again. Only the **Learn more** links need the internet. The
-  **What is running on this phone** card tells you which model file is loaded.
-- **Think like a data collector.** If you wanted this model to work on your kitchen
-  table, what photos would you need to add? More varieties? Different lighting?
-  Other objects labelled as "not a fruit"? Remember to keep some test photos aside
-  that the model never trains on.
+- **Establish a baseline:** run each supplied photo and record its label and three scores.
+- **Change one thing:** photograph the same fruit on a white surface, then change only the lighting, angle or background. Which scores change?
+- **Try something unfamiliar:** show a pear or an empty table. The model still chooses one of its three classes. A high score does not guarantee a correct answer.
+- **Check local inference:** after the model loads, enable airplane mode and classify a bundled sample again. Only the **Learn more** links need a connection.
+- **Think about better data:** what additional varieties, lighting and backgrounds would you collect? Keep separate test photos that were not used to train the model.
 
-## Why it gets things wrong
-
-The training photos show single, isolated fruits of one variety each on a plain
-white background, and there is no "none of these" class. On the computer, the model
-labelled all 120 held-out test photos correctly, but those test photos look just like
-the training ones. Real phone photos, other varieties, clutter and unrelated objects
-are outside what it has seen. The
-[dataset attribution and scope notes](../models/FRUIT_DATASET.md) spell out these
-limits.
+The dataset contains isolated fruit on simple backgrounds and limited varieties. The
+model has no "unknown" class. Host evaluation matched all 120 test photos, which are
+separate from the 360 training photos, but those test photos look like the training
+photos. Everyday photos, other varieties and unrelated objects are outside what it has
+seen. See [dataset attribution and limitations](../models/FRUIT_DATASET.md).
 
 ## Learn more
 
-- **New to App Inventor?** [MIT's beginner tutorials](https://appinventor.mit.edu/explore/ai2/tutorials)
-  introduce screens, components and blocks. This is the app's **App Inventor tutorials** link.
-- **Classification with blocks:** MIT's
-  [Introduction to Machine Learning: Image Classification](https://appinventor.mit.edu/explore/resources/ai/image-classification-look-extension)
-  has beginner activities and teaching materials. It uses MIT's Look extension, so
-  its blocks differ from this project's.
-- **Collect your own examples:** MIT's
-  [Personal Image Classifier, Part 1](https://appinventor.mit.edu/explore/resources/ai/personal-image-classifier-part1)
-  introduces training and testing with your own photos. Its model format is not a
-  drop-in `.pte` for this extension.
-- **Machine learning in Python:** [PyTorch: Learn the Basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html)
-  walks through data, models and training. This is the app's **Learn about AI** link.
-- **Running models on phones:** the [ExecuTorch documentation](https://docs.pytorch.org/executorch/stable/index.html)
-  explains the runtime. This is the app's **PyTorch / ExecuTorch** link. This
-  extension uses version **1.5.1**.
+- **New to App Inventor:** [MIT's beginner tutorials](https://appinventor.mit.edu/explore/ai2/tutorials) introduce screens, components and blocks. This is the app's **App Inventor tutorials** link.
+- **Classification with blocks:** [Introduction to Machine Learning: Image Classification](https://appinventor.mit.edu/explore/resources/ai/image-classification-look-extension) provides beginner activities and teaching materials. It uses MIT's Look extension, so its blocks differ from this project.
+- **Collect examples and train:** [Personal Image Classifier: Part 1](https://appinventor.mit.edu/explore/resources/ai/personal-image-classifier-part1) introduces training and testing. Its model format is not a drop-in `.pte` for this extension.
+- **ML with Python:** [PyTorch: Learn the Basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) walks through data, models and training. This is the app's **Learn about AI** link.
+- **Deploy on a phone:** [ExecuTorch documentation](https://docs.pytorch.org/executorch/stable/index.html) explains the runtime and model deployment. This is the app's **PyTorch / ExecuTorch** link. Use the pinned **1.5.1** export/runtime version for this extension.
 
-## Next steps
+## Next step
 
-- [Train and export the model yourself](training-and-export.md): the exact commands,
-  recorded output, dataset counts and what each setting means.
-- [Developer guide](developer-guide.md): the model contract, using your own model,
-  building and releasing the extension.
+- [Train and export the model](training-and-export.md): commands, recorded output, dataset and hyperparameters.
+- [Developer guide](developer-guide.md): the model contract, using your own model, building and releasing the extension.
