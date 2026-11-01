@@ -1,5 +1,8 @@
 # Beginner fruit photo classifier
 
+New to App Inventor? Follow the [ready-to-use App Inventor README](../docs/app-inventor/README.md)
+for downloads, import, APK building, block explanations and troubleshooting.
+
 Import **ExecuTorchFruit.aia** through Projects > Import project (.aia) from my computer. The trained PTE, extension, sample photos and all blocks are included. Build an ARM64 Android APK for a phone test; no Python or training is required to try it.
 
 Tap **Apple**, **Banana** or **Orange** under **Sample photos**. Each sample should produce the matching label. These buttons classify supplied photos; they do not train the model. Then try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. This three-class teaching model may guess a fruit label for unrelated objects; a high score does not guarantee a correct answer.

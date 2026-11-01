@@ -17,6 +17,13 @@ This repo includes a small, pinned subset of
 | orange | Orange 1 | 120 | 40 | 1 test photo |
 | **Total** | **3 classes** | **360** | **120** | **3 photos** |
 
+![Nine actual training images: apple, banana and orange photographed from different views](images/fruit-dataset.png)
+
+Examples from our Fruits-360 subset: three classes photographed on white backgrounds.
+The grid uses training photos; testing uses separate images. Photos: Mihai Oltean /
+Fruits-360, CC BY-SA 4.0. Images were resized and arranged with labels;
+[source records](images/fruit-dataset-sources.json) and [attribution](../models/FRUIT_DATASET.md).
+
 - [Download the subset](../models/fruit_dataset.zip): contains original images,
   attribution and the manifest. Scripts verify hashes before extracting it.
 - [Manifest](../models/fruit_dataset_manifest.json): source revision, file paths,
