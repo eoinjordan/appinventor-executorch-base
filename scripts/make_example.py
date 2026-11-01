@@ -20,7 +20,7 @@ def call(method,args):
 def event(component,ctype,name,x,y):
     b=ET.SubElement(xml,'block',{'type':'component_event','x':str(x),'y':str(y)});ET.SubElement(b,'mutation',{'component_type':ctype,'is_generic':'false','instance_name':component,'event_name':name});field(b,'COMPONENT_SELECTOR',component);return b
 def label(block,param):
-    setb=ET.SubElement(ET.SubElement(block,'statement',{'name':'DO'}),'block',{'type':'component_set_get'});ET.SubElement(setb,'mutation',{'component_type':'Label','set_or_get':'set','property_name':'Text','is_generic':'false','instance_name':'ResultLabel'});field(setb,'COMPONENT_SELECTOR','ResultLabel');field(setb,'PROP','Text');get=ET.SubElement(ET.SubElement(setb,'value',{'name':'VALUE'}),'block',{'type':'lexical_variable_get'});field(get,'VAR','get '+param)
+    setb=ET.SubElement(ET.SubElement(block,'statement',{'name':'DO'}),'block',{'type':'component_set_get'});ET.SubElement(setb,'mutation',{'component_type':'Label','set_or_get':'set','property_name':'Text','is_generic':'false','instance_name':'ResultLabel'});field(setb,'COMPONENT_SELECTOR','ResultLabel');field(setb,'PROP','Text');get=ET.SubElement(ET.SubElement(setb,'value',{'name':'VALUE'}),'block',{'type':'lexical_variable_get'});ET.SubElement(ET.SubElement(get,'mutation'),'eventparam',{'name':param});field(get,'VAR',param)
 b=event('RunButton','Button','Click',20,20);ET.SubElement(b,'statement',{'name':'DO'}).append(call('LoadModel',['add_one.pte']))
 b=event('ExecuTorch1',T,'ModelLoaded',20,220);ET.SubElement(b,'statement',{'name':'DO'}).append(call('RunModel',[[1,2,3,4],[1,4]]))
 label(event('ExecuTorch1',T,'InferenceCompleted',20,430),'values')

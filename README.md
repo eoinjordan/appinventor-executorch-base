@@ -95,7 +95,7 @@ To re-export the small model, use a separate Python environment with `executorch
 
 ## Native packaging
 
-The default phone AIX contains Java bytecode for compiled apps, DEX for Companion, and arm64-v8a libraries. Use `python scripts/build.py --abi all` to add x86_64 emulator libraries. Standard native metadata lets the APK builder include 64-bit libraries. A compressed native asset bundle supplies an explicit load path for extension class loaders. Only libc++ is also packaged as a standard native library to declare the supported APK ABIs. The phone archive is around 6.6 MB. The loader extracts only the current ABI into app-private storage. Native dependencies and licensing are listed in `THIRD_PARTY_NOTICES.md`.
+The default phone AIX contains Java bytecode for compiled apps, DEX for Companion, and arm64-v8a libraries. Use `python scripts/build.py --abi all` to add x86_64 emulator libraries. Native libraries are stored only in a compressed asset bundle and loaded explicitly from app-private storage. Native metadata is empty to avoid MIT's `AttachNativeLibs` extension check failing with `Unknown native lib type`. The phone archive is around 6.2 MB. A 64-bit Android process is required; another extension that introduces only 32-bit native libraries may prevent this loader from running. Native dependencies and licensing are listed in `THIRD_PARTY_NOTICES.md`.
 
 A device must run a **64-bit app process**, not just have a 64-bit CPU. Restart Companion after rebuilding a native extension. iOS and 32-bit Android are unsupported. Coexistence with another extension using a different ExecuTorch/fbjni/NativeLoader version has not been tested.
 

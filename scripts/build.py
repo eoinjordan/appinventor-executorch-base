@@ -69,23 +69,16 @@ for component in components:
 with zipfile.ZipFile(stage/'assets/native-runtime.zip','w',zipfile.ZIP_DEFLATED) as bundle:
     for (abi,fn),data in native.items(): bundle.writestr(abi+'/'+fn,data)
 (stage/'components.json').write_text(json.dumps(components))
-(stage/'component.json').write_text(json.dumps(components[0]))
-# App Inventor uses -v8a/-x8a suffixes in extension native library metadata.
+# Load native code from the asset only. AttachNativeLibs currently checks
+# context.getExt() (the output format string) instead of getExtCompTypes(),
+# rejecting extension native entries with "Unknown native lib type".
 for item in info:
     item['native']=[]
     item['libraries']=[]
     item['assets']=['native-runtime.zip']
     item['androidMinSdk']=['26']
-    item['native']=[fn+('-v8a' if abi=='arm64-v8a' else '-x8a') for abi,fn in native if fn=='libc++_shared.so']
 (stage/'files/component_build_infos.json').write_text(json.dumps(info))
 shutil.copyfile(merged,stage/'files/AndroidRuntime.jar')
-for (abi,fn),data in native.items():
-    # Only the C++ library is also placed under lib/ to declare supported APK ABIs.
-    # NativeRuntime loads the other libraries from the private asset extraction.
-    if fn!='libc++_shared.so': continue
-    suffix='-v8a' if abi=='arm64-v8a' else '-x8a'
-    folder=stage/'files'/abi; folder.mkdir(exist_ok=True)
-    (folder/fn).write_bytes(data)
 dex=BUILD/'dex'; dex.mkdir(exist_ok=True)
 build_tools=os.environ.get('ANDROID_BUILD_TOOLS')
 bt=SDK/'build-tools'/build_tools if build_tools else sorted((SDK/'build-tools').iterdir())[-1]
