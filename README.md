@@ -40,12 +40,8 @@ The screenshots below show earlier versions; the current project includes a revi
 6. Try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. Allow camera/photo access when Android asks.
 7. Open **Learn about AI** or **PyTorch / ExecuTorch** at the bottom of the screen for tutorials. These pages need internet access; the bundled model performs classification locally.
 
-<img width="651" height="367" alt="image" src="https://github.com/user-attachments/assets/89af26a9-8285-44d7-8c7b-2a86a3b8d4fb" />
-
 
 The app loads its pretrained `fruit_classifier.pte` automatically. If loading fails, photo controls stay disabled and the original error appears with **Retry loading fruit model**. You do not need to supply or train a model. If retry fails, report that loading error; a later "Load a model first" message alone does not identify the cause.
-
-<img width="1343" height="760" alt="image" src="https://github.com/user-attachments/assets/d6d73135-a291-4c3a-8921-c5b6e3b78ee0" />
 
 
 The checked-in `.pte` is about 39 KB. No Python installation, training or model download is needed to try the app. See [the beginner app guide](examples/README.md) and [dataset attribution](models/FRUIT_DATASET.md).
