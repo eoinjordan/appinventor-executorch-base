@@ -8,7 +8,7 @@ xml=E.Element('xml',{'xmlns':'https://developers.google.com/blockly/xml'})
 contract=json.loads((ROOT/'models/fruit_contract.json').read_text())
 components=[]
 def component(name,kind,parent=None,**properties):
-    versions={'Label':'5','Button':'7','Image':'4','ImagePicker':'5','Camera':'3','ExecuTorch':'2','VerticalArrangement':'4','HorizontalArrangement':'4'}
+    versions={'Label':'5','Button':'7','Image':'4','ImagePicker':'5','Camera':'3','ExecuTorch':'2','VerticalArrangement':'4','HorizontalArrangement':'4','ActivityStarter':'6'}
     item={'$Name':name,'$Type':kind,'$Version':versions.get(kind,'1'),'Uuid':str(component.counter),**properties}
     component.counter+=1
     (components if parent is None else parent.setdefault('$Components',[])).append(item)
@@ -28,7 +28,7 @@ gap('ImageSpace',8)
 preview=component('Preview','VerticalArrangement',parent=body,Width='-2',Height='152',BackgroundColor=WHITE,AlignHorizontal='3',AlignVertical='2')
 component('FruitImage','Image',parent=preview,Picture='apple.jpg',Height='140',Width='140',ScalePictureToFit='True')
 gap('SampleSpace',8)
-component('SamplesLabel','Label',parent=body,Text='TRY A SAMPLE',FontSize='11',FontBold='True',TextColor=MUTED,Width='-2')
+component('SamplesLabel','Label',parent=body,Text='SAMPLE PHOTOS',FontSize='11',FontBold='True',TextColor=MUTED,Width='-2')
 samples=component('SampleButtons','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
 for label in ['apple','banana','orange']:
     component(label.title()+'Button','Button',parent=samples,Text=label.title(),Width='-1030',Height='44',FontSize='14',TextColor=INK,BackgroundColor='&HFFE2EEE5',Shape='1',Enabled='False')
@@ -43,6 +43,16 @@ component('ScoresLabel','Label',parent=result_panel,Text='Select a sample or add
 component('StatusLabel','Label',parent=body,Text='Loading fruit model...',FontSize='12',TextColor=MUTED,Width='-2')
 gap('HelpSpace',8)
 component('HelpLabel','Label',parent=body,Text='Best with one centred fruit on a plain white background. This demo knows only apple, banana and orange; other objects may be guessed as one of them.',FontSize='12',TextColor=MUTED,Width='-2')
+gap('LearnSpace',8)
+component('LearnLabel','Label',parent=body,Text='LEARN MORE',FontSize='11',FontBold='True',TextColor=MUTED,Width='-2')
+learning=component('LearningLinks','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
+LEARNING_LINKS=[
+    ('LearnMLButton','MLDocs','Learn ML','https://docs.pytorch.org/tutorials/beginner/basics/intro.html'),
+    ('ExecuTorchDocsButton','ExecuTorchDocs','ExecuTorch docs','https://docs.pytorch.org/executorch/stable/index.html'),
+]
+for button,starter,title,url in LEARNING_LINKS:
+    component(button,'Button',parent=learning,Text=title,Width='-1045',Height='48',FontSize='13',TextColor=GREEN,BackgroundColor=WHITE,Shape='1')
+    component(starter,'ActivityStarter',Action='android.intent.action.VIEW',DataUri=url)
 gap('BottomSpace',12)
 component('Camera1','Camera')
 component('ExecuTorch1',TYPE)
@@ -116,6 +126,8 @@ result=choose(compare(score(1),score(2)),choose(compare(score(1),score(3)),predi
 scores=join([literal('Apple: '),score(1),literal('\nBanana: '),score(2),literal('\nOrange: '),score(3)])
 event('ExecuTorch1',TYPE,'InferenceCompleted',8,[result,prop('ScoresLabel','Label','Text',scores),prop('StatusLabel','Label','Text',join([literal('Finished in '),variable('elapsedMs'),literal(' ms · On your device')]))]+controls(True))
 event('ExecuTorch1',TYPE,'ErrorOccurred',9,[prop('StatusLabel','Label','Text',join([variable('operation'),literal(': '),variable('message')]))]+controls(True))
+for index,(button,starter,title,url) in enumerate(LEARNING_LINKS,10):
+    event(button,'Button','Click',index,[generic_call(starter,'ActivityStarter','StartActivity',[])])
 E.SubElement(xml,'yacodeblocks',{'ya-version':'232','language-version':'36'})
 project={'YaVersion':'232','Source':'Form','Properties':{'$Name':'Screen1','$Type':'Form','$Version':'31','Uuid':'0','AppName':NAME,'Title':'Fruit Classifier','Scrollable':'True','Sizing':'Responsive','AlignHorizontal':'3','BackgroundColor':'&HFFF3F6F2','PrimaryColor':GREEN,'PrimaryColorDark':'&HFF183F2D','AccentColor':GREEN,'$Components':components}}
 with zipfile.ZipFile(ROOT/'examples'/f'{NAME}.aia','w',zipfile.ZIP_DEFLATED) as z:
