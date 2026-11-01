@@ -3,9 +3,7 @@
 Training/export is optional: the model and example photos are checked in.
 """
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
-import hashlib, json, shutil, urllib.request
-from urllib.parse import quote
+import hashlib, json, shutil, zipfile
 import numpy as np
 from PIL import Image
 from sklearn.linear_model import LogisticRegression
@@ -18,42 +16,23 @@ REPO = 'fruits-360/fruits-360-100x100'
 CLASSES = [('apple', 'Apple Red 1'), ('banana', 'Banana 1'), ('orange', 'Orange 1')]
 SIZE = 32
 
-def api(path):
-    request = urllib.request.Request('https://api.github.com/repos/'+REPO+'/'+path,
-                                     headers={'User-Agent':'ExecuTorch-AppInventor-example'})
-    with urllib.request.urlopen(request, timeout=60) as response:
-        return json.load(response)
-
 def prepare():
-    CACHE.mkdir(parents=True, exist_ok=True)
-    manifest_file = CACHE/'manifest.json'
-    if manifest_file.exists():
-        manifest = json.loads(manifest_file.read_text())
-    else:
-        revision = api('commits/main')['sha']
-        records = []
-        for split, count in [('Training',120), ('Test',40)]:
-            for label, folder in CLASSES:
-                items = api('contents/'+quote(split+'/'+folder, safe='/')+'?ref='+revision)
-                items = sorted([x for x in items if x['name'].lower().endswith('.jpg')], key=lambda x:x['name'])
-                assert len(items) >= count
-                for index in np.linspace(0,len(items)-1,count,dtype=int):
-                    item = items[int(index)]
-                    records.append(dict(split=split,label=label,path=item['path'],url=item['download_url']))
-        manifest = dict(repository=REPO,revision=revision,images=records)
-        manifest_file.write_text(json.dumps(manifest,indent=2))
-    def download(record):
-        target = CACHE/record['path']; target.parent.mkdir(parents=True,exist_ok=True)
-        if not target.exists():
-            with urllib.request.urlopen(record['url'],timeout=60) as response:
-                target.write_bytes(response.read())
-        with Image.open(target) as image: image.verify()
-        record['sha256'] = hashlib.sha256(target.read_bytes()).hexdigest()
-    with ThreadPoolExecutor(max_workers=8) as pool:
-        list(pool.map(download,manifest['images']))
-    manifest_file.write_text(json.dumps(manifest,indent=2))
-    print('Downloaded/verified',len(manifest['images']),'images from',manifest['revision'],flush=True)
+    # Use the checked-in, pinned subset: training does not depend on upstream HEAD.
+    manifest=json.loads((ROOT/'models/fruit_dataset_manifest.json').read_text())
+    with zipfile.ZipFile(ROOT/'models/fruit_dataset.zip') as archive:
+        for record in manifest['images']:
+            relative=Path(record['path'])
+            if relative.is_absolute() or '..' in relative.parts:
+                raise ValueError('Invalid dataset path')
+            data=archive.read(record['path'])
+            if hashlib.sha256(data).hexdigest()!=record['sha256']:
+                raise ValueError('Dataset hash mismatch: '+record['path'])
+            target=CACHE/relative
+            target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes(data)
+    print('Verified bundled dataset:',len(manifest['images']),'images',flush=True)
     return manifest
+
 
 def pixels(path):
     with Image.open(path) as image:

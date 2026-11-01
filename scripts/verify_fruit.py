@@ -17,6 +17,12 @@ assert contract['dataset_revision']==manifest['revision']
 assert contract['labels']==['apple','banana','orange']
 assert contract['held_out_accuracy']>=.90
 assert hashlib.sha256((ROOT/'models/fruit_classifier.pte').read_bytes()).hexdigest()==contract['sha256']
+with zipfile.ZipFile(ROOT/'models/fruit_dataset.zip') as dataset:
+    assert dataset.testzip() is None
+    assert json.loads(dataset.read('manifest.json'))==manifest
+    assert b'CC BY-SA 4.0' in dataset.read('ATTRIBUTION.md')
+    for record in manifest['images']:
+        assert hashlib.sha256(dataset.read(record['path'])).hexdigest()==record['sha256']
 for sample in contract['samples']:
     path=ROOT/'models/fruit_samples'/sample['file']
     assert hashlib.sha256(path.read_bytes()).hexdigest()==sample['sha256']
@@ -46,6 +52,28 @@ with zipfile.ZipFile(ROOT/'examples/ExecuTorchFruit.aia') as z:
     methods={m['name']:m for m in api['methods']}; events={e['name']:e for e in api['events']}
     tree=E.fromstring(z.read(next(n for n in z.namelist() if n.endswith('.bky'))))
     ns={'b':'https://developers.google.com/blockly/xml'}; used=set()
+    def event(instance,name):
+        return next(b for b in tree.findall('b:block',ns)
+                    if b.get('type')=='component_event'
+                    and b.find('b:mutation',ns).get('instance_name')==instance
+                    and b.find('b:mutation',ns).get('event_name')==name)
+    for instance,name in [('Screen1','Initialize'),('RetryLoadButton','Click')]:
+        startup=event(instance,name)
+        load=next(b for b in startup.findall('.//b:block',ns)
+                  if b.get('type')=='component_method'
+                  and b.find('b:mutation',ns).get('method_name')=='LoadModel')
+        assert load.find('b:value/b:block/b:field',ns).text=='fruit_classifier.pte'
+    failure=event('ExecuTorch1','ErrorOccurred').find('b:statement/b:block',ns)
+    condition=failure.find('b:value[@name="IF0"]',ns)
+    assert condition.find('.//b:field[@name="TEXT"]',ns).text=='LoadModel'
+    load_error=failure.find('b:statement[@name="DO0"]',ns)
+    disabled=set()
+    for block in load_error.findall('.//b:block[@type="component_set_get"]',ns):
+        mutation=block.find('b:mutation',ns)
+        if mutation.get('property_name')=='Enabled':
+            assert block.find('b:value/b:block/b:field',ns).text=='FALSE'
+            disabled.add(mutation.get('instance_name'))
+    assert disabled=={'AppleButton','BananaButton','OrangeButton','ChoosePhoto','TakePhotoButton'}
     for block in tree.findall('.//b:block',ns):
         mutation=block.find('b:mutation',ns)
         if not block.get('type','').startswith('component_'): continue

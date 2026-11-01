@@ -2,9 +2,13 @@
 
 Import **ExecuTorchFruit.aia** through Projects > Import project (.aia) from my computer. The trained PTE, extension, sample photos and all blocks are included. Build an ARM64 Android APK for a phone test; no Python or training is required to try it.
 
-Tap **Try apple**, **Try banana** or **Try orange**. Each sample should produce the matching label. Then try **Choose a fruit photo** or **Take a fruit photo**. Use one centred fruit on a plain white background. This three-class teaching model may guess a fruit label for unrelated objects; its scores are not an out-of-distribution detector.
+Tap **Apple**, **Banana** or **Orange** under **Sample photos**. Each sample should produce the matching label. These buttons classify supplied photos; they do not train the model. Then try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. This three-class teaching model may guess a fruit label for unrelated objects; a high score does not guarantee a correct answer.
+
+Use **Learn about AI** or **PyTorch / ExecuTorch** to open the official tutorials in your browser. Documentation needs internet access; bundled model inference runs locally. The [beginner learning guide](../README.md#learn-more) also links to App Inventor classification lessons and includes experiments to try.
 
 The app loads fruit_classifier.pte on startup, then calls RunImage(path,32). Image conversion produces RGB NCHW float32 [1,3,32,32] in [0,1]; the remaining normalization is inside the model. InferenceCompleted returns probabilities in apple, banana, orange order.
+
+Photo controls remain disabled until ModelLoaded. A loading failure keeps them disabled, displays the original error and offers **Retry loading fruit model**. Share that original error if retry fails. The repo includes the pretrained [PTE](../models/fruit_classifier.pte) and [all 480 training/test photos](../models/fruit_dataset.zip); Actions verifies and publishes these with the generated app. You do not need the full dataset to run the sample.
 
 Host eager evaluation classified all 120 selected official Test photos correctly, separately from the 360 Training photos. This does not verify native Android execution or general phone-photo accuracy. Camera/picker permission flows still need device testing.
 
