@@ -16,6 +16,6 @@ Runtime dependencies packaged in the AIX:
 | org.jetbrains.kotlin:kotlin-stdlib | 1.9.23 | Apache-2.0; see licenses/Kotlin-LICENSE.txt |
 | Android NDK libc++_shared | Supplied by fbjni 0.7.0 | LLVM/Apache-2.0 with LLVM exceptions; see licenses/LLVM-LICENSE.txt |
 
-ExecuTorch and its distributed native binary also contain third-party code; consult its upstream third-party sources and notices at https://github.com/pytorch/executorch/tree/v1.5.1/third-party before redistribution. The fruit classifier is trained by this project using Fruits-360; its pretrained parameters follow the attribution above. The optional Iris example uses the UCI Iris dataset under CC BY 4.0; see examples/README.md and the app's IRIS_ATTRIBUTION.txt. models/add_one.pte is generated from the add-one module in scripts/export_smoke.py and follows this project's license.
+ExecuTorch and its distributed native binary also contain third-party code; consult its upstream third-party sources and notices at https://github.com/pytorch/executorch/tree/v1.5.1/third-party before redistribution. The fruit classifier is trained by this project using Fruits-360; its pretrained parameters follow the attribution above.
 
-Palette logo: unmodified ExecuTorch logo from https://github.com/pytorch/executorch/blob/v1.5.1/docs/source/_static/img/et-logo.png . ExecuTorch/PyTorch marks belong to their owners; this is a community extension, not an official MIT/PyTorch product.
+Palette logo: unmodified ExecuTorch logo from https://github.com/pytorch/executorch/blob/v1.5.1/docs/source/_static/img/et-logo.png . ExecuTorch and PyTorch marks belong to their owners.

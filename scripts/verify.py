@@ -51,15 +51,6 @@ with zipfile.ZipFile('out/org.community.executorch.aix') as z:
     assert z.read(prefix+'extension.properties').decode().splitlines() == ['type=external']
 print('PASS: minimal block API, zero permissions, minSDK, native assets and DEX packaging')
 
-example = Path('examples/ExecuTorchSmoke.aia')
-if example.exists():
-    import xml.etree.ElementTree as ET
-    with zipfile.ZipFile(example) as z:
-        block_file = next(n for n in z.namelist() if n.endswith('.bky'))
-        ET.fromstring(z.read(block_file))
-        assert z.read('assets/add_one.pte') == Path('models/add_one.pte').read_bytes()
-    print('PASS: example archive and block XML (App Inventor import remains unverified)')
-
 def descendants(items):
     for item in items:
         yield item

@@ -1,0 +1,12 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='598' height='128' viewBox='0 0 598 128'>
+<path d='M10,20 q30,-20 60,0 h518 v36 h-538 v40 h538 v22 h-578 z' fill='#B6872C' stroke='#8A6520' stroke-width='1.5'/>
+<text x='22' y='50' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>when</text>
+<text x='72' y='50' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.InferenceCompleted</text>
+<rect x='330' y='34' width='66' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='363.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>values</text>
+<rect x='404' y='34' width='58' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='433.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>shape</text>
+<rect x='470' y='34' width='90' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='515.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>elapsedMs</text>
+<text x='22' y='72' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>do</text>
+</svg>

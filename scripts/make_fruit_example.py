@@ -20,44 +20,73 @@ INK='&HFF18352B'
 MUTED='&HFF586A62'
 GREEN='&HFF246747'
 WHITE='&HFFFFFFFF'
+model_kb=round((ROOT/'models/fruit_classifier.pte').stat().st_size/1024)
 body=component('Content','VerticalArrangement',Width='-1092',AlignHorizontal='3')
 def gap(name,height=10,parent=body):
     component(name,'Label',parent=parent,Text='',Height=str(height),Width='-2')
+def heading(name,text):
+    component(name,'Label',parent=body,Text=text,FontSize='11',FontBold='True',TextColor=MUTED,Width='-2')
+def card(name):
+    return component(name,'VerticalArrangement',parent=body,Width='-2',BackgroundColor=WHITE)
+
+# Header
 gap('TopSpace',12)
-component('IntroLabel','Label',parent=body,Text='Meet your fruit.',FontSize='24',FontBold='True',TextColor=INK,Width='-2')
-component('SubtitleLabel','Label',parent=body,Text='Apple, banana or orange? Try it on your phone.',FontSize='14',TextColor=MUTED,Width='-2')
-gap('ImageSpace',8)
+component('TitleLabel','Label',parent=body,Text='Fruit Classifier',FontSize='24',FontBold='True',TextColor=INK,Width='-2')
+component('SubtitleLabel','Label',parent=body,Text='Apple, banana or orange? A small AI model decides, right here on your phone.',FontSize='14',TextColor=MUTED,Width='-2')
+gap('ImageSpace',10)
 preview=component('Preview','VerticalArrangement',parent=body,Width='-2',Height='152',BackgroundColor=WHITE,AlignHorizontal='3',AlignVertical='2')
 component('FruitImage','Image',parent=preview,Picture='apple.jpg',Height='140',Width='140',ScalePictureToFit='True')
-gap('SampleSpace',8)
-component('SamplesLabel','Label',parent=body,Text='SAMPLE PHOTOS',FontSize='11',FontBold='True',TextColor=MUTED,Width='-2')
+gap('SampleSpace',10)
+
+# Step 1: bundled samples
+heading('Step1Label','STEP 1 · TRY A SAMPLE PHOTO')
 samples=component('SampleButtons','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
 for label in ['apple','banana','orange']:
     component(label.title()+'Button','Button',parent=samples,Text=label.title(),Width='-1030',Height='44',FontSize='14',TextColor=INK,BackgroundColor='&HFFE2EEE5',Shape='1',Enabled='False')
 gap('PhotoSpace',8)
+
+# Step 2: own photos
+heading('Step2Label','STEP 2 · TRY YOUR OWN PHOTO')
 photos=component('PhotoButtons','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
 component('ChoosePhoto','ImagePicker',parent=photos,Text='Choose photo',Width='-1045',Height='48',FontSize='14',BackgroundColor=GREEN,TextColor=WHITE,Shape='1',Enabled='False')
 component('TakePhotoButton','Button',parent=photos,Text='Take photo',Width='-1045',Height='48',FontSize='14',BackgroundColor=GREEN,TextColor=WHITE,Shape='1',Enabled='False')
+component('HelpLabel','Label',parent=body,Text='Works best with one centred fruit on a plain white background.',FontSize='12',TextColor=MUTED,Width='-2')
 gap('ResultSpace',10)
-result_panel=component('ResultPanel','VerticalArrangement',parent=body,Width='-2',BackgroundColor=WHITE)
-component('PredictionLabel','Label',parent=result_panel,Text='Your result appears here',FontSize='20',FontBold='True',TextColor=INK,Width='-2')
-component('ScoresLabel','Label',parent=result_panel,Text='Select a sample or add your own photo.',FontSize='13',TextColor=MUTED,Width='-2')
-component('StatusLabel','Label',parent=body,Text='Loading fruit model...',FontSize='12',TextColor=MUTED,Width='-2')
+
+# Result
+heading('ResultHeading','RESULT')
+result_panel=card('ResultPanel')
+component('PredictionLabel','Label',parent=result_panel,Text='Your result will appear here',FontSize='20',FontBold='True',TextColor=INK,Width='-2')
+component('ScoresLabel','Label',parent=result_panel,Text='Tap a sample above, or add your own photo.',FontSize='13',TextColor=MUTED,Width='-2')
+component('StatusLabel','Label',parent=result_panel,Text='Loading fruit model...',FontSize='12',TextColor=MUTED,Width='-2')
 component('LoadErrorLabel','Label',parent=body,Text='',FontSize='13',TextColor='&HFFB3261E',Width='-2')
-component('RetryLoadButton','Button',parent=body,Text='Retry loading fruit model',Visible='False',Width='-2',Height='48')
-gap('HelpSpace',8)
-component('HelpLabel','Label',parent=body,Text='Best with one centred fruit on a plain white background. This demo knows only apple, banana and orange; other objects may be guessed as one of them.',FontSize='12',TextColor=MUTED,Width='-2')
-gap('LearnSpace',8)
-component('LocalAILabel','Label',parent=body,Text="This is a local AI machine learning model. It uses your phone's processor to run a PyTorch ExecuTorch model. Your photos are processed on your phone. To learn more about AI or PyTorch, tap a link below.",FontSize='13',TextColor=INK,Width='-2')
-component('LearnLabel','Label',parent=body,Text='LEARN MORE',FontSize='11',FontBold='True',TextColor=MUTED,Width='-2')
-learning=component('LearningLinks','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
+component('RetryLoadButton','Button',parent=body,Text='Retry loading fruit model',Visible='False',Width='-2',Height='48',BackgroundColor=GREEN,TextColor=WHITE,Shape='1')
+gap('InfoSpace',10)
+
+# What is running on the phone
+heading('OnPhoneHeading','WHAT IS RUNNING ON THIS PHONE')
+info=card('InfoPanel')
+component('ModelLabel','Label',parent=info,Text='Model: loading fruit_classifier.pte...',FontSize='13',TextColor=INK,Width='-2')
+component('RuntimeLabel','Label',parent=info,Text="Runtime: PyTorch ExecuTorch "+contract['runtime']+", using this phone's own processor.",FontSize='13',TextColor=INK,Width='-2')
+component('PrivacyLabel','Label',parent=info,Text='Your photos stay on the phone. Classification works with no internet connection.',FontSize='13',TextColor=INK,Width='-2')
+component('LimitsLabel','Label',parent=info,Text='The model sees a 32 × 32 pixel version of your photo and knows only three answers: apple, banana or orange. Anything else will still be called one of them.',FontSize='12',TextColor=MUTED,Width='-2')
+gap('LearnSpace',10)
+
+# Learn more
+heading('LearnLabel','LEARN MORE')
+component('LearnIntroLabel','Label',parent=body,Text='These links open in your browser and need an internet connection.',FontSize='12',TextColor=MUTED,Width='-2')
 LEARNING_LINKS=[
-    ('LearnMLButton','MLDocs','Learn about AI','https://docs.pytorch.org/tutorials/beginner/basics/intro.html'),
-    ('ExecuTorchDocsButton','ExecuTorchDocs','PyTorch / ExecuTorch','https://docs.pytorch.org/executorch/stable/index.html'),
+    ('AppInventorTutorialsButton','AppInventorDocs','App Inventor tutorials',"New to App Inventor? Start with MIT's beginner tutorials.",'https://appinventor.mit.edu/explore/ai2/tutorials'),
+    ('LearnMLButton','MLDocs','Learn about AI',"How a model learns from examples: PyTorch's beginner course.",'https://docs.pytorch.org/tutorials/beginner/basics/intro.html'),
+    ('ExecuTorchDocsButton','ExecuTorchDocs','PyTorch / ExecuTorch','How a trained model runs on a phone: the ExecuTorch documentation.','https://docs.pytorch.org/executorch/stable/index.html'),
+    ('ProjectGuideButton','ProjectDocs',"This project's guide",'The blocks, the dataset, and how to train your own copy of this model.','https://github.com/eoinjordan/appinventor-executorch-extension#readme'),
 ]
-for button,starter,title,url in LEARNING_LINKS:
-    component(button,'Button',parent=learning,Text=title,Width='-1045',Height='48',FontSize='13',TextColor=GREEN,BackgroundColor=WHITE,Shape='1')
+for button,starter,title,blurb,url in LEARNING_LINKS:
+    component(button+'Blurb','Label',parent=body,Text=blurb,FontSize='12',TextColor=INK,Width='-2')
+    component(button,'Button',parent=body,Text=title+'  ›',Width='-2',Height='44',FontSize='13',FontBold='True',TextColor=GREEN,BackgroundColor=WHITE,Shape='1')
     component(starter,'ActivityStarter',Action='android.intent.action.VIEW',DataUri=url)
+gap('CreditSpace',8)
+component('CreditLabel','Label',parent=body,Text='Photos: Mihai Oltean, Fruits-360 (CC BY-SA 4.0).',FontSize='11',TextColor=MUTED,Width='-2')
 gap('BottomSpace',12)
 component('Camera1','Camera')
 component('ExecuTorch1',TYPE)
@@ -124,7 +153,7 @@ def load_model():
     return controls(False)+[prop('RetryLoadButton','Button','Visible',literal(False)),prop('StatusLabel','Label','Text',literal('Loading bundled fruit model...')),call('LoadModel',[literal('fruit_classifier.pte')])]
 
 event('Screen1','Form','Initialize',0,load_model())
-event('ExecuTorch1',TYPE,'ModelLoaded',1,controls(True)+[prop('LoadErrorLabel','Label','Text',literal('')),prop('RetryLoadButton','Button','Visible',literal(False)),prop('StatusLabel','Label','Text',literal('Ready · Works offline'))])
+event('ExecuTorch1',TYPE,'ModelLoaded',1,controls(True)+[prop('LoadErrorLabel','Label','Text',literal('')),prop('RetryLoadButton','Button','Visible',literal(False)),prop('ModelLabel','Label','Text',join([literal('Model: '),variable('assetName'),literal(f' ({model_kb} KB), loaded on this phone.')])),prop('StatusLabel','Label','Text',literal('Ready · Runs on this phone, works offline'))])
 for index,label in enumerate(['apple','banana','orange']):
     event(label.title()+'Button','Button','Click',index+2,[prop('FruitImage','Image','Picture',literal(label+'.jpg'))]+classify(literal(label+'.jpg')))
 event('ChoosePhoto','ImagePicker','AfterPicking',5,[prop('FruitImage','Image','Picture',prop('ChoosePhoto','ImagePicker','Selection'))]+classify(prop('ChoosePhoto','ImagePicker','Selection')))
@@ -132,7 +161,7 @@ event('TakePhotoButton','Button','Click',6,[generic_call('Camera1','Camera','Tak
 event('Camera1','Camera','AfterPicture',7,[prop('FruitImage','Image','Picture',variable('image'))]+classify(variable('image')))
 result=choose(compare(score(1),score(2)),choose(compare(score(1),score(3)),prediction('apple'),prediction('orange')),choose(compare(score(2),score(3)),prediction('banana'),prediction('orange')))
 scores=join([literal('Apple: '),score(1),literal('\nBanana: '),score(2),literal('\nOrange: '),score(3)])
-event('ExecuTorch1',TYPE,'InferenceCompleted',8,[result,prop('ScoresLabel','Label','Text',scores),prop('StatusLabel','Label','Text',join([literal('Finished in '),variable('elapsedMs'),literal(' ms · On your device')]))]+controls(True))
+event('ExecuTorch1',TYPE,'InferenceCompleted',8,[result,prop('ScoresLabel','Label','Text',scores),prop('StatusLabel','Label','Text',join([literal('Classified on this phone in '),variable('elapsedMs'),literal(' ms')]))]+controls(True))
 load_failed=E.Element('block',{'type':'logic_compare'});field(load_failed,'OP','EQ');put(load_failed,'A',variable('operation'));put(load_failed,'B',literal('LoadModel'))
 error_branch=E.Element('block',{'type':'controls_if'});E.SubElement(error_branch,'mutation',{'else':'1'});put(error_branch,'IF0',load_failed)
 statement(error_branch,'DO0',controls(False)+[
@@ -142,8 +171,8 @@ statement(error_branch,'DO0',controls(False)+[
 ])
 statement(error_branch,'ELSE',[prop('StatusLabel','Label','Text',join([variable('operation'),literal(': '),variable('message')]))]+controls(True))
 event('ExecuTorch1',TYPE,'ErrorOccurred',9,[error_branch])
-event('RetryLoadButton','Button','Click',12,load_model())
-for index,(button,starter,title,url) in enumerate(LEARNING_LINKS,10):
+event('RetryLoadButton','Button','Click',14,load_model())
+for index,(button,starter,title,blurb,url) in enumerate(LEARNING_LINKS,10):
     event(button,'Button','Click',index,[generic_call(starter,'ActivityStarter','StartActivity',[])])
 E.SubElement(xml,'yacodeblocks',{'ya-version':'232','language-version':'36'})
 project={'YaVersion':'232','Source':'Form','Properties':{'$Name':'Screen1','$Type':'Form','$Version':'31','Uuid':'0','AppName':NAME,'Title':'Fruit Classifier','Scrollable':'True','Sizing':'Responsive','AlignHorizontal':'3','BackgroundColor':'&HFFF3F6F2','PrimaryColor':GREEN,'PrimaryColorDark':'&HFF183F2D','AccentColor':GREEN,'$Components':components}}

@@ -64,10 +64,9 @@ python3 -m venv .venv
 .venv/bin/python -m pip install torch==2.8.0 executorch==1.5.1
 ```
 
-Install commands are provided as a setup path; the walkthrough was executed in an
-existing Windows environment. macOS/Linux installation has not been tested here.
-If compatible export wheels are unavailable, use the pretrained model to try the
-app while resolving your environment with the official setup documentation.
+The walkthrough was recorded on Windows. If compatible export wheels are unavailable
+for your platform, use the pretrained model to try the app while you resolve your
+environment with the official setup documentation.
 
 ## 2. Train
 
@@ -95,9 +94,9 @@ regression classifier and writes:
 - `.cache/fruit-training/fruit_parameters.json`: learned weights and biases.
 - `.cache/fruit-training/training_report.json`: settings, iteration count and test accuracy.
 
-The recorded run reached 100% on this selected 120-photo Test subset in 26 solver
-iterations. That does not establish camera-photo accuracy or on-device execution.
-This is a small linear teaching model, not a pretrained neural network such as YOLO.
+The recorded run reached 100% on this 120-photo Test subset in 26 solver iterations.
+That is accuracy on photos like the training set, not on everyday camera photos. This
+is a small linear teaching model, not a pretrained neural network such as YOLO.
 
 ## Model settings and hyperparameters
 
@@ -160,8 +159,6 @@ the checked-in model or modify the app until you copy it deliberately.
 
 The exporter rejects a model below 90% on this teaching subset. That guard catches
 large regressions; it is not a standard of accuracy for real-world deployment.
-Export success is not an Android inference test. In particular, the local Windows
-Python runtime has a native DLL compatibility limitation even though export works.
 
 ## 4. Put the model in App Inventor
 

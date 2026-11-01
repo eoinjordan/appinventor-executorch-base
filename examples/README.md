@@ -1,34 +1,39 @@
-# Beginner fruit photo classifier
+# Example project
 
-New to App Inventor? Follow the [ready-to-use App Inventor README](../docs/app-inventor/README.md)
-for downloads, import, APK building, block explanations and troubleshooting.
+`ExecuTorchFruit.aia` is the fruit photo classifier described in the
+[main README](../README.md). It contains the extension, the trained
+`fruit_classifier.pte`, three test photos, the dataset attribution and all the blocks.
+Import it with **Projects > Import project (.aia) from my computer**, build an APK and
+install it on a 64-bit Android phone.
 
-Import **ExecuTorchFruit.aia** through Projects > Import project (.aia) from my computer. The trained PTE, extension, sample photos and all blocks are included. Build an ARM64 Android APK for a phone test; no Python or training is required to try it.
+## What the app does
 
-Tap **Apple**, **Banana** or **Orange** under **Sample photos**. Each sample should produce the matching label. These buttons classify supplied photos; they do not train the model. Then try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. This three-class teaching model may guess a fruit label for unrelated objects; a high score does not guarantee a correct answer.
+On startup the app calls `LoadModel("fruit_classifier.pte")`. The photo controls stay
+disabled until `ModelLoaded`. If loading fails, the app shows the original error and
+offers **Retry loading fruit model**.
 
-Use **Learn about AI** or **PyTorch / ExecuTorch** to open the official tutorials in your browser. Documentation needs internet access; bundled model inference runs locally. The [beginner learning guide](../README.md#learn-more) also links to App Inventor classification lessons and includes experiments to try.
+When you pick a photo the app calls `RunImage(path, 32)`. The extension stretches the
+image to 32 by 32 pixels, converts it to RGB float32 values in `[0, 1]` with shape
+`[1, 3, 32, 32]` and runs the model. The remaining normalization is inside the model.
+`InferenceCompleted` returns three probabilities in **apple, banana, orange** order and
+the app displays the highest-scoring label, the three scores and the inference time.
 
-The app loads fruit_classifier.pte on startup, then calls RunImage(path,32). Image conversion produces RGB NCHW float32 [1,3,32,32] in [0,1]; the remaining normalization is inside the model. InferenceCompleted returns probabilities in apple, banana, orange order.
+Each block and its parameters are shown in the [block reference](../docs/blocks.md).
+The **Learn more** buttons open MIT's App Inventor tutorials, PyTorch's beginner course,
+the ExecuTorch documentation and this project's guide in the browser.
 
-Photo controls remain disabled until ModelLoaded. A loading failure keeps them disabled, displays the original error and offers **Retry loading fruit model**. Share that original error if retry fails. The repo includes the pretrained [PTE](../models/fruit_classifier.pte) and [all 480 training/test photos](../models/fruit_dataset.zip); Actions verifies and publishes these with the generated app. You do not need the full dataset to run the sample.
+## Regenerating the project
 
-Host eager evaluation classified all 120 selected official Test photos correctly, separately from the 360 Training photos. This does not verify native Android execution or general phone-photo accuracy. Camera/picker permission flows still need device testing.
+The project is generated, not hand-edited. After changing `scripts/make_fruit_example.py`
+or anything in `models/`, run:
 
-Generate with `python scripts/make_fruit_example.py`; verify with `python scripts/verify_fruit.py`. Retraining/export uses `scripts/export_fruit.py` with PyTorch, ExecuTorch 1.5.1, scikit-learn, NumPy and Pillow. Dataset, model and photo attribution/license details are in [models/FRUIT_DATASET.md](../models/FRUIT_DATASET.md).
+```powershell
+python scripts/make_fruit_example.py
+python scripts/verify_fruit.py
+```
 
-## Optional Iris measurements app
+The generator reads the extension from `out/org.community.executorch.aix`, so build the
+extension first (see the [developer guide](../docs/developer-guide.md#build)). To retrain
+or re-export the model, follow [training and export](../docs/training-and-export.md).
 
-Import **ExecuTorchIris.aia** using App Inventor's Projects > Import project (.aia) from my computer. The extension and 2.3 KB trained `.pte` are already inside it. Build an APK for a 64-bit Android phone; no Python installation or model download is needed on the phone.
-
-Choose Try setosa, Try versicolor or Try virginica, then tap Classify flower. The prediction should match the selected preset. You can edit sepal length, sepal width, petal length and petal width, all in centimetres. Three probability scores and inference time appear below the prediction.
-
-`models/iris_contract.json` documents input [1,4], output [1,3], feature order, presets, labels and PTE hash. Normalization is inside the model. `iris_parameters.json` contains the trained weights and `iris_test_fixtures.json` contains disjoint train/test indices and held-out predictions.
-
-The classifier reached 100% eager accuracy on the fixed 30-sample held-out split. This does not prove native PTE predictions or general plant-identification accuracy. Android execution remains to be tested.
-
-Recreate the project with `python scripts/make_iris_example.py` and check it with `python scripts/verify_iris.py`. To retrain/export, run `scripts/export_iris.py` in an environment with ExecuTorch 1.5.1, PyTorch, scikit-learn and NumPy. Export was tested with PyTorch 2.8.0 and scikit-learn 1.8.0; the local native ExecuTorch Python DLL remains incompatible, so the host tests check eager/exported graphs and saved fixtures.
-
-Dataset attribution: Fisher, R. (1936). Iris. UCI Machine Learning Repository, https://doi.org/10.24432/C56C76 . CC BY 4.0: https://creativecommons.org/licenses/by/4.0/ . Training uses scikit-learn's copy. Measurements and labels were used to derive model parameters; three preset examples are included.
-
-ExecuTorchSmoke.aia remains a smaller add-one diagnostic.
+Dataset, model and photo attribution: [models/FRUIT_DATASET.md](../models/FRUIT_DATASET.md).

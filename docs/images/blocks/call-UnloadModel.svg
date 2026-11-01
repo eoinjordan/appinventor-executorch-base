@@ -1,0 +1,5 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='320' height='74' viewBox='0 0 320 74'>
+<path d='M10,10 h20 v6 h20 v-6 h260 v54 h-260 v6 h-20 v-6 h-20 z' fill='#7C5CBF' stroke='#5E4295' stroke-width='1.5'/>
+<text x='22' y='36' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>call</text>
+<text x='60' y='36' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.UnloadModel</text>
+</svg>

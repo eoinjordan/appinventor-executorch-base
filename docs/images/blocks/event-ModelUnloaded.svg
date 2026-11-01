@@ -1,0 +1,6 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='360' height='128' viewBox='0 0 360 128'>
+<path d='M10,20 q30,-20 60,0 h280 v36 h-300 v40 h300 v22 h-340 z' fill='#B6872C' stroke='#8A6520' stroke-width='1.5'/>
+<text x='22' y='50' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>when</text>
+<text x='72' y='50' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.ModelUnloaded</text>
+<text x='22' y='72' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>do</text>
+</svg>

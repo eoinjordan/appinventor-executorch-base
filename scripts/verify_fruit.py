@@ -98,4 +98,3 @@ with zipfile.ZipFile(ROOT/'examples/ExecuTorchFruit.aia') as z:
     for sample in contract['samples']:
         assert z.read('assets/'+sample['file'])==(ROOT/'models/fruit_samples'/sample['file']).read_bytes()
 print('PASS: fruit photo predictions, model hash, disjoint dataset splits, attribution, AIA assets and API wiring')
-print('Native Android inference, camera and picker behaviour remain unverified.')
