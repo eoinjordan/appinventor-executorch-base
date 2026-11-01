@@ -230,7 +230,7 @@ python scripts/verify_iris.py
 python scripts/verify_fruit.py
 ```
 
-`verify.py` runs Java unit tests for tensor conversion and native dependency loading, Python unit tests for SDK selection and clean build outputs, and package checks for every sample's extension version. The model checks validate saved predictions, hashes, dataset splits and project wiring. GitHub Actions runs the same checks for phone and emulator extension builds. See [the quality review](docs/quality-review.md) for findings and remaining device checks.
+`verify.py` runs Java unit tests for tensor conversion and native dependency loading, Python unit tests for SDK selection and clean build outputs, and package checks for every sample's extension version. The model checks validate saved predictions, hashes, dataset splits and project wiring. GitHub Actions runs the same checks for phone and emulator extension builds.
 
 Local checks pass for Java/DEX compilation, numeric inputs, native assets, project archives, prediction fixtures and fruit event argument bindings. The fruit project has been opened in App Inventor; reported APK packaging and event binding failures led to fixes. Successful APK compilation, native Android inference, camera/picker behaviour and the revised layout still need device verification. The local Windows Python native ExecuTorch runtime failed to load its DLL with the installed PyTorch; successful export is not a native runtime test.
 
