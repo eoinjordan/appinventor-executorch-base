@@ -61,7 +61,11 @@ def event(instance,kind,name,index,blocks):
     b=E.SubElement(xml,'block',{'type':'component_event','x':str(30+(index%2)*650),'y':str(30+(index//2)*320)})
     E.SubElement(b,'mutation',{'component_type':kind,'is_generic':'false','instance_name':instance,'event_name':name});field(b,'COMPONENT_SELECTOR',instance)
     statement(b,'DO',blocks)
-def variable(name):b=E.Element('block',{'type':'lexical_variable_get'});field(b,'VAR','get '+name);return b
+def variable(name):
+    b=E.Element('block',{'type':'lexical_variable_get'})
+    E.SubElement(E.SubElement(b,'mutation'),'eventparam',{'name':name})
+    field(b,'VAR',name)
+    return b
 def join(values):
     b=E.Element('block',{'type':'text_join'});E.SubElement(b,'mutation',{'items':str(len(values))})
     for i,v in enumerate(values):put(b,'ADD'+str(i),v)

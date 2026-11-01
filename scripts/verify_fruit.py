@@ -32,8 +32,14 @@ with zipfile.ZipFile(ROOT/'examples/ExecuTorchFruit.aia') as z:
     assert b'CC BY-SA 4.0' in z.read('assets/FRUIT_ATTRIBUTION.txt')
     scm=z.read(next(n for n in z.namelist() if n.endswith('.scm'))).decode()
     project=json.loads(scm.split('$JSON\n',1)[1].rsplit('\n|#',1)[0])
-    components={c['$Name']:c for c in project['Properties']['$Components']}
+    def descendants(items):
+        for item in items:
+            yield item
+            yield from descendants(item.get('$Components',[]))
+    components={c['$Name']:c for c in descendants(project['Properties']['$Components'])}
     api=json.loads(z.read('assets/external_comps/org.community.executorch/components.json'))[0]
+    build_info=json.loads(z.read('assets/external_comps/org.community.executorch/files/component_build_infos.json'))[0]
+    assert build_info['native']==[], 'Bundled extension must avoid AttachNativeLibs metadata failure'
     assert components['ExecuTorch1']['$Type']==api['name']=='ExecuTorch'
     assert int(components['ExecuTorch1']['$Version'])==int(api['version'])
     assert {'AppleButton','BananaButton','OrangeButton','ChoosePhoto','Camera1'}<=components.keys()
@@ -49,6 +55,17 @@ with zipfile.ZipFile(ROOT/'examples/ExecuTorchFruit.aia') as z:
             name=mutation.get('method_name'); used.add(name)
             assert len(block.findall('b:value',ns))==len(methods[name]['params'])
         if block.get('type')=='component_event': assert mutation.get('event_name') in events
+    # Event arguments must be actual parameter names, not the visual 'get' prefix.
+    event_parameters={name:{p['name'] for p in event['params']} for name,event in events.items()}
+    event_parameters['AfterPicture']={'image'}
+    for event_block in tree.findall('b:block',ns):
+        mutation=event_block.find('b:mutation',ns)
+        if event_block.get('type')!='component_event': continue
+        allowed=event_parameters.get(mutation.get('event_name'),set())
+        for getter in event_block.findall('.//b:block[@type="lexical_variable_get"]',ns):
+            name=getter.find('b:field[@name="VAR"]',ns).text
+            assert name in allowed, f'Unbound event argument: {name}'
+            assert getter.find('b:mutation/b:eventparam',ns).get('name')==name
     assert used=={'LoadModel','RunImage'}
     for sample in contract['samples']:
         assert z.read('assets/'+sample['file'])==(ROOT/'models/fruit_samples'/sample['file']).read_bytes()

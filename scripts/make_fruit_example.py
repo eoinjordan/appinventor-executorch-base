@@ -7,20 +7,46 @@ NAME='ExecuTorchFruit'
 xml=E.Element('xml',{'xmlns':'https://developers.google.com/blockly/xml'})
 contract=json.loads((ROOT/'models/fruit_contract.json').read_text())
 components=[]
-def component(name,kind,**properties):
-    versions={'Label':'5','Button':'7','Image':'4','ImagePicker':'5','Camera':'3','ExecuTorch':'2'}
-    components.append({'$Name':name,'$Type':kind,'$Version':versions.get(kind,'1'),'Uuid':str(len(components)+1),**properties})
-component('IntroLabel','Label',Text='Apple, banana or orange?',FontSize='22',Width='-2')
-component('HelpLabel','Label',Text='Try a sample below, choose a photo, or use the camera. Use one centred fruit on a plain white background. This teaching model knows only these three fruit classes.',Width='-2')
-component('FruitImage','Image',Picture='apple.jpg',Height='180',Width='180',ScalePictureToFit='True')
-for label in ['apple','banana','orange']:component(label.title()+'Button','Button',Text='Try '+label,Width='-2',Enabled='False')
-component('ChoosePhoto','ImagePicker',Text='Choose a fruit photo',Width='-2',Enabled='False')
-component('TakePhotoButton','Button',Text='Take a fruit photo',Width='-2',Enabled='False')
-component('PredictionLabel','Label',Text='Prediction: waiting for model',FontSize='20',Width='-2')
-component('ScoresLabel','Label',Text='Model probability scores will appear here.',Width='-2')
-component('StatusLabel','Label',Text='Loading fruit model...',Width='-2')
+def component(name,kind,parent=None,**properties):
+    versions={'Label':'5','Button':'7','Image':'4','ImagePicker':'5','Camera':'3','ExecuTorch':'2','VerticalArrangement':'4','HorizontalArrangement':'4'}
+    item={'$Name':name,'$Type':kind,'$Version':versions.get(kind,'1'),'Uuid':str(component.counter),**properties}
+    component.counter+=1
+    (components if parent is None else parent.setdefault('$Components',[])).append(item)
+    return item
+component.counter=1
+INK='&HFF18352B'
+MUTED='&HFF586A62'
+GREEN='&HFF246747'
+WHITE='&HFFFFFFFF'
+body=component('Content','VerticalArrangement',Width='-1092',AlignHorizontal='3')
+def gap(name,height=10,parent=body):
+    component(name,'Label',parent=parent,Text='',Height=str(height),Width='-2')
+gap('TopSpace',12)
+component('IntroLabel','Label',parent=body,Text='Meet your fruit.',FontSize='24',FontBold='True',TextColor=INK,Width='-2')
+component('SubtitleLabel','Label',parent=body,Text='Apple, banana or orange? Try it on your phone.',FontSize='14',TextColor=MUTED,Width='-2')
+gap('ImageSpace',8)
+preview=component('Preview','VerticalArrangement',parent=body,Width='-2',Height='152',BackgroundColor=WHITE,AlignHorizontal='3',AlignVertical='2')
+component('FruitImage','Image',parent=preview,Picture='apple.jpg',Height='140',Width='140',ScalePictureToFit='True')
+gap('SampleSpace',8)
+component('SamplesLabel','Label',parent=body,Text='TRY A SAMPLE',FontSize='11',FontBold='True',TextColor=MUTED,Width='-2')
+samples=component('SampleButtons','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
+for label in ['apple','banana','orange']:
+    component(label.title()+'Button','Button',parent=samples,Text=label.title(),Width='-1030',Height='44',FontSize='14',TextColor=INK,BackgroundColor='&HFFE2EEE5',Shape='1',Enabled='False')
+gap('PhotoSpace',8)
+photos=component('PhotoButtons','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
+component('ChoosePhoto','ImagePicker',parent=photos,Text='Choose photo',Width='-1045',Height='48',FontSize='14',BackgroundColor=GREEN,TextColor=WHITE,Shape='1',Enabled='False')
+component('TakePhotoButton','Button',parent=photos,Text='Take photo',Width='-1045',Height='48',FontSize='14',BackgroundColor=GREEN,TextColor=WHITE,Shape='1',Enabled='False')
+gap('ResultSpace',10)
+result_panel=component('ResultPanel','VerticalArrangement',parent=body,Width='-2',BackgroundColor=WHITE)
+component('PredictionLabel','Label',parent=result_panel,Text='Your result appears here',FontSize='20',FontBold='True',TextColor=INK,Width='-2')
+component('ScoresLabel','Label',parent=result_panel,Text='Select a sample or add your own photo.',FontSize='13',TextColor=MUTED,Width='-2')
+component('StatusLabel','Label',parent=body,Text='Loading fruit model...',FontSize='12',TextColor=MUTED,Width='-2')
+gap('HelpSpace',8)
+component('HelpLabel','Label',parent=body,Text='Best with one centred fruit on a plain white background. This demo knows only apple, banana and orange; other objects may be guessed as one of them.',FontSize='12',TextColor=MUTED,Width='-2')
+gap('BottomSpace',12)
 component('Camera1','Camera')
 component('ExecuTorch1',TYPE)
+
 def field(b,n,v):E.SubElement(b,'field',{'name':n}).text=str(v)
 def literal(value):
     if isinstance(value,bool):
@@ -54,7 +80,11 @@ def event(instance,kind,name,index,blocks):
     b=E.SubElement(xml,'block',{'type':'component_event','x':str(30+(index%2)*650),'y':str(30+(index//2)*320)})
     E.SubElement(b,'mutation',{'component_type':kind,'is_generic':'false','instance_name':instance,'event_name':name});field(b,'COMPONENT_SELECTOR',instance)
     statement(b,'DO',blocks)
-def variable(name):b=E.Element('block',{'type':'lexical_variable_get'});field(b,'VAR','get '+name);return b
+def variable(name):
+    b=E.Element('block',{'type':'lexical_variable_get'})
+    E.SubElement(E.SubElement(b,'mutation'),'eventparam',{'name':name})
+    field(b,'VAR',name)
+    return b
 def join(values):
     b=E.Element('block',{'type':'text_join'});E.SubElement(b,'mutation',{'items':str(len(values))})
     for i,v in enumerate(values):put(b,'ADD'+str(i),v)
@@ -76,7 +106,7 @@ def controls(value):
     return [prop(name,kind,'Enabled',literal(value)) for name,kind in [('AppleButton','Button'),('BananaButton','Button'),('OrangeButton','Button'),('ChoosePhoto','ImagePicker'),('TakePhotoButton','Button')]]
 def classify(path):return controls(False)+[prop('StatusLabel','Label','Text',literal('Classifying fruit...')),call('RunImage',[path,literal(32)])]
 event('Screen1','Form','Initialize',0,[call('LoadModel',[literal('fruit_classifier.pte')])])
-event('ExecuTorch1',TYPE,'ModelLoaded',1,controls(True)+[prop('StatusLabel','Label','Text',literal('Ready. Tap a sample or choose a fruit photo.'))])
+event('ExecuTorch1',TYPE,'ModelLoaded',1,controls(True)+[prop('StatusLabel','Label','Text',literal('Ready · Works offline'))])
 for index,label in enumerate(['apple','banana','orange']):
     event(label.title()+'Button','Button','Click',index+2,[prop('FruitImage','Image','Picture',literal(label+'.jpg'))]+classify(literal(label+'.jpg')))
 event('ChoosePhoto','ImagePicker','AfterPicking',5,[prop('FruitImage','Image','Picture',prop('ChoosePhoto','ImagePicker','Selection'))]+classify(prop('ChoosePhoto','ImagePicker','Selection')))
@@ -84,10 +114,10 @@ event('TakePhotoButton','Button','Click',6,[generic_call('Camera1','Camera','Tak
 event('Camera1','Camera','AfterPicture',7,[prop('FruitImage','Image','Picture',variable('image'))]+classify(variable('image')))
 result=choose(compare(score(1),score(2)),choose(compare(score(1),score(3)),prediction('apple'),prediction('orange')),choose(compare(score(2),score(3)),prediction('banana'),prediction('orange')))
 scores=join([literal('Apple: '),score(1),literal('\nBanana: '),score(2),literal('\nOrange: '),score(3)])
-event('ExecuTorch1',TYPE,'InferenceCompleted',8,[result,prop('ScoresLabel','Label','Text',scores),prop('StatusLabel','Label','Text',join([literal('Finished in '),variable('elapsedMs'),literal(' ms. Scores range from 0 to 1. Other objects may be guessed as one of these fruits.')]))]+controls(True))
+event('ExecuTorch1',TYPE,'InferenceCompleted',8,[result,prop('ScoresLabel','Label','Text',scores),prop('StatusLabel','Label','Text',join([literal('Finished in '),variable('elapsedMs'),literal(' ms · On your device')]))]+controls(True))
 event('ExecuTorch1',TYPE,'ErrorOccurred',9,[prop('StatusLabel','Label','Text',join([variable('operation'),literal(': '),variable('message')]))]+controls(True))
 E.SubElement(xml,'yacodeblocks',{'ya-version':'232','language-version':'36'})
-project={'YaVersion':'232','Source':'Form','Properties':{'$Name':'Screen1','$Type':'Form','$Version':'31','Uuid':'0','AppName':NAME,'Title':'Fruit Classifier','Scrollable':'True','Sizing':'Responsive','$Components':components}}
+project={'YaVersion':'232','Source':'Form','Properties':{'$Name':'Screen1','$Type':'Form','$Version':'31','Uuid':'0','AppName':NAME,'Title':'Fruit Classifier','Scrollable':'True','Sizing':'Responsive','AlignHorizontal':'3','BackgroundColor':'&HFFF3F6F2','PrimaryColor':GREEN,'PrimaryColorDark':'&HFF183F2D','AccentColor':GREEN,'$Components':components}}
 with zipfile.ZipFile(ROOT/'examples'/f'{NAME}.aia','w',zipfile.ZIP_DEFLATED) as z:
     prefix=f'src/appinventor/ai_community/{NAME}/'
     z.writestr(prefix+'Screen1.scm','#|\n$JSON\n'+json.dumps(project)+'\n|#')

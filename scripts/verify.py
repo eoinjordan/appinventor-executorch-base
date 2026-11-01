@@ -28,18 +28,18 @@ with zipfile.ZipFile('out/org.community.executorch.aix') as z:
     assert {e['name'] for e in descriptor['events']} == {
         'ModelLoaded', 'ModelUnloaded', 'InferenceCompleted', 'ErrorOccurred'}
     assert info['permissions'] == []
-    if not any(n.endswith('-x8a') for n in info['native']):
-        assert Path('out/org.community.executorch.aix').stat().st_size < 10_000_000, 'Phone archive exceeded upload size budget'
-    for name in info['native']:
-        suffix = '-v8a' if name.endswith('-v8a') else '-x8a'
-        abi = 'arm64-v8a' if suffix == '-v8a' else 'x86_64'
-        data = z.read(prefix+'files/'+abi+'/'+name[:-len(suffix)])
-        assert data[:4] == b'\x7fELF' and data[4] == 2
+    assert info['native'] == [], 'Native metadata triggers MIT AttachNativeLibs failure'
+    assert prefix+'component.json' not in z.namelist(), 'Use the canonical plural descriptor only'
     with zipfile.ZipFile(io.BytesIO(z.read(prefix+'classes.jar'))) as dex:
         assert dex.read('classes.dex').startswith(b'dex\n')
     with zipfile.ZipFile(io.BytesIO(z.read(prefix+'assets/native-runtime.zip'))) as libs:
+        for name in libs.namelist():
+            data = libs.read(name)
+            assert data[:4] == b'\x7fELF' and data[4] == 2
         assert len(libs.namelist()) in (3, 6)
         assert {n.split("/")[0] for n in libs.namelist()} >= {"arm64-v8a"}
+        if {n.split('/')[0] for n in libs.namelist()} == {'arm64-v8a'}:
+            assert Path('out/org.community.executorch.aix').stat().st_size < 10_000_000, 'Phone archive exceeded upload size budget'
     assert z.read(prefix+'extension.properties').decode().splitlines() == ['type=external']
 print('PASS: minimal block API, zero permissions, minSDK, native assets and DEX packaging')
 
