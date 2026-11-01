@@ -1,4 +1,4 @@
-"""Build a complete beginner AIA using the existing three-block extension."""
+"""Build the beginner Iris AIA with the current bundled extension."""
 from pathlib import Path
 import json
 import zipfile
@@ -8,10 +8,12 @@ TYPE='ExecuTorch'
 NAME='ExecuTorchIris'
 NS='https://developers.google.com/blockly/xml'
 xml=E.Element('xml',{'xmlns':NS})
-contract=json.loads((ROOT/'models/iris_contract.json').read_text())
+contract=json.loads((ROOT/'models/iris_contract.json').read_text(encoding='utf-8'))
 components=[]
+with zipfile.ZipFile(ROOT/'out/org.community.executorch.aix') as aix:
+    extension_version=str(json.loads(aix.read('org.community.executorch/components.json'))[0]['version'])
 def component(name,kind,**properties):
-    versions={'Label':'5','Button':'7','TextBox':'6','ExecuTorch':'3'}
+    versions={'Label':'5','Button':'7','TextBox':'6','ExecuTorch':extension_version}
     item={'$Name':name,'$Type':kind,'$Version':versions.get(kind,'1'),'Uuid':str(len(components)+1),**properties}
     components.append(item)
 component('IntroLabel','Label',Text='Iris flower classifier\nEnter four measurements in centimetres, or choose a preset. Tap Classify to predict the species. This is a learning demo.',FontSize='18',Width='-2')
@@ -90,7 +92,8 @@ event('ClassifyButton','Button','Click',5,[prop('ClassifyButton','Button','Enabl
 result=choose(compare(score(1),score(2)),choose(compare(score(1),score(3)),prediction('setosa'),prediction('virginica')),choose(compare(score(2),score(3)),prediction('versicolor'),prediction('virginica')))
 scores=join([literal('Setosa: '),score(1),literal('\nVersicolor: '),score(2),literal('\nVirginica: '),score(3)])
 event('ExecuTorch1',TYPE,'InferenceCompleted',6,[result,prop('ScoresLabel','Label','Text',scores),prop('StatusLabel','Label','Text',join([literal('Finished in '),variable('elapsedMs'),literal(' ms. Scores are probabilities from 0 to 1.')])),prop('ClassifyButton','Button','Enabled',literal(True))])
-event('ExecuTorch1',TYPE,'ErrorOccurred',7,[prop('StatusLabel','Label','Text',join([variable('operation'),literal(': '),variable('message')])),prop('ClassifyButton','Button','Enabled',literal(True))])
+can_retry=E.Element('block',{'type':'logic_compare'});field(can_retry,'OP','NEQ');put(can_retry,'A',variable('operation'));put(can_retry,'B',literal('LoadModel'))
+event('ExecuTorch1',TYPE,'ErrorOccurred',7,[prop('StatusLabel','Label','Text',join([variable('operation'),literal(': '),variable('message')])),prop('ClassifyButton','Button','Enabled',can_retry)])
 E.SubElement(xml,'yacodeblocks',{'ya-version':'232','language-version':'36'})
 out=ROOT/'examples'/f'{NAME}.aia'
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:

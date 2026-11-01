@@ -94,6 +94,33 @@ The dataset contains isolated fruit on simple backgrounds and limited varieties.
 
 ## Next step: use your own model
 
+### Watch training and PTE conversion
+
+The [training and export guide](docs/training-and-export.md) includes copyable
+PowerShell and terminal commands, a dataset table, and an explanation of each
+hyperparameter with links to the relevant documentation. These are optional steps;
+the supplied app already includes its pretrained model.
+
+| Label | Training photos | Separate test photos |
+| --- | ---: | ---: |
+| Apple | 120 | 40 |
+| Banana | 120 | 40 |
+| Orange | 120 | 40 |
+| **Total** | **360** | **120** |
+
+**Train the model** — learns weights from the included photos:
+
+![Train the fruit model: actual command output replay](docs/tutorials/train-fruit.gif)
+
+**Export to PTE** — converts the trained calculation for ExecuTorch:
+
+![Convert the trained model to PTE: actual command output replay](docs/tutorials/export-fruit.gif)
+
+The GIFs replay actual command output with timing adjusted for reading. Text
+transcripts and environment details are in the guide. The recorded run reached
+100% on this small test subset; Android and general camera-photo accuracy remain
+unverified. The commands write to `.cache/` so they do not replace the shipped model.
+
 The sections below cover extending and building the extension. You can use the fruit app without completing them.
 
 For your own image model, call `LoadModel(assetName)` followed by `RunImage(imagePath, size)` and handle `InferenceCompleted(values, shape, elapsedMs)`. The image helper passes RGB NCHW float32 values in [0,1], stretched to a square; any additional normalization must be inside your model. It does not assume fruit labels or any other model-specific class list.
@@ -135,12 +162,13 @@ when ExecuTorch.ErrorOccurred(operation, message):
 | `src/org/community/executorch/ExecuTorch.java` | Blocks, events, model lifecycle and inference |
 | `src/org/community/executorch/TensorData.java` | Input validation and list conversion |
 | `src/org/community/executorch/NativeRuntime.java` | ABI selection, native asset extraction and JNI loading |
+| `src/org/community/executorch/NativeLibraries.java` | Testable native dependency checks and load order |
 | `scripts/build.py` | Download pinned runtime dependencies, compile and package AIX |
 | `scripts/export_smoke.py` | Recreate the deterministic add-one model |
 | `scripts/make_example.py` | Recreate the smoke-test App Inventor project |
 | `scripts/verify.py` | Host tests and archive checks |
 
-The first useful edit is inside `RunModel`: add your preprocessing immediately before `Tensor.fromBlob`, and your postprocessing after `getDataAsFloatArray`.
+For a model that matches the supported contract, start by changing the app's assets and blocks. If you need to extend Java preprocessing, `RunImage` prepares image values and `TensorData` converts numeric lists; `runTensor` contains the shared `Tensor.fromBlob`, forward call and output conversion.
 
 ## Build
 
@@ -187,6 +215,18 @@ If an older project fails with **AttachNativeLibs: Unknown native lib type**, im
 For **UnsatisfiedLinkError: libfbjni.so not found**, including a `clns` namespace error, use extension version **3** or newer and rebuild the APK. Its loader explicitly loads `libc++_shared.so` and then `libfbjni.so` by absolute path before ExecuTorch, because Android does not search the extraction directory for transitive dependencies. The updated sample projects already include this loader. Fully close an older app or Companion process before testing a new native extension.
 
 ## Verification status
+
+### Run the quality checks
+
+After building the extension and regenerating the sample projects, run:
+
+```powershell
+python scripts/verify.py
+python scripts/verify_iris.py
+python scripts/verify_fruit.py
+```
+
+`verify.py` runs Java unit tests for tensor conversion and native dependency loading, Python unit tests for SDK selection and clean build outputs, and package checks for every sample's extension version. The model checks validate saved predictions, hashes, dataset splits and project wiring. GitHub Actions runs the same checks for phone and emulator extension builds.
 
 Local checks pass for Java/DEX compilation, numeric inputs, native assets, project archives, prediction fixtures and fruit event argument bindings. The fruit project has been opened in App Inventor; reported APK packaging and event binding failures led to fixes. Successful APK compilation, native Android inference, camera/picker behaviour and the revised layout still need device verification. The local Windows Python native ExecuTorch runtime failed to load its DLL with the installed PyTorch; successful export is not a native runtime test.
 

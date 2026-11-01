@@ -4,9 +4,9 @@ import hashlib,json,zipfile,xml.etree.ElementTree as E
 import numpy as np
 ROOT=Path(__file__).resolve().parents[1]
 def main():
-    params=json.loads((ROOT/'models/iris_parameters.json').read_text())
-    contract=json.loads((ROOT/'models/iris_contract.json').read_text())
-    fixtures=json.loads((ROOT/'models/iris_test_fixtures.json').read_text())
+    params=json.loads((ROOT/'models/iris_parameters.json').read_text(encoding='utf-8'))
+    contract=json.loads((ROOT/'models/iris_contract.json').read_text(encoding='utf-8'))
+    fixtures=json.loads((ROOT/'models/iris_test_fixtures.json').read_text(encoding='utf-8'))
     def predict(x):
         x=(np.asarray(x)-params['mean'])/params['scale']
         logits=x@np.asarray(params['weights']).T+params['bias'];p=np.exp(logits-logits.max(axis=-1,keepdims=True));return p/p.sum(axis=-1,keepdims=True)
@@ -34,6 +34,15 @@ def main():
         calls=tree.findall('.//b:block[@type="component_method"]/b:mutation',ns)
         assert {c.get('method_name') for c in calls}=={'LoadModel','RunModel'}
         assert b'iris_classifier.pte' in E.tostring(tree)
+        errors=next(b for b in tree.findall('b:block',ns)
+                    if b.find('b:mutation',ns).get('event_name')=='ErrorOccurred')
+        enabled=next(b for b in errors.findall('.//b:block',ns)
+                     if b.get('type')=='component_set_get'
+                     and b.find('b:mutation',ns).get('property_name')=='Enabled')
+        condition=enabled.find('b:value/b:block',ns)
+        assert condition.get('type')=='logic_compare'
+        assert condition.find('b:field[@name="OP"]',ns).text=='NEQ'
+        assert condition.find('b:value[@name="B"]/b:block/b:field',ns).text=='LoadModel'
     print('PASS: 30 held-out fixtures, 3 presets, disjoint split, PTE hash, AIA assets and component wiring')
     print('Native PTE execution and Android behaviour still require device testing.')
 if __name__=='__main__': main()

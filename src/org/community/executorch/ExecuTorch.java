@@ -27,7 +27,7 @@ import org.pytorch.executorch.Tensor;
 
 /** Minimal custom-PTE component. All native model operations use one worker. */
 @DesignerComponent(
-    version = 3,
+    version = 4,
     description = "Run a custom ExecuTorch 1.5.1 PTE model. One float32 tensor input and output. Android 8+, 64-bit process.",
     category = ComponentCategory.EXTENSION,
     nonVisible = true,

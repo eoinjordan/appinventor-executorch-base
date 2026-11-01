@@ -1,5 +1,6 @@
 from pathlib import Path
-import os, sys, subprocess, urllib.request, zipfile, shutil, io, json, argparse
+import os, subprocess, urllib.request, zipfile, shutil, json, argparse
+from build_support import latest_version_directory, reset_output_directory
 ROOT=Path(__file__).resolve().parents[1]
 os.chdir(ROOT)
 CACHE=ROOT/'.cache'; CACHE.mkdir(exist_ok=True)
@@ -31,9 +32,9 @@ for group,name,version,ext in [('org.pytorch','executorch-android','1.5.1','aar'
                 _,abi,fn=n.split('/'); native[(abi,fn)]=z.read(n)
 if args.abi != 'all':
     native={key:value for key,value in native.items() if key[0]==args.abi}
-classes=BUILD/'classes'; classes.mkdir(exist_ok=True)
+classes=reset_output_directory(BUILD/'classes', BUILD)
 api=os.environ.get('ANDROID_API')
-android=SDK/'platforms'/f'android-{api}'/'android.jar' if api else sorted((SDK/'platforms').glob('*/android.jar'))[0]
+android=SDK/'platforms'/f'android-{api}'/'android.jar' if api else latest_version_directory(SDK/'platforms', 'android-')/'android.jar'
 if not android.is_file(): raise FileNotFoundError(f'Android platform not installed: {android}')
 deps=ROOT/'lib/appinventor'
 if not (deps/'AnnotationProcessors.jar').exists(): run('git','submodule','update','--init','--depth','1')
@@ -53,11 +54,10 @@ with zipfile.ZipFile(merged,'w',zipfile.ZIP_DEFLATED) as z:
                 if n.endswith('.class') and n not in names and n!='module-info.class' and not n.startswith('META-INF/'):
                     z.writestr(n,j.read(n)); names.add(n)
 package='org.community.executorch'
-stage=BUILD/'aix'/package
-if stage.exists(): shutil.rmtree(stage)
+stage=reset_output_directory(BUILD/'aix'/package, BUILD)
 (stage/'files').mkdir(parents=True)
-components=json.loads((classes/'simple_components.json').read_text())
-info=json.loads((classes/'simple_components_build_info.json').read_text())
+components=json.loads((classes/'simple_components.json').read_text(encoding='utf-8'))
+info=json.loads((classes/'simple_components_build_info.json').read_text(encoding='utf-8'))
 # Package the palette icon at the descriptor's relative path.
 for component in components:
     icon=component.get('iconName','')
@@ -79,9 +79,9 @@ for item in info:
     item['androidMinSdk']=['26']
 (stage/'files/component_build_infos.json').write_text(json.dumps(info))
 shutil.copyfile(merged,stage/'files/AndroidRuntime.jar')
-dex=BUILD/'dex'; dex.mkdir(exist_ok=True)
+dex=reset_output_directory(BUILD/'dex', BUILD)
 build_tools=os.environ.get('ANDROID_BUILD_TOOLS')
-bt=SDK/'build-tools'/build_tools if build_tools else sorted((SDK/'build-tools').iterdir())[-1]
+bt=SDK/'build-tools'/build_tools if build_tools else latest_version_directory(SDK/'build-tools')
 # Run D8 through its main class for a platform-independent Python entry point.
 run(JAVA/'java','-cp',bt/'lib/d8.jar','com.android.tools.r8.D8','--min-api','26','--lib',android,'--output',dex,merged)
 with zipfile.ZipFile(stage/'classes.jar','w',zipfile.ZIP_DEFLATED) as z:

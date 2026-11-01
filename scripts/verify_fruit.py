@@ -5,9 +5,9 @@ import numpy as np
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-contract=json.loads((ROOT/'models/fruit_contract.json').read_text())
-params=json.loads((ROOT/'models/fruit_parameters.json').read_text())
-manifest=json.loads((ROOT/'models/fruit_dataset_manifest.json').read_text())
+contract=json.loads((ROOT/'models/fruit_contract.json').read_text(encoding='utf-8'))
+params=json.loads((ROOT/'models/fruit_parameters.json').read_text(encoding='utf-8'))
+manifest=json.loads((ROOT/'models/fruit_dataset_manifest.json').read_text(encoding='utf-8'))
 train=[r for r in manifest['images'] if r['split']=='Training']
 test=[r for r in manifest['images'] if r['split']=='Test']
 assert len(train)==360 and len(test)==120
