@@ -108,11 +108,11 @@ the supplied app already includes its pretrained model.
 | Orange | 120 | 40 |
 | **Total** | **360** | **120** |
 
-**Train the model** — learns weights from the included photos:
+**Train the model** learns weights from the included photos:
 
 ![Train the fruit model: actual command output replay](docs/tutorials/train-fruit.gif)
 
-**Export to PTE** — converts the trained calculation for ExecuTorch:
+**Export to PTE** converts the trained calculation for ExecuTorch:
 
 ![Convert the trained model to PTE: actual command output replay](docs/tutorials/export-fruit.gif)
 
