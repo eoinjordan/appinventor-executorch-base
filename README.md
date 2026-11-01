@@ -5,6 +5,9 @@ App Inventor blocks. The example app classifies a photo as **apple, banana or or
 It uses your phone's processor to run a PyTorch ExecuTorch model; classification
 does not send the photo to a server.
 
+<img width="270" height="600" alt="ExecuTorch Fruit Classification App Demo" src="https://github.com/user-attachments/assets/3570e2de-3861-469a-b173-69e5a24d080a" />
+
+
 You can try the supplied pretrained model without installing Python or training
 anything. This is a community project, not an official MIT or PyTorch extension.
 Native Android inference and camera/gallery flows still need device verification.
