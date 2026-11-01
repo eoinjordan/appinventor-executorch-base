@@ -8,6 +8,8 @@ Use **Learn ML** or **ExecuTorch docs** to open the official tutorials in your b
 
 The app loads fruit_classifier.pte on startup, then calls RunImage(path,32). Image conversion produces RGB NCHW float32 [1,3,32,32] in [0,1]; the remaining normalization is inside the model. InferenceCompleted returns probabilities in apple, banana, orange order.
 
+Photo controls remain disabled until ModelLoaded. A loading failure keeps them disabled, displays the original error and offers **Retry loading fruit model**. Share that original error if retry fails. The repo includes the pretrained [PTE](../models/fruit_classifier.pte) and [all 480 training/test photos](../models/fruit_dataset.zip); Actions verifies and publishes these with the generated app. You do not need the full dataset to run the sample.
+
 Host eager evaluation classified all 120 selected official Test photos correctly, separately from the 360 Training photos. This does not verify native Android execution or general phone-photo accuracy. Camera/picker permission flows still need device testing.
 
 Generate with `python scripts/make_fruit_example.py`; verify with `python scripts/verify_fruit.py`. Retraining/export uses `scripts/export_fruit.py` with PyTorch, ExecuTorch 1.5.1, scikit-learn, NumPy and Pillow. Dataset, model and photo attribution/license details are in [models/FRUIT_DATASET.md](../models/FRUIT_DATASET.md).

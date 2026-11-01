@@ -41,6 +41,8 @@ result_panel=component('ResultPanel','VerticalArrangement',parent=body,Width='-2
 component('PredictionLabel','Label',parent=result_panel,Text='Your result appears here',FontSize='20',FontBold='True',TextColor=INK,Width='-2')
 component('ScoresLabel','Label',parent=result_panel,Text='Select a sample or add your own photo.',FontSize='13',TextColor=MUTED,Width='-2')
 component('StatusLabel','Label',parent=body,Text='Loading fruit model...',FontSize='12',TextColor=MUTED,Width='-2')
+component('LoadErrorLabel','Label',parent=body,Text='',FontSize='13',TextColor='&HFFB3261E',Width='-2')
+component('RetryLoadButton','Button',parent=body,Text='Retry loading fruit model',Visible='False',Width='-2',Height='48')
 gap('HelpSpace',8)
 component('HelpLabel','Label',parent=body,Text='Best with one centred fruit on a plain white background. This demo knows only apple, banana and orange; other objects may be guessed as one of them.',FontSize='12',TextColor=MUTED,Width='-2')
 gap('LearnSpace',8)
@@ -115,8 +117,11 @@ def generic_call(instance,kind,name,args):
 def controls(value):
     return [prop(name,kind,'Enabled',literal(value)) for name,kind in [('AppleButton','Button'),('BananaButton','Button'),('OrangeButton','Button'),('ChoosePhoto','ImagePicker'),('TakePhotoButton','Button')]]
 def classify(path):return controls(False)+[prop('StatusLabel','Label','Text',literal('Classifying fruit...')),call('RunImage',[path,literal(32)])]
-event('Screen1','Form','Initialize',0,[call('LoadModel',[literal('fruit_classifier.pte')])])
-event('ExecuTorch1',TYPE,'ModelLoaded',1,controls(True)+[prop('StatusLabel','Label','Text',literal('Ready · Works offline'))])
+def load_model():
+    return controls(False)+[prop('RetryLoadButton','Button','Visible',literal(False)),prop('StatusLabel','Label','Text',literal('Loading bundled fruit model...')),call('LoadModel',[literal('fruit_classifier.pte')])]
+
+event('Screen1','Form','Initialize',0,load_model())
+event('ExecuTorch1',TYPE,'ModelLoaded',1,controls(True)+[prop('LoadErrorLabel','Label','Text',literal('')),prop('RetryLoadButton','Button','Visible',literal(False)),prop('StatusLabel','Label','Text',literal('Ready · Works offline'))])
 for index,label in enumerate(['apple','banana','orange']):
     event(label.title()+'Button','Button','Click',index+2,[prop('FruitImage','Image','Picture',literal(label+'.jpg'))]+classify(literal(label+'.jpg')))
 event('ChoosePhoto','ImagePicker','AfterPicking',5,[prop('FruitImage','Image','Picture',prop('ChoosePhoto','ImagePicker','Selection'))]+classify(prop('ChoosePhoto','ImagePicker','Selection')))
@@ -125,7 +130,16 @@ event('Camera1','Camera','AfterPicture',7,[prop('FruitImage','Image','Picture',v
 result=choose(compare(score(1),score(2)),choose(compare(score(1),score(3)),prediction('apple'),prediction('orange')),choose(compare(score(2),score(3)),prediction('banana'),prediction('orange')))
 scores=join([literal('Apple: '),score(1),literal('\nBanana: '),score(2),literal('\nOrange: '),score(3)])
 event('ExecuTorch1',TYPE,'InferenceCompleted',8,[result,prop('ScoresLabel','Label','Text',scores),prop('StatusLabel','Label','Text',join([literal('Finished in '),variable('elapsedMs'),literal(' ms · On your device')]))]+controls(True))
-event('ExecuTorch1',TYPE,'ErrorOccurred',9,[prop('StatusLabel','Label','Text',join([variable('operation'),literal(': '),variable('message')]))]+controls(True))
+load_failed=E.Element('block',{'type':'logic_compare'});field(load_failed,'OP','EQ');put(load_failed,'A',variable('operation'));put(load_failed,'B',literal('LoadModel'))
+error_branch=E.Element('block',{'type':'controls_if'});E.SubElement(error_branch,'mutation',{'else':'1'});put(error_branch,'IF0',load_failed)
+statement(error_branch,'DO0',controls(False)+[
+    prop('LoadErrorLabel','Label','Text',join([literal('Could not load bundled fruit_classifier.pte: '),variable('message')])),
+    prop('StatusLabel','Label','Text',literal('Model unavailable. Retry loading before choosing a photo.')),
+    prop('RetryLoadButton','Button','Visible',literal(True)),
+])
+statement(error_branch,'ELSE',[prop('StatusLabel','Label','Text',join([variable('operation'),literal(': '),variable('message')]))]+controls(True))
+event('ExecuTorch1',TYPE,'ErrorOccurred',9,[error_branch])
+event('RetryLoadButton','Button','Click',12,load_model())
 for index,(button,starter,title,url) in enumerate(LEARNING_LINKS,10):
     event(button,'Button','Click',index,[generic_call(starter,'ActivityStarter','StartActivity',[])])
 E.SubElement(xml,'yacodeblocks',{'ya-version':'232','language-version':'36'})

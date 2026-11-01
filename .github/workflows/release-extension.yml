@@ -1,6 +1,7 @@
 name: Build and release extension
 
 on:
+  pull_request:
   push:
     tags:
       - 'v*'
@@ -67,9 +68,10 @@ jobs:
           cp out/ExecuTorch-ARM64.aix out/ExecuTorch-multi-ABI.aix out/release/
           cp examples/ExecuTorchFruit.aia examples/ExecuTorchSmoke.aia out/release/
           cp models/fruit_classifier.pte models/fruit_contract.json out/release/
+          cp models/fruit_dataset.zip models/fruit_dataset_manifest.json out/release/
           cp models/FRUIT_DATASET.md out/release/FRUIT_ATTRIBUTION.txt
           cd out/release
-          sha256sum *.aix *.aia *.pte *.json FRUIT_ATTRIBUTION.txt > SHA256SUMS.txt
+          sha256sum *.aix *.aia *.pte *.json *.zip FRUIT_ATTRIBUTION.txt > SHA256SUMS.txt
 
       - name: Save tested build artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -103,6 +105,8 @@ jobs:
           Install ExecuTorch-ARM64.aix on ARM64 Android phones.
           Use ExecuTorch-multi-ABI.aix when x86_64 emulator support is needed.
           Import ExecuTorchFruit.aia for the beginner fruit-photo classification demo.
+          The pretrained PTE and three test photos are already bundled in the app.
+          fruit_dataset.zip contains all 360 training and 120 test photos used for this model.
           Import ExecuTorchSmoke.aia for the add-one diagnostic.
 
           Host tests and archive checks passed. Native Android execution remains unverified.

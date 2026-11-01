@@ -31,6 +31,8 @@ The screenshots below show earlier versions; the current project includes a revi
 6. Try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. Allow camera/photo access when Android asks.
 7. Open **Learn ML** or **ExecuTorch docs** at the bottom of the screen for tutorials. These pages need internet access; the bundled model performs classification locally.
 
+The app loads its pretrained `fruit_classifier.pte` automatically. If loading fails, photo controls stay disabled and the original error appears with **Retry loading fruit model**. You do not need to supply or train a model. If retry fails, report that loading error; a later "Load a model first" message alone does not identify the cause.
+
 <img width="1343" height="760" alt="image" src="https://github.com/user-attachments/assets/d6d73135-a291-4c3a-8921-c5b6e3b78ee0" />
 
 
@@ -188,8 +190,10 @@ Open [docs/architecture.drawio](docs/architecture.drawio) in https://app.diagram
 
 ## Fruit model reproducibility
 
-`models/fruit_contract.json` records labels, input/output shapes, probability fixtures and model hash. `models/fruit_dataset_manifest.json` pins the Fruits-360 revision and all 480 original image URLs/hashes. `models/fruit_parameters.json` contains the derived classifier parameters. Only three JPG photos are bundled in the app; the full training subset stays in `.cache/fruits/`.
+The repo includes the pretrained [fruit_classifier.pte](models/fruit_classifier.pte) and the full [480-image dataset subset](models/fruit_dataset.zip): 360 training photos and 120 test photos, with attribution and a manifest inside the ZIP. The app bundles three test photos so beginners can try it without downloading the dataset separately.
 
-`python scripts/export_fruit.py` downloads 120 Training images and 40 Test images per class from the pinned source, trains the classifier and exports PyTorch -> ExecuTorch 1.5.1. Training needs PyTorch, ExecuTorch, scikit-learn, NumPy and Pillow. Normalization beyond RGB /255 is embedded in the model. Host evaluation reached 100% on this selected 120-image official Test subset; that is not a claim of accuracy on arbitrary phone photos. Android resize/numerical behaviour and camera/picker permission flows require on-device validation.
+`models/fruit_contract.json` records labels, shapes, prediction fixtures and the model hash. `models/fruit_dataset_manifest.json` pins the Fruits-360 revision, original paths, URLs and all 480 content hashes. `models/fruit_parameters.json` contains the derived classifier parameters. CI verifies the model and dataset hashes, rebuilds the app, checks automatic loading/error handling, and includes the model, dataset ZIP and generated app in build artifacts and tagged releases. Pull requests run these checks too.
+
+`python scripts/export_fruit.py` verifies and extracts the checked-in dataset to `.cache/fruits/`, trains the classifier and exports PyTorch -> ExecuTorch 1.5.1. It does not select new photos from upstream. Training needs PyTorch, ExecuTorch, scikit-learn, NumPy and Pillow; CI uses the pretrained model and does not retrain it. Normalization beyond RGB /255 is embedded in the model. Host evaluation reached 100% on this selected 120-image Test subset; that is not a claim of accuracy on arbitrary phone photos. Android inference and camera/picker behaviour require device validation.
 
 The fruit model, derived parameters and sample photographs use CC BY-SA 4.0 with attribution to Mihai Oltean, Fruits-360. Extension/application code remains Apache-2.0; see [dataset attribution and scope](models/FRUIT_DATASET.md).
