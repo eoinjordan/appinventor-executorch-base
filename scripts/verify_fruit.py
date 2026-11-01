@@ -67,13 +67,22 @@ with zipfile.ZipFile(ROOT/'examples/ExecuTorchFruit.aia') as z:
     condition=failure.find('b:value[@name="IF0"]',ns)
     assert condition.find('.//b:field[@name="TEXT"]',ns).text=='LoadModel'
     load_error=failure.find('b:statement[@name="DO0"]',ns)
-    disabled=set()
-    for block in load_error.findall('.//b:block[@type="component_set_get"]',ns):
+    # A load failure must disable every control through the SetControls procedure.
+    calls=[b for b in load_error.findall('.//b:block[@type="procedures_callnoreturn"]',ns) if b.find('b:field[@name="PROCNAME"]',ns).text=='SetControls']
+    assert calls and calls[0].find('b:value[@name="ARG0"]/b:block/b:field',ns).text=='FALSE'
+    set_controls=next(b for b in tree.findall('b:block[@type="procedures_defnoreturn"]',ns) if b.find('b:field[@name="NAME"]',ns).text=='SetControls')
+    toggled=set()
+    for block in set_controls.findall('.//b:block[@type="component_set_get"]',ns):
         mutation=block.find('b:mutation',ns)
-        if mutation.get('property_name')=='Enabled':
-            assert block.find('b:value/b:block/b:field',ns).text=='FALSE'
-            disabled.add(mutation.get('instance_name'))
-    assert disabled=={'AppleButton','BananaButton','OrangeButton','ChoosePhoto','TakePhotoButton'}
+        assert mutation.get('property_name')=='Enabled'
+        assert block.find('b:value/b:block[@type="lexical_variable_get"]/b:field[@name="VAR"]',ns).text=='enabled'
+        toggled.add(mutation.get('instance_name'))
+    assert toggled=={'AppleButton','BananaButton','OrangeButton','ChoosePhoto','TakePhotoButton'}
+    # Every procedure call names a procedure that exists, with the right number of arguments.
+    defined={b.find('b:field[@name="NAME"]',ns).text:len(b.findall('b:mutation/b:arg',ns)) for b in tree.findall('b:block[@type="procedures_defnoreturn"]',ns)}
+    for c in tree.findall('.//b:block[@type="procedures_callnoreturn"]',ns):
+        name=c.find('b:field[@name="PROCNAME"]',ns).text
+        assert name in defined and len(c.findall('b:value',ns))==defined[name], f'Bad procedure call: {name}'
     for block in tree.findall('.//b:block',ns):
         mutation=block.find('b:mutation',ns)
         if not block.get('type','').startswith('component_'): continue

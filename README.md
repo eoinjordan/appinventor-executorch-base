@@ -95,7 +95,10 @@ Read on in [BLOCKS](https://github.com/eoinjordan/appinventor-executorch-extensi
 1. Open [MIT App Inventor](https://ai2.appinventor.mit.edu/) and sign in.
 2. Import `examples/ExecuTorchFruit.aia` using **Projects > Import project (.aia) from my computer**. Give it a new project name if you imported an older version.
 3. Explore **Designer** to see the screen, then **Blocks** to see how it works.
-4. Choose **Build > Android App (.apk)**. Transfer the APK to your phone, install it and open it. Use a compiled APK; a 32-bit Companion process cannot load the runtime.
+4. Choose **Build > Android App (.apk)**. Download the APK or scan the QR code on your phone, install it and open it. Use a compiled APK; a 32-bit Companion process cannot load the runtime.
+
+   ![Build > Android App shows a download button and a QR code for the APK](docs/images/screenshots/build-apk-dialog.png)
+
 5. Wait for the result card to say **Ready**. The app loads `fruit_classifier.pte` automatically.
 6. Under **Step 1**, tap **Apple**, **Banana** or **Orange**. The prediction should match the selected photo. These buttons classify supplied examples; they do not train the model.
 7. Under **Step 2**, try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. Allow camera/photo access when Android asks.
@@ -136,8 +139,10 @@ labels; it does not locate multiple objects or draw boxes around them. The model
 ![The ExecuTorch blocks the fruit app uses: LoadModel, ModelLoaded, RunImage, InferenceCompleted and ErrorOccurred](docs/images/blocks/fruit-app-blocks.png)
 
 The purple blocks are calls you make; the gold blocks are events the extension raises.
-The [block reference](docs/blocks.md) has a picture of every block and a table of its
-parameters.
+The [block reference](docs/blocks.md) has a picture of every block, a table of its
+parameters, a diagram of how the blocks run and which ones each use case needs.
+
+![The fruit project in the Blocks editor](docs/images/screenshots/blocks-editor.png)
 
 | Block or event | What it does |
 | --- | --- |
@@ -150,7 +155,16 @@ parameters.
 Scores arrive in **apple, banana, orange** order, which is positions **1, 2, 3** in an
 App Inventor list. That order belongs to this model; your own model defines its own.
 Loading and inference finish asynchronously: use their completion events before
-starting the next step.
+starting the next step. Two procedures keep the handlers short: `SetControls(enabled)`
+turns the five buttons on or off and `Classify(imagePath)` shows the photo and calls
+`RunImage`.
+
+| Use case | ExecuTorch blocks you need |
+| --- | --- |
+| Image model with bundled photos (this app) | `LoadModel`, `ModelLoaded`, `RunImage`, `InferenceCompleted`, `ErrorOccurred` |
+| Photos from the gallery or camera | the same, calling `RunImage` from `ImagePicker.AfterPicking` or `Camera.AfterPicture` |
+| Numeric model (sensor readings, typed values) | `LoadModel`, `ModelLoaded`, `RunModel`, `InferenceCompleted`, `ErrorOccurred` |
+| Switching models or freeing memory | add `UnloadModel` and `ModelUnloaded` |
 
 ## Next step: use your own model
 
@@ -162,7 +176,11 @@ rebuild the APK and test all three samples. Keep size 32 and the same label orde
 
 To add the extension to a different project:
 
-1. Import `ExecuTorch-ARM64.aix` through **Extensions > Import extension**.
+1. Import `ExecuTorch-ARM64.aix` through **Extensions > Import extension**. It appears
+   under **Extension** in the palette.
+
+   ![The ExecuTorch extension listed in the Designer palette](docs/images/screenshots/extension-drawer.png)
+
 2. Drag **ExecuTorch** onto the screen. It is a non-visible component.
 3. Upload your `.pte` to **Media**.
 4. Call `LoadModel` with the exact asset filename. Enable your inference button only after `ModelLoaded`.

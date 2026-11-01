@@ -142,23 +142,42 @@ def choose(condition,yes,no):
     b=E.Element('block',{'type':'controls_if'});E.SubElement(b,'mutation',{'else':'1'});put(b,'IF0',condition);statement(b,'DO0',[yes]);statement(b,'ELSE',[no]);return b
 
 
+def procedure(name,params,blocks,index):
+    b=E.SubElement(xml,'block',{'type':'procedures_defnoreturn','x':str(30+(index%2)*650),'y':str(30+(index//2)*320)})
+    m=E.SubElement(b,'mutation')
+    for param in params:E.SubElement(m,'arg',{'name':param})
+    field(b,'NAME',name);statement(b,'STACK',blocks)
+def call_procedure(name,params,args):
+    b=E.Element('block',{'type':'procedures_callnoreturn'})
+    m=E.SubElement(b,'mutation',{'name':name})
+    for param in params:E.SubElement(m,'arg',{'name':param})
+    field(b,'PROCNAME',name)
+    for i,v in enumerate(args):put(b,'ARG'+str(i),v)
+    return b
+def param(name):
+    b=E.Element('block',{'type':'lexical_variable_get'});field(b,'VAR',name);return b
 def generic_call(instance,kind,name,args):
     b=E.Element('block',{'type':'component_method'});E.SubElement(b,'mutation',{'component_type':kind,'method_name':name,'is_generic':'false','instance_name':instance});field(b,'COMPONENT_SELECTOR',instance)
     for i,v in enumerate(args):put(b,'ARG'+str(i),v)
     return b
+CONTROLS=[('AppleButton','Button'),('BananaButton','Button'),('OrangeButton','Button'),('ChoosePhoto','ImagePicker'),('TakePhotoButton','Button')]
 def controls(value):
-    return [prop(name,kind,'Enabled',literal(value)) for name,kind in [('AppleButton','Button'),('BananaButton','Button'),('OrangeButton','Button'),('ChoosePhoto','ImagePicker'),('TakePhotoButton','Button')]]
-def classify(path):return controls(False)+[prop('StatusLabel','Label','Text',literal('Classifying fruit...')),call('RunImage',[path,literal(32)])]
+    return [call_procedure('SetControls',['enabled'],[literal(value)])]
+def classify(path):return [call_procedure('Classify',['imagePath'],[path])]
 def load_model():
     return controls(False)+[prop('RetryLoadButton','Button','Visible',literal(False)),prop('StatusLabel','Label','Text',literal('Loading bundled fruit model...')),call('LoadModel',[literal('fruit_classifier.pte')])]
+
+# Two procedures keep every event handler short: one toggles the five controls, one runs a photo.
+procedure('SetControls',['enabled'],[prop(name,kind,'Enabled',param('enabled')) for name,kind in CONTROLS],14)
+procedure('Classify',['imagePath'],[prop('FruitImage','Image','Picture',param('imagePath'))]+controls(False)+[prop('StatusLabel','Label','Text',literal('Classifying fruit...')),call('RunImage',[param('imagePath'),literal(32)])],15)
 
 event('Screen1','Form','Initialize',0,load_model())
 event('ExecuTorch1',TYPE,'ModelLoaded',1,controls(True)+[prop('LoadErrorLabel','Label','Text',literal('')),prop('RetryLoadButton','Button','Visible',literal(False)),prop('ModelLabel','Label','Text',join([literal('Model: '),variable('assetName'),literal(f' ({model_kb} KB), loaded on this phone.')])),prop('StatusLabel','Label','Text',literal('Ready · Runs on this phone, works offline'))])
 for index,label in enumerate(['apple','banana','orange']):
-    event(label.title()+'Button','Button','Click',index+2,[prop('FruitImage','Image','Picture',literal(label+'.jpg'))]+classify(literal(label+'.jpg')))
-event('ChoosePhoto','ImagePicker','AfterPicking',5,[prop('FruitImage','Image','Picture',prop('ChoosePhoto','ImagePicker','Selection'))]+classify(prop('ChoosePhoto','ImagePicker','Selection')))
+    event(label.title()+'Button','Button','Click',index+2,classify(literal(label+'.jpg')))
+event('ChoosePhoto','ImagePicker','AfterPicking',5,classify(prop('ChoosePhoto','ImagePicker','Selection')))
 event('TakePhotoButton','Button','Click',6,[generic_call('Camera1','Camera','TakePicture',[])])
-event('Camera1','Camera','AfterPicture',7,[prop('FruitImage','Image','Picture',variable('image'))]+classify(variable('image')))
+event('Camera1','Camera','AfterPicture',7,classify(variable('image')))
 result=choose(compare(score(1),score(2)),choose(compare(score(1),score(3)),prediction('apple'),prediction('orange')),choose(compare(score(2),score(3)),prediction('banana'),prediction('orange')))
 scores=join([literal('Apple: '),score(1),literal('\nBanana: '),score(2),literal('\nOrange: '),score(3)])
 event('ExecuTorch1',TYPE,'InferenceCompleted',8,[result,prop('ScoresLabel','Label','Text',scores),prop('StatusLabel','Label','Text',join([literal('Classified on this phone in '),variable('elapsedMs'),literal(' ms')]))]+controls(True))
@@ -171,7 +190,7 @@ statement(error_branch,'DO0',controls(False)+[
 ])
 statement(error_branch,'ELSE',[prop('StatusLabel','Label','Text',join([variable('operation'),literal(': '),variable('message')]))]+controls(True))
 event('ExecuTorch1',TYPE,'ErrorOccurred',9,[error_branch])
-event('RetryLoadButton','Button','Click',14,load_model())
+event('RetryLoadButton','Button','Click',16,load_model())
 for index,(button,starter,title,blurb,url) in enumerate(LEARNING_LINKS,10):
     event(button,'Button','Click',index,[generic_call(starter,'ActivityStarter','StartActivity',[])])
 E.SubElement(xml,'yacodeblocks',{'ya-version':'232','language-version':'36'})
