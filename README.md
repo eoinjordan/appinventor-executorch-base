@@ -7,8 +7,7 @@ This is a local AI machine learning model. It uses your phone's processor to run
 
 
 <img width="270" height="600" alt="ExecuTorch Fruit Classification App Demo" src="https://github.com/user-attachments/assets/3570e2de-3861-469a-b173-69e5a24d080a" />
-
-
+<img width="651" height="367" alt="image" src="https://github.com/user-attachments/assets/89af26a9-8285-44d7-8c7b-2a86a3b8d4fb" />
 
 Start with the ready-made fruit app. You do not need Python, Java or previous machine learning experience to try it: the extension, model, photos and blocks are included. This is a learning prototype; successful Android inference still needs device verification.
 
