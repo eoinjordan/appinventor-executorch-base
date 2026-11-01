@@ -166,12 +166,13 @@ when ExecuTorch.ErrorOccurred(operation, message):
 | `src/org/community/executorch/ExecuTorch.java` | Blocks, events, model lifecycle and inference |
 | `src/org/community/executorch/TensorData.java` | Input validation and list conversion |
 | `src/org/community/executorch/NativeRuntime.java` | ABI selection, native asset extraction and JNI loading |
+| `src/org/community/executorch/NativeLibraries.java` | Testable native dependency checks and load order |
 | `scripts/build.py` | Download pinned runtime dependencies, compile and package AIX |
 | `scripts/export_smoke.py` | Recreate the deterministic add-one model |
 | `scripts/make_example.py` | Recreate the smoke-test App Inventor project |
 | `scripts/verify.py` | Host tests and archive checks |
 
-The first useful edit is inside `RunModel`: add your preprocessing immediately before `Tensor.fromBlob`, and your postprocessing after `getDataAsFloatArray`.
+For a model that matches the supported contract, start by changing the app's assets and blocks. If you need to extend Java preprocessing, `RunImage` prepares image values and `TensorData` converts numeric lists; `runTensor` contains the shared `Tensor.fromBlob`, forward call and output conversion.
 
 ## Build
 
