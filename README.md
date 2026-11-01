@@ -1,5 +1,8 @@
 # ExecuTorch: minimal App Inventor extension
 
+<img width="1324" height="765" alt="image" src="https://github.com/user-attachments/assets/e78e17bd-3c79-4a16-a944-07b72edd7c79" />
+
+
 A small Android-only base repo for loading your own `.pte` model from an App Inventor project asset and running `forward`. Four blocks and four events: generic numeric inference plus a small RGB image input helper. Camera and photo-picker UI are provided by the sample app using App Inventor built-in components.
 
 <img width="912" height="679" alt="image" src="https://github.com/user-attachments/assets/d857c0d2-1b33-4d9c-b351-fa92cea3ea10" />
