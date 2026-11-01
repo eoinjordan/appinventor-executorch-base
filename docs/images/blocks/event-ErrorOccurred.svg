@@ -1,0 +1,10 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='500' height='128' viewBox='0 0 500 128'>
+<path d='M10,20 q30,-20 60,0 h420 v36 h-440 v40 h440 v22 h-480 z' fill='#B6872C' stroke='#8A6520' stroke-width='1.5'/>
+<text x='22' y='50' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>when</text>
+<text x='72' y='50' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.ErrorOccurred</text>
+<rect x='290' y='34' width='90' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='335.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>operation</text>
+<rect x='388' y='34' width='74' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='425.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>message</text>
+<text x='22' y='72' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>do</text>
+</svg>

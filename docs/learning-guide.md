@@ -37,7 +37,8 @@ change the model.
 5. **ErrorOccurred** supplies the operation and message if a step fails.
 
 Loading and inference finish asynchronously: use their completion events before
-starting the next step.
+starting the next step. Pictures of each block and what its parameters mean are in the
+[block reference](blocks.md).
 
 ## Experiments to try
 

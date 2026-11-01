@@ -49,6 +49,7 @@ Open [architecture.drawio](architecture.drawio) in <https://app.diagrams.net> us
 | `tests/` | Java unit tests for `TensorData` and `NativeLibraries`; Python tests for the build helpers |
 | `scripts/build.py`, `scripts/build_support.py` | Download pinned runtime dependencies, compile and package the AIX |
 | `scripts/make_fruit_example.py` | Generate `examples/ExecuTorchFruit.aia` |
+| `scripts/make_block_reference.py` | Draw the block pictures and write `docs/blocks.md` from the built AIX |
 | `scripts/verify.py`, `scripts/verify_fruit.py` | Host checks for the extension and the fruit project |
 | `scripts/train_fruit.py`, `scripts/export_fruit.py` | Train the fruit classifier and export it to PTE |
 | `scripts/make_dataset_preview.py`, `scripts/make_training_gifs.py` | Regenerate the dataset contact sheet and the training/export GIFs |
@@ -74,7 +75,13 @@ git submodule update --init --depth 1
 python scripts/build.py                # phone build, arm64-v8a
 python scripts/build.py --abi all      # adds x86_64 for emulators
 python scripts/make_fruit_example.py
+python scripts/make_block_reference.py # needs ImageMagick for PNGs; writes SVG without it
 ```
+
+After changing a block, parameter or description in `ExecuTorch.java`, rebuild and run
+`make_block_reference.py` so [docs/blocks.md](blocks.md) and its pictures match. The
+script stops if a new parameter has no plain-language description in its `PARAMETERS`
+table.
 
 Outputs go to `out/`: `ExecuTorch-ARM64.aix` (around 6.2 MB) and, with `--abi all`,
 `ExecuTorch-multi-ABI.aix` (around 10.9 MB). The App Inventor API jars are pinned by the
@@ -151,8 +158,9 @@ Native dependencies and licensing are listed in [THIRD_PARTY_NOTICES.md](../THIR
 ## Use your own model
 
 Import `out/ExecuTorch-ARM64.aix` through **Extensions > Import extension**, drag
-ExecuTorch onto the screen, upload your `.pte` to Media, and wire the blocks. The fruit
-app uses this pattern:
+ExecuTorch onto the screen, upload your `.pte` to Media, and wire the blocks. The
+[block reference](blocks.md) shows each block and its parameters. The fruit app uses
+this pattern:
 
 ```text
 when Screen1.Initialize:

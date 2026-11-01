@@ -1,0 +1,9 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='338' height='104' viewBox='0 0 338 104'>
+<path d='M10,10 h20 v6 h20 v-6 h278 v84 h-278 v6 h-20 v-6 h-20 z' fill='#7C5CBF' stroke='#5E4295' stroke-width='1.5'/>
+<text x='22' y='36' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>call</text>
+<text x='60' y='36' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.RunModel</text>
+<text x='288' y='36' font-size='14' fill='#FFFFFF' font-weight='normal' text-anchor='end' font-family='Segoe UI, Helvetica, Arial, sans-serif'>values</text>
+<path d='M328,20 h-10 v6 h-6 v8 h6 v6 h10 z' fill='#F3EEFA' stroke='#5E4295' stroke-width='1'/>
+<text x='288' y='66' font-size='14' fill='#FFFFFF' font-weight='normal' text-anchor='end' font-family='Segoe UI, Helvetica, Arial, sans-serif'>shape</text>
+<path d='M328,50 h-10 v6 h-6 v8 h6 v6 h10 z' fill='#F3EEFA' stroke='#5E4295' stroke-width='1'/>
+</svg>

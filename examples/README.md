@@ -18,6 +18,7 @@ image to 32 by 32 pixels, converts it to RGB float32 values in `[0, 1]` with sha
 `InferenceCompleted` returns three probabilities in **apple, banana, orange** order and
 the app displays the highest-scoring label, the three scores and the inference time.
 
+Each block and its parameters are shown in the [block reference](../docs/blocks.md).
 The **Learn more** buttons open MIT's App Inventor tutorials, PyTorch's beginner course,
 the ExecuTorch documentation and this project's guide in the browser.
 
