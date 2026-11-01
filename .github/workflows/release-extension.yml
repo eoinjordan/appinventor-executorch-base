@@ -52,6 +52,7 @@ jobs:
           python scripts/build.py --abi arm64-v8a
           python scripts/make_fruit_example.py
           python scripts/make_block_reference.py
+          python scripts/make_workflow_diagrams.py
           python scripts/verify.py
           python scripts/verify_fruit.py
 

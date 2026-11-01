@@ -30,8 +30,9 @@ change the model.
 1. **Screen.Initialize** calls `LoadModel("fruit_classifier.pte")`.
 2. **ModelLoaded** enables the sample and photo controls and shows the model name under
    **What is running on this phone**.
-3. Selecting a photo calls `RunImage(imagePath, 32)`. The extension resizes it to 32 by
-   32 pixels and converts its red, green and blue channels into numbers.
+3. Selecting a photo calls the app's `Classify` procedure, which shows the photo and
+   calls `RunImage(imagePath, 32)`. The extension resizes the photo to 32 by 32 pixels
+   and converts its red, green and blue channels into numbers.
 4. **InferenceCompleted** returns three scores, in **apple, banana, orange** order, and
    the elapsed time. The app displays the highest-scoring label.
 5. **ErrorOccurred** supplies the operation and message if a step fails.

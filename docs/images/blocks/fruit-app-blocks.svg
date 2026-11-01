@@ -1,0 +1,42 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='598' height='542' viewBox='0 0 598 542'><g transform='translate(0,0)'>
+<path d='M10,10 h20 v6 h20 v-6 h310 v54 h-310 v6 h-20 v-6 h-20 z' fill='#7C5CBF' stroke='#5E4295' stroke-width='1.5'/>
+<text x='22' y='36' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>call</text>
+<text x='60' y='36' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.LoadModel</text>
+<text x='320' y='36' font-size='14' fill='#FFFFFF' font-weight='normal' text-anchor='end' font-family='Segoe UI, Helvetica, Arial, sans-serif'>assetName</text>
+<path d='M360,20 h-10 v6 h-6 v8 h6 v6 h10 z' fill='#F3EEFA' stroke='#5E4295' stroke-width='1'/>
+</g><g transform='translate(0,70)'>
+<path d='M10,20 q30,-20 60,0 h322 v36 h-342 v40 h342 v22 h-382 z' fill='#B6872C' stroke='#8A6520' stroke-width='1.5'/>
+<text x='22' y='50' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>when</text>
+<text x='72' y='50' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.ModelLoaded</text>
+<rect x='274' y='34' width='90' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='319.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>assetName</text>
+<text x='22' y='72' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>do</text>
+</g><g transform='translate(0,194)'>
+<path d='M10,10 h20 v6 h20 v-6 h302 v84 h-302 v6 h-20 v-6 h-20 z' fill='#7C5CBF' stroke='#5E4295' stroke-width='1.5'/>
+<text x='22' y='36' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>call</text>
+<text x='60' y='36' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.RunImage</text>
+<text x='312' y='36' font-size='14' fill='#FFFFFF' font-weight='normal' text-anchor='end' font-family='Segoe UI, Helvetica, Arial, sans-serif'>imagePath</text>
+<path d='M352,20 h-10 v6 h-6 v8 h6 v6 h10 z' fill='#F3EEFA' stroke='#5E4295' stroke-width='1'/>
+<text x='312' y='66' font-size='14' fill='#FFFFFF' font-weight='normal' text-anchor='end' font-family='Segoe UI, Helvetica, Arial, sans-serif'>size</text>
+<path d='M352,50 h-10 v6 h-6 v8 h6 v6 h10 z' fill='#F3EEFA' stroke='#5E4295' stroke-width='1'/>
+</g><g transform='translate(0,294)'>
+<path d='M10,20 q30,-20 60,0 h518 v36 h-538 v40 h538 v22 h-578 z' fill='#B6872C' stroke='#8A6520' stroke-width='1.5'/>
+<text x='22' y='50' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>when</text>
+<text x='72' y='50' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.InferenceCompleted</text>
+<rect x='330' y='34' width='66' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='363.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>values</text>
+<rect x='404' y='34' width='58' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='433.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>shape</text>
+<rect x='470' y='34' width='90' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='515.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>elapsedMs</text>
+<text x='22' y='72' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>do</text>
+</g><g transform='translate(0,418)'>
+<path d='M10,20 q30,-20 60,0 h420 v36 h-440 v40 h440 v22 h-480 z' fill='#B6872C' stroke='#8A6520' stroke-width='1.5'/>
+<text x='22' y='50' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>when</text>
+<text x='72' y='50' font-size='15' fill='#FFFFFF' font-weight='normal' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch1.ErrorOccurred</text>
+<rect x='290' y='34' width='90' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='335.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>operation</text>
+<rect x='388' y='34' width='74' height='22' rx='11' fill='#E3A24C' stroke='#9C6A24'/>
+<text x='425.0' y='50' font-size='13' fill='#3A2A10' font-weight='normal' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>message</text>
+<text x='22' y='72' font-size='15' fill='#FFFFFF' font-weight='bold' text-anchor='start' font-family='Segoe UI, Helvetica, Arial, sans-serif'>do</text>
+</g></svg>
