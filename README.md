@@ -65,17 +65,23 @@ little older than the example in this repository.
    `ExecuTorch1` component. In **Blocks** you will see how the model is loaded and
    how a photo is classified.
 4. Choose **Build → Android App (.apk)**, copy the APK to your phone and install it.
-5. Open the app and wait for the status to read **Ready**. The bundled model loads automatically.
-6. Under **Sample photos**, tap **Apple**, **Banana** and **Orange**. Each prediction
+5. Open the app and wait for the result card to read **Ready**. The bundled model
+   loads automatically.
+6. Under **Step 1**, tap **Apple**, **Banana** and **Orange**. Each prediction
    should match the photo shown. These buttons only test the model; they do not train it.
-7. Try **Choose photo** or **Take photo**, allowing access when Android asks. Start
-   with a single, centred fruit on a plain white background.
+7. Under **Step 2**, try **Choose photo** or **Take photo**, allowing access when
+   Android asks. Start with a single, centred fruit on a plain white background.
 8. Optional: turn on airplane mode and tap a sample again. Classification still
-   works because it runs on the phone. Only the learning links need the internet.
+   works because it runs on the phone. Only the **Learn more** links need the internet.
 
-For each prediction the app shows the chosen label, the three class scores and
-how long inference took. A high score is not a guarantee: the model always picks
-one of its three fruits, even for a photo of something else.
+For each prediction the result card shows the chosen label, the three class scores
+and how long inference took on the phone. A high score is not a guarantee: the model
+always picks one of its three fruits, even for a photo of something else.
+
+Below the result, **What is running on this phone** names the loaded model file,
+the ExecuTorch runtime version and what the model can and cannot see. **Learn more**
+links to MIT's App Inventor tutorials, PyTorch's beginner course, the ExecuTorch
+documentation and this project's guide, each with a line saying what you will find.
 
 ### The dataset behind the model
 

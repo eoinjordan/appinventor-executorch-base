@@ -60,7 +60,8 @@ rather than assuming the work is done.
   high score. This is the most important lesson: a confident answer is not
   necessarily a correct one.
 - **Prove it runs on the phone.** After the model loads, turn on airplane mode and
-  classify a sample again. Only the learning links need the internet.
+  classify a sample again. Only the **Learn more** links need the internet. The
+  **What is running on this phone** card tells you which model file is loaded.
 - **Think like a data collector.** If you wanted this model to work on your kitchen
   table, what photos would you need to add? More varieties? Different lighting?
   Other objects labelled as "not a fruit"? Remember to keep some test photos aside
@@ -79,7 +80,7 @@ limits.
 ## Learn more
 
 - **New to App Inventor?** [MIT's beginner tutorials](https://appinventor.mit.edu/explore/ai2/tutorials)
-  introduce screens, components and blocks.
+  introduce screens, components and blocks. This is the app's **App Inventor tutorials** link.
 - **Classification with blocks:** MIT's
   [Introduction to Machine Learning: Image Classification](https://appinventor.mit.edu/explore/resources/ai/image-classification-look-extension)
   has beginner activities and teaching materials. It uses MIT's Look extension, so

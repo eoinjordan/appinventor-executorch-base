@@ -26,8 +26,11 @@ model. The model has no "unknown" class, so it may confidently name a fruit when
 shown something else. The [learning guide](../docs/learning-guide.md) explains why
 and suggests experiments.
 
-**Learn about AI** and **PyTorch / ExecuTorch** open the official tutorials in your
-browser and need an internet connection. Classification itself runs on the phone.
+The **What is running on this phone** card shows the loaded model file, the
+ExecuTorch runtime version and the model's limits. The **Learn more** buttons
+(**App Inventor tutorials**, **Learn about AI**, **PyTorch / ExecuTorch** and
+**This project's guide**) open in your browser and need an internet connection.
+Classification itself runs on the phone.
 
 ### What the app does under the hood
 
