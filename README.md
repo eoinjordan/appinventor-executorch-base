@@ -5,7 +5,7 @@ Build an Android app that predicts whether a photo shows an **apple, banana or o
 
 This is a local AI machine learning model. It uses your phone's processor to run a PyTorch ExecuTorch model. Your photos are processed on your phone. To learn more about AI or PyTorch, use the links in the app or the [learning resources below](#learn-more).
 
-<img width="540" height="1200" alt="ExecuTorch Fruit Demo App" src="https://github.com/user-attachments/assets/c906ed4a-ed01-4dae-9175-742b06c6a00e" />
+<img width="270" height="600" alt="ExecuTorch Fruit Demo App" src="https://github.com/user-attachments/assets/c906ed4a-ed01-4dae-9175-742b06c6a00e" />
 
 
 Start with the ready-made fruit app. You do not need Python, Java or previous machine learning experience to try it: the extension, model, photos and blocks are included. This is a learning prototype; successful Android inference still needs device verification.
