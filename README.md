@@ -1,14 +1,12 @@
 # Learn image classification with App Inventor and ExecuTorch
 
-<img width="651" height="367" alt="image" src="https://github.com/user-attachments/assets/89af26a9-8285-44d7-8c7b-2a86a3b8d4fb" />
-
-
 Build an Android app that predicts whether a photo shows an **apple, banana or orange**. This community extension connects MIT App Inventor blocks to ExecuTorch, which runs a trained model on the phone.
+
+<img width="270" height="600" alt="ExecuTorch Fruit Classification App Demo" src="https://github.com/user-attachments/assets/3570e2de-3861-469a-b173-69e5a24d080a" />
 
 This is a local AI machine learning model. It uses your phone's processor to run a PyTorch ExecuTorch model. Your photos are processed on your phone. To learn more about AI or PyTorch, use the links in the app or the [learning resources below](#learn-more).
 
-
-<img width="270" height="600" alt="ExecuTorch Fruit Classification App Demo" src="https://github.com/user-attachments/assets/3570e2de-3861-469a-b173-69e5a24d080a" />
+<img width="651" height="367" alt="image" src="https://github.com/user-attachments/assets/89af26a9-8285-44d7-8c7b-2a86a3b8d4fb" />
 
 Start with the ready-made fruit app. You do not need Python, Java or previous machine learning experience to try it: the extension, model, photos and blocks are included. This is a learning prototype; successful Android inference still needs device verification.
 
