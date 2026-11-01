@@ -1,7 +1,5 @@
 # ExecuTorch: minimal App Inventor extension
 
-<img width="1102" height="745" alt="image" src="https://github.com/user-attachments/assets/b1f8b57c-b628-484a-a342-9b21e90bec7c" />
-
 
 A small Android-only base repo for loading your own `.pte` model from an App Inventor project asset and running `forward`. Four blocks and four events: generic numeric inference plus a small RGB image input helper. Camera and photo-picker UI are provided by the sample app using App Inventor built-in components.
 
@@ -14,7 +12,8 @@ A small Android-only base repo for loading your own `.pte` model from an App Inv
 2. Build an APK for a 64-bit Android phone (Android 8+). A 32-bit Companion process cannot load the native runtime.
 3. Tap **Try apple**, **Try banana** or **Try orange**. The prediction should match the selected sample.
 4. Try **Choose a fruit photo** or **Take a fruit photo**. Use one centred fruit on a plain white background. The model knows only these three fruit classes and has not been validated for general photographs or unrelated objects.
-<img width="854" height="666" alt="image" src="https://github.com/user-attachments/assets/1429a6a8-8d69-48ff-b554-627099c655be" />
+
+<img width="1102" height="745" alt="image" src="https://github.com/user-attachments/assets/b1f8b57c-b628-484a-a342-9b21e90bec7c" />
 
 
 The checked-in `.pte` is about 39 KB. No Python installation, training or model download is needed to try the app. See [the beginner app guide](examples/README.md) and [dataset attribution](models/FRUIT_DATASET.md).
