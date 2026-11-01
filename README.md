@@ -1,19 +1,22 @@
 # ExecuTorch: minimal App Inventor extension
 
-A small Android-only base repo for loading your own `.pte` model from an App Inventor project asset and running `forward`. Three blocks, four events, no camera, microphone, sensor or model-specific code.
+A small Android-only base repo for loading your own `.pte` model from an App Inventor project asset and running `forward`. Four blocks and four events: generic numeric inference plus a small RGB image input helper. Camera and photo-picker UI are provided by the sample app using App Inventor built-in components.
 
 <img width="912" height="679" alt="image" src="https://github.com/user-attachments/assets/d857c0d2-1b33-4d9c-b351-fa92cea3ea10" />
 
 
 ## Try it
 
-1. Import `examples/ExecuTorchIris.aia` using **Projects > Import project (.aia) from my computer**. It includes the trained classifier, extension and working blocks.
-2. Build an APK for a 64-bit Android device (Android 8 or later). Prefer a compiled APK for the first test; 32-bit Companion processes cannot load this runtime.
-3. Tap **Try setosa**, then **Classify flower**. Repeat for versicolor and virginica. Edit the four measurements (in cm) to try your own inputs.
+1. Import `examples/ExecuTorchFruit.aia` using **Projects > Import project (.aia) from my computer**. It includes the extension, trained fruit model, three sample photos and all blocks.
+2. Build an APK for a 64-bit Android phone (Android 8+). A 32-bit Companion process cannot load the native runtime.
+3. Tap **Try apple**, **Try banana** or **Try orange**. The prediction should match the selected sample.
+4. Try **Choose a fruit photo** or **Take a fruit photo**. Use one centred fruit on a plain white background. The model knows only these three fruit classes and has not been validated for general photographs or unrelated objects.
 
-The included Iris classifier accepts raw measurements in this order: sepal length, sepal width, petal length, petal width. Normalization is included in the model. Its three output probabilities are setosa, versicolor and virginica. This is a teaching demo for Iris measurements, not a general plant identifier.
+The checked-in `.pte` is about 39 KB. No Python installation, training or model download is needed to try the app. See [the beginner app guide](examples/README.md) and [dataset attribution](models/FRUIT_DATASET.md).
 
-The original `ExecuTorchSmoke.aia` add-one example remains available; the raw block example below refers to that diagnostic.
+For your own image model, call `LoadModel(assetName)` followed by `RunImage(imagePath, size)` and handle `InferenceCompleted(values, shape, elapsedMs)`. The image helper passes RGB NCHW float32 values in [0,1], stretched to a square; any additional normalization must be inside your model. It does not assume fruit labels or any other model-specific class list.
+
+The Iris measurements app and add-one smoke app remain available as optional numeric-tensor examples. The raw block example below uses the add-one diagnostic.
 
 Or import `out/ExecuTorch-ARM64.aix` through **Extensions > Import extension**, drag ExecuTorch onto the screen, upload your `.pte` to Media, and wire these blocks:
 
@@ -31,7 +34,7 @@ when ExecuTorch.ErrorOccurred(operation, message):
     set Label.Text to message
 ```
 
-`UnloadModel()` releases native model memory and raises `ModelUnloaded`.
+`UnloadModel()` releases native model memory and raises `ModelUnloaded`. `RunImage` is optional; `RunModel` continues to accept custom numeric tensors.
 
 ## Deliberately small model contract
 
@@ -39,7 +42,7 @@ when ExecuTorch.ErrorOccurred(operation, message):
 - Values are flattened in row-major order. Shape dimensions must be positive integers; their product must equal the value count. An empty shape represents a scalar with one value.
 - The model is a self-contained `.pte` asset, with parameters embedded. External weight files are not supported.
 - Export with ExecuTorch **1.5.1**, matching the pinned Android runtime. Custom operators and delegates absent from that runtime will fail.
-- Preprocessing, label lookup, image decoding, audio and detection postprocessing belong in your own code.
+- `RunImage` handles image decoding, stretch resize and RGB /255 conversion. Label lookup, further preprocessing, audio and detection postprocessing belong in your app/model.
 - Work runs on a single background thread; events return on the UI thread. Wait for completion before sending another frame. Model cleanup runs after any active inference.
 - No permissions are requested by this extension.
 
@@ -67,7 +70,7 @@ git tag v0.1.0
 git push origin v0.1.0
 ```
 
-Choose a new version if that tag already exists. The release includes ARM64 and multi-ABI `.aix` files, both sample `.aia` apps, the Iris model/contract, and SHA-256 checksums. **Actions > Build and release extension > Run workflow** runs the same checks without publishing a release. The workflow uses the checked-in model, so training and PyTorch are not required on the CI runner.
+Choose a new version if that tag already exists. The release includes ARM64 and multi-ABI `.aix` files, the fruit and smoke `.aia` apps, the fruit model/contract and dataset attribution, and SHA-256 checksums. **Actions > Build and release extension > Run workflow** runs the same checks without publishing a release. The workflow uses the checked-in model, so training and PyTorch are not required on the CI runner.
 
 Requires Python 3, Git, JDK 17+ and an Android SDK with a platform and Build Tools/D8 installed. Set `JAVA_HOME` and `ANDROID_HOME`; on this Windows machine the script also detects Android Studio's bundled JDK and the default SDK location.
 
@@ -76,8 +79,10 @@ git submodule update --init --depth 1
 python scripts/build.py
 python scripts/make_example.py
 python scripts/make_iris_example.py
+python scripts/make_fruit_example.py
 python scripts/verify.py
 python scripts/verify_iris.py
+python scripts/verify_fruit.py
 ```
 
 The App Inventor API jars are pinned by the `lib/appinventor` submodule. Maven coordinates are pinned in `scripts/build.py`; downloaded files go in `.cache/`. No Gradle or Ant installation is required. `build.xml` is the original MIT template's legacy build, retained for provenance; use the Python build for this project.
@@ -105,3 +110,11 @@ Built from [MIT's extension template](https://github.com/mit-cml/extension-templ
 ## Architecture diagram
 
 Open [docs/architecture.drawio](docs/architecture.drawio) in https://app.diagrams.net using **File > Open From > Device**. All nodes and connectors are editable.
+
+## Fruit model reproducibility
+
+`models/fruit_contract.json` records labels, input/output shapes, probability fixtures and model hash. `models/fruit_dataset_manifest.json` pins the Fruits-360 revision and all 480 original image URLs/hashes. `models/fruit_parameters.json` contains the derived classifier parameters. Only three JPG photos are bundled in the app; the full training subset stays in `.cache/fruits/`.
+
+`python scripts/export_fruit.py` downloads 120 Training images and 40 Test images per class from the pinned source, trains the classifier and exports PyTorch -> ExecuTorch 1.5.1. Training needs PyTorch, ExecuTorch, scikit-learn, NumPy and Pillow. Normalization beyond RGB /255 is embedded in the model. Host evaluation reached 100% on this selected 120-image official Test subset; that is not a claim of accuracy on arbitrary phone photos. Android resize/numerical behaviour and camera/picker permission flows require on-device validation.
+
+The fruit model, derived parameters and sample photographs use CC BY-SA 4.0 with attribution to Mihai Oltean, Fruits-360. Extension/application code remains Apache-2.0; see [dataset attribution and scope](models/FRUIT_DATASET.md).

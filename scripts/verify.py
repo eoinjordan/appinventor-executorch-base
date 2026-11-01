@@ -24,7 +24,7 @@ with zipfile.ZipFile('out/org.community.executorch.aix') as z:
     descriptor = json.loads(z.read(prefix+'components.json'))[0]
     info = json.loads(z.read(prefix+'files/component_build_infos.json'))[0]
     assert descriptor['androidMinSdk'] == '26'
-    assert {m['name'] for m in descriptor['methods']} == {'LoadModel', 'RunModel', 'UnloadModel'}
+    assert {m['name'] for m in descriptor['methods']} == {'LoadModel', 'RunModel', 'RunImage', 'UnloadModel'}
     assert {e['name'] for e in descriptor['events']} == {
         'ModelLoaded', 'ModelUnloaded', 'InferenceCompleted', 'ErrorOccurred'}
     assert info['permissions'] == []

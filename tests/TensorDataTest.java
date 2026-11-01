@@ -8,6 +8,8 @@ public final class TensorDataTest {
     catch (IllegalArgumentException | ArithmeticException expected) {}
   }
   public static void main(String[] args) {
+    check(Arrays.equals(TensorData.rgb(new int[]{0xffff0000,0xff00ff00}), new float[]{1,0,0,1,0,0}));
+    check(Arrays.equals(TensorData.rgb(new int[]{0xffffffff,0xff000000}), new float[]{1,0,1,0,1,0}));
     check(Arrays.equals(TensorData.values(new Object[]{1, "2.5", -3}), new float[]{1, 2.5f, -3}));
     check(Arrays.equals(TensorData.shape(new Object[]{1, 4}, 4), new long[]{1, 4}));
     check(TensorData.shape(new Object[]{}, 1).length == 0); // Scalar tensor.

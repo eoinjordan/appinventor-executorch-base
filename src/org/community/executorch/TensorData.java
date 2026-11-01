@@ -4,6 +4,18 @@ package org.community.executorch;
 public final class TensorData {
   private TensorData() {}
 
+  /** Android ARGB pixels to flattened RGB NCHW values in [0,1]. */
+  public static float[] rgb(int[] pixels) {
+    float[] result = new float[Math.multiplyExact(pixels.length, 3)];
+    for (int channel = 0; channel < 3; channel++) {
+      for (int i = 0; i < pixels.length; i++) {
+        result[channel * pixels.length + i] =
+            ((pixels[i] >>> (16 - channel * 8)) & 255) / 255f;
+      }
+    }
+    return result;
+  }
+
   public static float[] values(Object[] items) {
     float[] result = new float[items.length];
     for (int i = 0; i < items.length; i++) {

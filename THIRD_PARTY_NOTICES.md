@@ -1,5 +1,7 @@
 # Third-party notices
 
+Fruit example: Mihai Oltean, Fruits-360 dataset, 2017–. Source https://github.com/fruits-360/fruits-360-100x100 , CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/). The model, learned parameters and bundled sample JPGs are distributed under CC BY-SA 4.0; see models/FRUIT_DATASET.md for transformations, pinned sources and scope. Extension/application source retains Apache-2.0.
+
 Original component, helper, build scripts and example code: Copyright 2026 Eoin. Licensed under Apache-2.0; see LICENSE.
 
 This repository is based on MIT CML's extension-template, retaining its Git history, template build files, dependency submodule and bundled build tools. MIT App Inventor's Java APIs and annotations are compile-time dependencies, not merged into the extension runtime. See https://github.com/mit-cml/appinventor-sources and the individual headers/licenses for the template and build tools.

@@ -44,15 +44,17 @@ jobs:
           packages: 'platform-tools platforms;android-35 build-tools;36.0.0'
 
       - name: Install host test dependency
-        run: python -m pip install numpy==2.2.6
+        run: python -m pip install numpy==2.2.6 Pillow==11.2.1
 
       - name: Build phone extension and bundled sample apps
         run: |
           python scripts/build.py --abi arm64-v8a
           python scripts/make_example.py
           python scripts/make_iris_example.py
+          python scripts/make_fruit_example.py
           python scripts/verify.py
           python scripts/verify_iris.py
+          python scripts/verify_fruit.py
 
       - name: Build extension with emulator support
         run: |
@@ -63,10 +65,11 @@ jobs:
         run: |
           mkdir -p out/release
           cp out/ExecuTorch-ARM64.aix out/ExecuTorch-multi-ABI.aix out/release/
-          cp examples/ExecuTorchIris.aia examples/ExecuTorchSmoke.aia out/release/
-          cp models/iris_classifier.pte models/iris_contract.json out/release/
+          cp examples/ExecuTorchFruit.aia examples/ExecuTorchSmoke.aia out/release/
+          cp models/fruit_classifier.pte models/fruit_contract.json out/release/
+          cp models/FRUIT_DATASET.md out/release/FRUIT_ATTRIBUTION.txt
           cd out/release
-          sha256sum *.aix *.aia *.pte *.json > SHA256SUMS.txt
+          sha256sum *.aix *.aia *.pte *.json FRUIT_ATTRIBUTION.txt > SHA256SUMS.txt
 
       - name: Save tested build artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -99,10 +102,12 @@ jobs:
           cat > release-notes.md <<'NOTES'
           Install ExecuTorch-ARM64.aix on ARM64 Android phones.
           Use ExecuTorch-multi-ABI.aix when x86_64 emulator support is needed.
-          Import ExecuTorchIris.aia for the beginner flower-classification demo.
+          Import ExecuTorchFruit.aia for the beginner fruit-photo classification demo.
           Import ExecuTorchSmoke.aia for the add-one diagnostic.
 
           Host tests and archive checks passed. Native Android execution remains unverified.
+          Fruit model and sample images: Fruits-360, Mihai Oltean, CC BY-SA 4.0.
+          See FRUIT_ATTRIBUTION.txt for source, transformations and model limitations.
           NOTES
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             gh release upload "$RELEASE_TAG" release/* --clobber

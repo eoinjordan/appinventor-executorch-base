@@ -1,0 +1,63 @@
+{
+  "model": "fruit_classifier.pte",
+  "runtime": "1.5.1",
+  "size": 32,
+  "input_shape": [
+    1,
+    3,
+    32,
+    32
+  ],
+  "output_shape": [
+    1,
+    3
+  ],
+  "dtype": "float32",
+  "labels": [
+    "apple",
+    "banana",
+    "orange"
+  ],
+  "preprocessing": "Stretch resize; RGB NCHW /255. Remaining normalization is inside the model.",
+  "samples": [
+    {
+      "label": "apple",
+      "file": "apple.jpg",
+      "source": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Test/Apple%20Red%201/321_100.jpg",
+      "sha256": "2068b680abaca55dcf2bf63fbf71bcd3cbabdc09718129ea80c4cc1ff0c8f026",
+      "expected_probabilities": [
+        0.9972569346427917,
+        0.001579822856001556,
+        0.0011632147943601012
+      ]
+    },
+    {
+      "label": "banana",
+      "file": "banana.jpg",
+      "source": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Test/Banana%201/100_100.jpg",
+      "sha256": "9d8bbe3dfff4001831fa8e078515da2f7605ab8829ae4e6c0dfc71c813fc5827",
+      "expected_probabilities": [
+        5.481582320499001e-06,
+        0.9999865293502808,
+        8.044942660490051e-06
+      ]
+    },
+    {
+      "label": "orange",
+      "file": "orange.jpg",
+      "source": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Test/Orange%201/30_100.jpg",
+      "sha256": "961faf19d427ff8a44ef45cda6f4d0fb23429e7cf631e73301d645baf4f425a3",
+      "expected_probabilities": [
+        0.0006669529830105603,
+        2.9087943403283134e-05,
+        0.999303936958313
+      ]
+    }
+  ],
+  "training_samples": 360,
+  "test_samples": 120,
+  "held_out_accuracy": 1.0,
+  "sha256": "e18b494c947881e30a929369efc3c7787c53530925efc2430fc373eddbe90016",
+  "dataset_revision": "bed1c24ee70de1569272de3882fbde88211c08b5",
+  "scope": "Three Fruits-360 varieties photographed as isolated fruit on white backgrounds. Scores are relative probabilities within these three classes; arbitrary objects and everyday backgrounds are not validated."
+}
