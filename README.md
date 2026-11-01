@@ -36,6 +36,60 @@ phone running Android 8 or later.
 
 A release contains the code at its tag, so it can be older than the example in this repository.
 
+## Blocks (Read on in [blocks.md](https://github.com/eoinjordan/appinventor-executorch-extension/docs/tutorials/blocks.md)
+)
+
+
+### LoadModel
+
+![call ExecuTorch1.LoadModel](docs/images/blocks/call-LoadModel.png)
+
+Load a .pte project asset. Replaces the previous model only after loading succeeds. Export with ExecuTorch 1.5.1.
+
+| Parameter | Type | Meaning |
+| --- | --- | --- |
+| `assetName` | text | Exact filename of the `.pte` in the project Media, for example `fruit_classifier.pte`. |
+
+Call once, usually in `Screen.Initialize`. Wait for `ModelLoaded` before running anything. If loading fails you get `ErrorOccurred` with operation `LoadModel`, and the previous model, if any, stays loaded.
+
+### RunImage
+
+![call ExecuTorch1.RunImage](docs/images/blocks/call-RunImage.png)
+
+Run a project image asset or image-picker path. Stretch-resize to size x size and pass RGB float32 NCHW values in [0,1]. Use a model exported for this exact input contract, such as the bundled fruit model. Returns InferenceCompleted.
+
+| Parameter | Type | Meaning |
+| --- | --- | --- |
+| `imagePath` | text | A Media asset name (`apple.jpg`), an ImagePicker `Selection`, or the `image` path from `Camera.AfterPicture`. |
+| `size` | number | Side length in pixels. The photo is stretched to `size × size`; the fruit model uses 32. |
+
+For image models that take RGB float32 NCHW input in `[0, 1]`. Any further normalization must be inside the model. Finishes with `InferenceCompleted` or `ErrorOccurred`.
+
+### RunModel
+
+![call ExecuTorch1.RunModel](docs/images/blocks/call-RunModel.png)
+
+Run forward with a flat float32 values list and an integer shape list. Returns one float32 tensor; wait for InferenceCompleted before submitting another frame.
+
+| Parameter | Type | Meaning |
+| --- | --- | --- |
+| `values` | list | Flat list of numbers in row-major order. For a `[1, 4]` tensor, four numbers. |
+| `shape` | list | List of positive whole numbers whose product equals the length of `values`. An empty list means a single scalar. |
+
+For any model that takes one float32 tensor. Finishes with `InferenceCompleted` or `ErrorOccurred`. Wait for the result before sending the next call; the queue holds four.
+
+### UnloadModel
+
+![call ExecuTorch1.UnloadModel](images/blocks/call-UnloadModel.png)
+
+Release the current model's native memory.
+
+No parameters.
+
+Frees the native memory. Raises `ModelUnloaded`. Call `LoadModel` again before the next inference.
+
+Read on in [BLOCKS](https://github.com/eoinjordan/appinventor-executorch-extension/docs/tutorials/blocks.md)
+
 ## Try your first prediction
 
 1. Open [MIT App Inventor](https://ai2.appinventor.mit.edu/) and sign in.
