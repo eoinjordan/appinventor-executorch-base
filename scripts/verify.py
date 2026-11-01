@@ -4,6 +4,7 @@ import io
 import json
 import os
 import subprocess
+import sys
 import zipfile
 
 root = Path(__file__).resolve().parents[1]
@@ -12,8 +13,12 @@ java = Path(os.environ.get('JAVA_HOME', r'C:\Program Files\Android\Android Studi
 output = root / 'build/tests'
 output.mkdir(parents=True, exist_ok=True)
 subprocess.run([str(java/'javac'), '--release', '8', '-d', str(output),
-               'src/org/community/executorch/TensorData.java', 'tests/TensorDataTest.java'], check=True)
+               'src/org/community/executorch/TensorData.java', 'tests/TensorDataTest.java',
+               'src/org/community/executorch/NativeLibraries.java', 'tests/NativeLibrariesTest.java'], check=True)
 subprocess.run([str(java/'java'), '-cp', str(output), 'TensorDataTest'], check=True)
+subprocess.run([str(java/'java'), '-cp', str(output),
+                'org.community.executorch.NativeLibrariesTest'], check=True)
+subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-p', 'test_*.py'], check=True)
 
 with zipfile.ZipFile('out/org.community.executorch.aix') as z:
     prefix = 'org.community.executorch/'
@@ -54,3 +59,22 @@ if example.exists():
         ET.fromstring(z.read(block_file))
         assert z.read('assets/add_one.pte') == Path('models/add_one.pte').read_bytes()
     print('PASS: example archive and block XML (App Inventor import remains unverified)')
+
+def descendants(items):
+    for item in items:
+        yield item
+        yield from descendants(item.get('$Components', []))
+
+
+for example in sorted(Path('examples').glob('*.aia')):
+    with zipfile.ZipFile(example) as z:
+        assert z.testzip() is None
+        scm = z.read(next(n for n in z.namelist() if n.endswith('.scm'))).decode('utf-8')
+        project = json.loads(scm.split('$JSON\n', 1)[1].rsplit('\n|#', 1)[0])
+        api = json.loads(z.read('assets/external_comps/org.community.executorch/components.json'))[0]
+        instance = next(c for c in descendants(project['Properties']['$Components'])
+                        if c['$Name'] == 'ExecuTorch1')
+        assert instance['$Type'] == api['name'], example
+        assert str(instance['$Version']) == str(api['version']), example
+        assert str(api['version']) == str(descriptor['version']), example
+print('PASS: all bundled samples match the current extension version')

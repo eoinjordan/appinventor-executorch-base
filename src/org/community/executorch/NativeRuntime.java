@@ -56,13 +56,6 @@ final class NativeRuntime {
       }
     }
 
-    for (String name : new String[] {"libc++_shared.so", "libfbjni.so", "libexecutorch.so"}) {
-      File library = new File(folder, name);
-      if (!library.isFile() || library.length() == 0) {
-        throw new IOException("Missing native asset for " + selected + ": " + name);
-      }
-    }
-
     NativeLoader.initIfUninitialized(new NativeLoaderDelegate() {
       @Override public boolean loadLibrary(String name, int flags) {
         System.load(new File(folder, System.mapLibraryName(name)).getAbsolutePath());
@@ -73,11 +66,7 @@ final class NativeRuntime {
       }
       @Override public int getSoSourcesVersion() { return 1; }
     });
-    System.load(new File(folder, "libc++_shared.so").getAbsolutePath());
-    // ExecuTorch has a DT_NEEDED dependency on fbjni. Android's linker does not
-    // search this asset extraction directory for transitive dependencies.
-    // Preload fbjni by absolute path into this class loader's namespace first.
-    System.load(new File(folder, "libfbjni.so").getAbsolutePath());
+    NativeLibraries.loadDependencies(folder, System::load);
     ready = true;
   }
 }

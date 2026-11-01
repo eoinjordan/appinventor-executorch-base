@@ -5,10 +5,12 @@ ROOT=Path(__file__).resolve().parents[1]
 TYPE='ExecuTorch'
 NAME='ExecuTorchFruit'
 xml=E.Element('xml',{'xmlns':'https://developers.google.com/blockly/xml'})
-contract=json.loads((ROOT/'models/fruit_contract.json').read_text())
+contract=json.loads((ROOT/'models/fruit_contract.json').read_text(encoding='utf-8'))
 components=[]
+with zipfile.ZipFile(ROOT/'out/org.community.executorch.aix') as aix:
+    extension_version=str(json.loads(aix.read('org.community.executorch/components.json'))[0]['version'])
 def component(name,kind,parent=None,**properties):
-    versions={'Label':'5','Button':'7','Image':'4','ImagePicker':'5','Camera':'3','ExecuTorch':'3','VerticalArrangement':'4','HorizontalArrangement':'4','ActivityStarter':'6'}
+    versions={'Label':'5','Button':'7','Image':'4','ImagePicker':'5','Camera':'3','ExecuTorch':extension_version,'VerticalArrangement':'4','HorizontalArrangement':'4','ActivityStarter':'6'}
     item={'$Name':name,'$Type':kind,'$Version':versions.get(kind,'1'),'Uuid':str(component.counter),**properties}
     component.counter+=1
     (components if parent is None else parent.setdefault('$Components',[])).append(item)
@@ -152,7 +154,7 @@ with zipfile.ZipFile(ROOT/'examples'/f'{NAME}.aia','w',zipfile.ZIP_DEFLATED) as 
     z.writestr('youngandroidproject/project.properties',f'main=appinventor.ai_community.{NAME}.Screen1\nname={NAME}\nassets=../assets\nsource=../src\nbuild=../build\nversioncode=1\nversionname=0.2.0\nuseslocation=False\nactionbar=True\nsizing=Responsive\nshowlistsasjson=True\n')
     for name in ['fruit_classifier.pte','fruit_contract.json']:z.write(ROOT/'models'/name,'assets/'+name)
     for sample in contract['samples']:z.write(ROOT/'models/fruit_samples'/sample['file'],'assets/'+sample['file'])
-    z.writestr('assets/FRUIT_ATTRIBUTION.txt',(ROOT/'models/FRUIT_DATASET.md').read_text())
+    z.writestr('assets/FRUIT_ATTRIBUTION.txt',(ROOT/'models/FRUIT_DATASET.md').read_text(encoding='utf-8'))
     with zipfile.ZipFile(ROOT/'out/org.community.executorch.aix') as aix:
         for name in aix.namelist():z.writestr('assets/external_comps/'+name,aix.read(name))
 print('Created',ROOT/'examples'/f'{NAME}.aia')

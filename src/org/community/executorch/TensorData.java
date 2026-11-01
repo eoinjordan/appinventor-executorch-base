@@ -19,7 +19,7 @@ public final class TensorData {
   public static float[] values(Object[] items) {
     float[] result = new float[items.length];
     for (int i = 0; i < items.length; i++) {
-      double value = Double.parseDouble(items[i].toString());
+      double value = number(items[i]);
       if (!Double.isFinite(value) || Math.abs(value) > Float.MAX_VALUE) {
         throw new IllegalArgumentException("Values must be finite float32 numbers");
       }
@@ -32,7 +32,7 @@ public final class TensorData {
     long[] result = new long[items.length];
     long product = 1;
     for (int i = 0; i < items.length; i++) {
-      double value = Double.parseDouble(items[i].toString());
+      double value = number(items[i]);
       if (!Double.isFinite(value) || value < 1 || value != Math.rint(value)
           || value > Integer.MAX_VALUE) {
         throw new IllegalArgumentException("Shape dimensions must be positive integers");
@@ -44,6 +44,16 @@ public final class TensorData {
       throw new IllegalArgumentException("Shape product must equal the number of input values");
     }
     return result;
+  }
+
+  private static double number(Object item) {
+    if (item == null) throw new IllegalArgumentException("Tensor entries cannot be empty");
+    if (item instanceof Number) return ((Number) item).doubleValue();
+    try {
+      return Double.parseDouble(item.toString());
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("Tensor entries must be numbers: " + item, e);
+    }
   }
 
   public static Object[] box(float[] values) {
