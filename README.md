@@ -2,6 +2,9 @@
 
 A small Android-only base repo for loading your own `.pte` model from an App Inventor project asset and running `forward`. Three blocks, four events, no camera, microphone, sensor or model-specific code.
 
+<img width="912" height="679" alt="image" src="https://github.com/user-attachments/assets/d857c0d2-1b33-4d9c-b351-fa92cea3ea10" />
+
+
 ## Try it
 
 1. Import `examples/ExecuTorchIris.aia` using **Projects > Import project (.aia) from my computer**. It includes the trained classifier, extension and working blocks.
