@@ -14,6 +14,8 @@ A small Android-only base repo for loading your own `.pte` model from an App Inv
 2. Build an APK for a 64-bit Android phone (Android 8+). A 32-bit Companion process cannot load the native runtime.
 3. Tap **Try apple**, **Try banana** or **Try orange**. The prediction should match the selected sample.
 4. Try **Choose a fruit photo** or **Take a fruit photo**. Use one centred fruit on a plain white background. The model knows only these three fruit classes and has not been validated for general photographs or unrelated objects.
+<img width="854" height="666" alt="image" src="https://github.com/user-attachments/assets/1429a6a8-8d69-48ff-b554-627099c655be" />
+
 
 The checked-in `.pte` is about 39 KB. No Python installation, training or model download is needed to try the app. See [the beginner app guide](examples/README.md) and [dataset attribution](models/FRUIT_DATASET.md).
 
