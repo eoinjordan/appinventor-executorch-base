@@ -31,10 +31,13 @@ A fuller reference implementation lives in a separate `appinventor-executorch` r
 Both use the same component and package name, so use one at a time in an App Inventor
 project.
 
-### Architecture diagram
+### Diagrams
 
-Open [architecture.drawio](architecture.drawio) in <https://app.diagrams.net> using
-**File > Open From > Device**. All nodes and connectors are editable.
+Open [architecture.drawio](architecture.drawio) or
+[blocks-workflow.drawio](blocks-workflow.drawio) in <https://app.diagrams.net> using
+**File > Open From > Device**. All nodes and connectors are editable. The workflow file
+and its renders in `docs/images/blocks/` are written by `scripts/make_workflow_diagrams.py`;
+edit the script when you want the pictures in the docs to change too.
 
 ## Architecture and files to extend
 
@@ -49,7 +52,8 @@ Open [architecture.drawio](architecture.drawio) in <https://app.diagrams.net> us
 | `tests/` | Java unit tests for `TensorData` and `NativeLibraries`; Python tests for the build helpers |
 | `scripts/build.py`, `scripts/build_support.py` | Download pinned runtime dependencies, compile and package the AIX |
 | `scripts/make_fruit_example.py` | Generate `examples/ExecuTorchFruit.aia` |
-| `scripts/make_block_reference.py` | Draw the block pictures and write `docs/blocks.md` from the built AIX |
+| `scripts/make_block_reference.py` | Draw the block pictures and write `docs/blocks.md` and the README Blocks section from the built AIX |
+| `scripts/make_workflow_diagrams.py` | Write `docs/blocks-workflow.drawio` and its PNG/SVG renders from one list of boxes and arrows |
 | `scripts/verify.py`, `scripts/verify_fruit.py` | Host checks for the extension and the fruit project |
 | `scripts/train_fruit.py`, `scripts/export_fruit.py` | Train the fruit classifier and export it to PTE |
 | `scripts/make_dataset_preview.py`, `scripts/make_training_gifs.py` | Regenerate the dataset contact sheet and the training/export GIFs |
@@ -76,6 +80,7 @@ python scripts/build.py                # phone build, arm64-v8a
 python scripts/build.py --abi all      # adds x86_64 for emulators
 python scripts/make_fruit_example.py
 python scripts/make_block_reference.py # needs ImageMagick for PNGs; writes SVG without it
+python scripts/make_workflow_diagrams.py
 ```
 
 After changing a block, parameter or description in `ExecuTorch.java`, rebuild and run

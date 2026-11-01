@@ -172,13 +172,7 @@ def main():
     lines += [
         '## Adding the extension to a project',
         '',
-        '```mermaid',
-        'flowchart LR',
-        '    A["Extensions > Import extension<br>ExecuTorch-ARM64.aix"] --> B["Drag ExecuTorch onto Screen1"]',
-        '    B --> C["Media > Upload File<br>your .pte and any sample images"]',
-        '    C --> D["Blocks: LoadModel, then the events below"]',
-        '    D --> E["Build > Android App (.apk)"]',
-        '```',
+        '![Adding the extension: import the .aix, drag the component onto Screen1, upload the .pte to Media, wire the blocks, build the APK](images/blocks/setup-workflow.png)',
         '',
         '![The ExecuTorch extension in the Designer palette after importing it](images/screenshots/extension-drawer.png)',
         '',
@@ -197,26 +191,13 @@ def main():
         '',
         '## How the blocks run',
         '',
-        '```mermaid',
-        'flowchart TD',
-        '    A["Screen1.Initialize"] --> B["call LoadModel(assetName)"]',
-        '    B --> C["ModelLoaded(assetName)"]',
-        '    C --> D["Enable your buttons"]',
-        '    D --> F["Button.Click, ImagePicker.AfterPicking<br>or Camera.AfterPicture"]',
-        '    F --> G["call RunImage(imagePath, size)"]',
-        '    F --> H["call RunModel(values, shape)"]',
-        '    G --> I["InferenceCompleted(values, shape, elapsedMs)"]',
-        '    H --> I',
-        '    I --> J["Pick the largest score, show its label"]',
-        '    J --> F',
-        '    B -. "failure" .-> E["ErrorOccurred(operation, message)"]',
-        '    G -. "failure" .-> E',
-        '    H -. "failure" .-> E',
-        '    D --> K["call UnloadModel()"] --> L["ModelUnloaded()"] --> B',
-        '```',
+        '![How the blocks run: LoadModel leads to ModelLoaded, a button or picker event calls RunImage or RunModel, which finishes with InferenceCompleted or ErrorOccurred; UnloadModel leads to ModelUnloaded](images/blocks/run-workflow.png)',
         '',
-        'Solid arrows are the normal path; dotted arrows are the error path. Each call finishes with exactly '
-        'one event, so wire the event before you test the call.',
+        'Solid arrows are the normal path; dashed red arrows are the error path. Each call finishes with exactly '
+        'one event, so wire the event before you test the call. Both diagrams are pages of '
+        '[blocks-workflow.drawio](blocks-workflow.drawio); open it at <https://app.diagrams.net> with '
+        '**File > Open From > Device** to edit them, or change `scripts/make_workflow_diagrams.py`, which writes '
+        'the draw.io file and these pictures from the same list of boxes and arrows.',
         '',
         '## How the fruit app wires them together',
         '',
@@ -260,13 +241,37 @@ def main():
         '',
     ]
     for stale in OUT.glob('*'):
-        if stale.name not in written:
+        # Only this script's own pictures; make_workflow_diagrams.py shares the folder.
+        if stale.name.startswith(('call-', 'event-', 'fruit-app-blocks')) and stale.name not in written:
             try:
                 stale.unlink()
             except OSError:
                 print('Stale picture, delete by hand:', stale)
     (ROOT / 'docs/blocks.md').write_text('\n'.join(lines), encoding='utf-8', newline='\n')
-    print('Wrote docs/blocks.md and', len(list(OUT.iterdir())), 'images')
+
+    # The README carries the four calls with their parameters, between markers, so it
+    # cannot drift from this page. Image paths are rewritten relative to the repo root.
+    readme = ROOT / 'README.md'
+    text = readme.read_text(encoding='utf-8')
+    start, end = '<!-- blocks:start -->', '<!-- blocks:end -->'
+    assert start in text and end in text, 'README.md needs the blocks:start and blocks:end markers'
+    section = ['## Blocks', '',
+               'The calls you make from your own blocks. Each one finishes with an event; the full list, '
+               'the events, a diagram of how they run and which blocks each use case needs are in the '
+               '[block reference](docs/blocks.md).', '']
+    section += [f"![The ExecuTorch blocks the fruit app uses]({'docs/images/blocks/fruit-app-blocks.png'})", '']
+    in_calls = False
+    for line in lines:
+        if line == '## Calls': in_calls = True; continue
+        if line == '## Events': break
+        if in_calls: section.append(line.replace('](images/', '](docs/images/'))
+    section += ['Events: `ModelLoaded(assetName)`, `InferenceCompleted(values, shape, elapsedMs)`, '
+                '`ErrorOccurred(operation, message)` and `ModelUnloaded()`. See the '
+                '[block reference](docs/blocks.md#events) for their parameters.', '']
+    head, rest = text.split(start, 1)
+    _, tail = rest.split(end, 1)
+    readme.write_text(head + start + '\n' + '\n'.join(section) + end + tail, encoding='utf-8', newline='\n')
+    print('Wrote docs/blocks.md, the README Blocks section and', len(list(OUT.iterdir())), 'images')
 
 
 if __name__ == '__main__':

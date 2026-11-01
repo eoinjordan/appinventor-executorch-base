@@ -28,16 +28,20 @@ phone running Android 8 or later.
 
 | File | What it is | When you need it |
 | --- | --- | --- |
-| [ExecuTorchFruit.aia](examples/ExecuTorchFruit.aia) | Editable App Inventor project with the extension and model | Start here; download the raw file from GitHub |
-| `.apk` | Installable Android app | Build from the project to test on your phone |
+| [ExecuTorchFruit.apk](https://github.com/eoinjordan/appinventor-executorch-extension/raw/main/assets/ExecuTorchFruit.apk) | The built app, ready to install (about 13 MB) | Quickest way to try it on a phone; no App Inventor account needed |
+| [ExecuTorchFruit.aia](examples/ExecuTorchFruit.aia) | Editable App Inventor project with the extension and model | Start here to see and change the blocks; download the raw file from GitHub |
 | `ExecuTorch-ARM64.aix` | Extension that adds ExecuTorch blocks | For your own project; not needed separately for the sample. Get it from [Releases](https://github.com/eoinjordan/appinventor-executorch-extension/releases) |
 | `ExecuTorch-multi-ABI.aix` | Larger extension that also supports x86_64 emulators | Only for an emulator |
 | `.pte` | Exported model that ExecuTorch runs | Already included as `fruit_classifier.pte` (about 39 KB) |
 
 A release contains the code at its tag, so it can be older than the example in this repository.
 
-## Blocks - Read on in [blocks.md](https://github.com/eoinjordan/appinventor-executorch-extension/docs/tutorials/blocks.md)
+<!-- blocks:start -->
+## Blocks
 
+The calls you make from your own blocks. Each one finishes with an event; the full list, the events, a diagram of how they run and which blocks each use case needs are in the [block reference](docs/blocks.md).
+
+![The ExecuTorch blocks the fruit app uses](docs/images/blocks/fruit-app-blocks.png)
 
 
 ### LoadModel
@@ -80,7 +84,7 @@ For any model that takes one float32 tensor. Finishes with `InferenceCompleted` 
 
 ### UnloadModel
 
-![call ExecuTorch1.UnloadModel](images/blocks/call-UnloadModel.png)
+![call ExecuTorch1.UnloadModel](docs/images/blocks/call-UnloadModel.png)
 
 Release the current model's native memory.
 
@@ -88,9 +92,14 @@ No parameters.
 
 Frees the native memory. Raises `ModelUnloaded`. Call `LoadModel` again before the next inference.
 
-Read on in [BLOCKS](https://github.com/eoinjordan/appinventor-executorch-extension/docs/tutorials/blocks.md)
+Events: `ModelLoaded(assetName)`, `InferenceCompleted(values, shape, elapsedMs)`, `ErrorOccurred(operation, message)` and `ModelUnloaded()`. See the [block reference](docs/blocks.md#events) for their parameters.
+<!-- blocks:end -->
 
 ## Try your first prediction
+
+To skip App Inventor for now, install [ExecuTorchFruit.apk](https://github.com/eoinjordan/appinventor-executorch-extension/raw/main/assets/ExecuTorchFruit.apk)
+on your phone (allow installs from your browser or file manager when Android asks) and
+go to step 5. To see how it is built:
 
 1. Open [MIT App Inventor](https://ai2.appinventor.mit.edu/) and sign in.
 2. Import `examples/ExecuTorchFruit.aia` using **Projects > Import project (.aia) from my computer**. Give it a new project name if you imported an older version.

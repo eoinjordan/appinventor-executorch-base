@@ -1,0 +1,74 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1300' height='930' viewBox='0 0 1300 930'>
+<defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='8' markerHeight='8' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#666666'/></marker><marker id='arrow-red' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='8' markerHeight='8' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b85450'/></marker></defs>
+<rect width='1300' height='930' fill='#ffffff'/>
+<polyline points='550,100 550,150' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='550,150 545,138 555,138' fill='#666666'/>
+<polyline points='550,210 550,260' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='550,260 545,248 555,248' fill='#666666'/>
+<polyline points='550,320 550,370' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='550,370 545,358 555,358' fill='#666666'/>
+<polyline points='550,430 550,480' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='550,480 545,468 555,468' fill='#666666'/>
+<polyline points='490,540 370,600' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='370,600 378,590 383,599' fill='#666666'/>
+<polyline points='610,540 730,600' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='730,600 717,599 722,590' fill='#666666'/>
+<polyline points='370,660 490,720' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='490,720 477,719 482,710' fill='#666666'/>
+<polyline points='730,660 610,720' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='610,720 618,710 623,719' fill='#666666'/>
+<polyline points='550,780 550,830' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='550,830 545,818 555,818' fill='#666666'/>
+<polyline points='440,860 120,860 120,510 440,510' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='440,510 428,515 428,505' fill='#666666'/>
+<rect x='80' y='676' width='80' height='18' fill='#ffffff'/>
+<text x='120' y='689' font-size='12' fill='#333333' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>next photo</text>
+<polyline points='660,400 920,400' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='920,400 908,405 908,395' fill='#666666'/>
+<polyline points='1030,430 1030,480' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='1030,480 1025,468 1035,468' fill='#666666'/>
+<polyline points='1140,510 1260,510 1260,165 660,178' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='660,178 672,172 672,182' fill='#666666'/>
+<rect x='892' y='162' width='136' height='18' fill='#ffffff'/>
+<text x='960' y='175' font-size='12' fill='#333333' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>load another model</text>
+<polyline points='660,183 1110,195 1110,720' fill='none' stroke='#b85450' stroke-width='1.5' stroke-dasharray='6,4'/>
+<polygon points='1110,720 1105,708 1115,708' fill='#b85450'/>
+<rect x='1080' y='448' width='59' height='18' fill='#ffffff'/>
+<text x='1110' y='462' font-size='12' fill='#333333' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>failure</text>
+<polyline points='310,660 310,690 1110,690 1110,720' fill='none' stroke='#b85450' stroke-width='1.5' stroke-dasharray='6,4'/>
+<polygon points='1110,720 1105,708 1115,708' fill='#b85450'/>
+<rect x='680' y='681' width='59' height='18' fill='#ffffff'/>
+<text x='710' y='694' font-size='12' fill='#333333' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>failure</text>
+<polyline points='790,660 790,690 1110,690 1110,720' fill='none' stroke='#b85450' stroke-width='1.5' stroke-dasharray='6,4'/>
+<polygon points='1110,720 1105,708 1115,708' fill='#b85450'/>
+<rect x='920' y='681' width='59' height='18' fill='#ffffff'/>
+<text x='950' y='694' font-size='12' fill='#333333' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>failure</text>
+<rect x='440' y='40' width='220' height='60' rx='8' fill='#d5e8d4' stroke='#666666' stroke-width='1.2'/>
+<text x='550.0' y='75' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Screen1.Initialize</text>
+<rect x='440' y='150' width='220' height='60' rx='8' fill='#e1d5e7' stroke='#666666' stroke-width='1.2'/>
+<text x='550.0' y='185' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>call LoadModel(assetName)</text>
+<rect x='440' y='260' width='220' height='60' rx='8' fill='#fff2cc' stroke='#666666' stroke-width='1.2'/>
+<text x='550.0' y='295' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ModelLoaded(assetName)</text>
+<rect x='440' y='370' width='220' height='60' rx='8' fill='#d5e8d4' stroke='#666666' stroke-width='1.2'/>
+<text x='550.0' y='405' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Enable your buttons</text>
+<rect x='440' y='480' width='220' height='60' rx='8' fill='#d5e8d4' stroke='#666666' stroke-width='1.2'/>
+<text x='550.0' y='506' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Button.Click, ImagePicker.AfterPicking</text>
+<text x='550.0' y='524' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>or Camera.AfterPicture</text>
+<rect x='200' y='600' width='220' height='60' rx='8' fill='#e1d5e7' stroke='#666666' stroke-width='1.2'/>
+<text x='310.0' y='635' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>call RunImage(imagePath, size)</text>
+<rect x='680' y='600' width='220' height='60' rx='8' fill='#e1d5e7' stroke='#666666' stroke-width='1.2'/>
+<text x='790.0' y='635' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>call RunModel(values, shape)</text>
+<rect x='440' y='720' width='220' height='60' rx='8' fill='#fff2cc' stroke='#666666' stroke-width='1.2'/>
+<text x='550.0' y='746' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>InferenceCompleted</text>
+<text x='550.0' y='764' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>(values, shape, elapsedMs)</text>
+<rect x='440' y='830' width='220' height='60' rx='8' fill='#d5e8d4' stroke='#666666' stroke-width='1.2'/>
+<text x='550.0' y='856' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Pick the largest score,</text>
+<text x='550.0' y='874' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>show its label</text>
+<rect x='920' y='370' width='220' height='60' rx='8' fill='#e1d5e7' stroke='#666666' stroke-width='1.2'/>
+<text x='1030.0' y='405' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>call UnloadModel()</text>
+<rect x='920' y='480' width='220' height='60' rx='8' fill='#fff2cc' stroke='#666666' stroke-width='1.2'/>
+<text x='1030.0' y='515' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ModelUnloaded()</text>
+<rect x='1000' y='720' width='220' height='60' rx='8' fill='#f8cecc' stroke='#666666' stroke-width='1.2'/>
+<text x='1110.0' y='746' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ErrorOccurred</text>
+<text x='1110.0' y='764' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>(operation, message)</text>
+</svg>

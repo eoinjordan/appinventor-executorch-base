@@ -1,0 +1,27 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1420' height='220' viewBox='0 0 1420 220'>
+<defs><marker id='arrow' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='8' markerHeight='8' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#666666'/></marker><marker id='arrow-red' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='8' markerHeight='8' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#b85450'/></marker></defs>
+<rect width='1420' height='220' fill='#ffffff'/>
+<polyline points='260,150 320,150' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='320,150 308,155 308,145' fill='#666666'/>
+<polyline points='540,150 600,150' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='600,150 588,155 588,145' fill='#666666'/>
+<polyline points='820,150 880,150' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='880,150 868,155 868,145' fill='#666666'/>
+<polyline points='1100,150 1160,150' fill='none' stroke='#666666' stroke-width='1.5'/>
+<polygon points='1160,150 1148,155 1148,145' fill='#666666'/>
+<rect x='40' y='120' width='220' height='60' rx='8' fill='#d5e8d4' stroke='#666666' stroke-width='1.2'/>
+<text x='150.0' y='146' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Extensions &gt; Import extension</text>
+<text x='150.0' y='164' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>ExecuTorch-ARM64.aix</text>
+<rect x='320' y='120' width='220' height='60' rx='8' fill='#d5e8d4' stroke='#666666' stroke-width='1.2'/>
+<text x='430.0' y='146' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Drag ExecuTorch onto Screen1</text>
+<text x='430.0' y='164' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>(non-visible component)</text>
+<rect x='600' y='120' width='220' height='60' rx='8' fill='#d5e8d4' stroke='#666666' stroke-width='1.2'/>
+<text x='710.0' y='146' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Media &gt; Upload File</text>
+<text x='710.0' y='164' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>your .pte and sample images</text>
+<rect x='880' y='120' width='220' height='60' rx='8' fill='#e1d5e7' stroke='#666666' stroke-width='1.2'/>
+<text x='990.0' y='146' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Blocks</text>
+<text x='990.0' y='164' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>LoadModel, then the events</text>
+<rect x='1160' y='120' width='220' height='60' rx='8' fill='#d5e8d4' stroke='#666666' stroke-width='1.2'/>
+<text x='1270.0' y='146' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>Build &gt; Android App (.apk)</text>
+<text x='1270.0' y='164' font-size='14' fill='#222222' text-anchor='middle' font-family='Segoe UI, Helvetica, Arial, sans-serif'>install on a 64-bit phone</text>
+</svg>

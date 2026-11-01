@@ -115,13 +115,7 @@ The model has been released; inference calls will fail until you load one.
 
 ## Adding the extension to a project
 
-```mermaid
-flowchart LR
-    A["Extensions > Import extension<br>ExecuTorch-ARM64.aix"] --> B["Drag ExecuTorch onto Screen1"]
-    B --> C["Media > Upload File<br>your .pte and any sample images"]
-    C --> D["Blocks: LoadModel, then the events below"]
-    D --> E["Build > Android App (.apk)"]
-```
+![Adding the extension: import the .aix, drag the component onto Screen1, upload the .pte to Media, wire the blocks, build the APK](images/blocks/setup-workflow.png)
 
 ![The ExecuTorch extension in the Designer palette after importing it](images/screenshots/extension-drawer.png)
 
@@ -139,25 +133,9 @@ flowchart LR
 
 ## How the blocks run
 
-```mermaid
-flowchart TD
-    A["Screen1.Initialize"] --> B["call LoadModel(assetName)"]
-    B --> C["ModelLoaded(assetName)"]
-    C --> D["Enable your buttons"]
-    D --> F["Button.Click, ImagePicker.AfterPicking<br>or Camera.AfterPicture"]
-    F --> G["call RunImage(imagePath, size)"]
-    F --> H["call RunModel(values, shape)"]
-    G --> I["InferenceCompleted(values, shape, elapsedMs)"]
-    H --> I
-    I --> J["Pick the largest score, show its label"]
-    J --> F
-    B -. "failure" .-> E["ErrorOccurred(operation, message)"]
-    G -. "failure" .-> E
-    H -. "failure" .-> E
-    D --> K["call UnloadModel()"] --> L["ModelUnloaded()"] --> B
-```
+![How the blocks run: LoadModel leads to ModelLoaded, a button or picker event calls RunImage or RunModel, which finishes with InferenceCompleted or ErrorOccurred; UnloadModel leads to ModelUnloaded](images/blocks/run-workflow.png)
 
-Solid arrows are the normal path; dotted arrows are the error path. Each call finishes with exactly one event, so wire the event before you test the call.
+Solid arrows are the normal path; dashed red arrows are the error path. Each call finishes with exactly one event, so wire the event before you test the call. Both diagrams are pages of [blocks-workflow.drawio](blocks-workflow.drawio); open it at <https://app.diagrams.net> with **File > Open From > Device** to edit them, or change `scripts/make_workflow_diagrams.py`, which writes the draw.io file and these pictures from the same list of boxes and arrows.
 
 ## How the fruit app wires them together
 
