@@ -1,0 +1,70 @@
+{
+  "dataset_revision": "bed1c24ee70de1569272de3882fbde88211c08b5",
+  "license": "CC BY-SA 4.0",
+  "transformations": "Selected training photographs resized and arranged with labels.",
+  "images": [
+    {
+      "split": "Training",
+      "label": "apple",
+      "path": "Training/Apple Red 1/0_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Apple%20Red%201/0_100.jpg",
+      "sha256": "a4e5ebf0f3f677513e73ce80b1fab344237964769fc97ce8aedad9e89f25ec67"
+    },
+    {
+      "split": "Training",
+      "label": "apple",
+      "path": "Training/Apple Red 1/r_100_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Apple%20Red%201/r_100_100.jpg",
+      "sha256": "e6048285e9b82788ba398d74a71172283380c52cdcd1f0a53e4bace22e53e6ff"
+    },
+    {
+      "split": "Training",
+      "label": "apple",
+      "path": "Training/Apple Red 1/r_320_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Apple%20Red%201/r_320_100.jpg",
+      "sha256": "f2128ac5c4e52e814bdf365f8d7e74198a196781f3e794b3183b1127bbb2bba7"
+    },
+    {
+      "split": "Training",
+      "label": "banana",
+      "path": "Training/Banana 1/0_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Banana%201/0_100.jpg",
+      "sha256": "b01131974412e89a7ebc337924f5473a5d8dc28af6713205bbda23ae661ab540"
+    },
+    {
+      "split": "Training",
+      "label": "banana",
+      "path": "Training/Banana 1/r_100_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Banana%201/r_100_100.jpg",
+      "sha256": "c6d58206fbe9bf1e86ed316689911628ff95da63f8f96848d2d0e3397d2e47e7"
+    },
+    {
+      "split": "Training",
+      "label": "banana",
+      "path": "Training/Banana 1/r_9_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Banana%201/r_9_100.jpg",
+      "sha256": "f89c9aac9ccda409ea53431ffd8af649cc3db4b54c884d15aac14b41995cc657"
+    },
+    {
+      "split": "Training",
+      "label": "orange",
+      "path": "Training/Orange 1/0_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Orange%201/0_100.jpg",
+      "sha256": "26102bdce04d0976993078463e5b43fb1b02b4001ce0ef65a077c33b2137050a"
+    },
+    {
+      "split": "Training",
+      "label": "orange",
+      "path": "Training/Orange 1/r_107_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Orange%201/r_107_100.jpg",
+      "sha256": "77194fd137da81b9d5a977a4ee3c1a7da5fe3021981292d337e82cfbc50cf1ba"
+    },
+    {
+      "split": "Training",
+      "label": "orange",
+      "path": "Training/Orange 1/r_320_100.jpg",
+      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Orange%201/r_320_100.jpg",
+      "sha256": "41641b2012cb326fc16006520201f6a101bd9cce7e757be01ccfc3d47116e94f"
+    }
+  ]
+}

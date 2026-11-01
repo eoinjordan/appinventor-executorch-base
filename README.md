@@ -12,6 +12,9 @@ Start with the ready-made fruit app. You do not need Python, Java or previous ma
 
 ## What to download
 
+For a self-contained App Inventor walkthrough, see the
+[App Inventor quick-start README](docs/app-inventor/README.md).
+
 You need an App Inventor account, a computer with a browser and a 64-bit Android phone running Android 8 or later.
 
 | File | What it is | When you need it |
@@ -105,6 +108,13 @@ the supplied app already includes its pretrained model.
 | Banana | 120 | 40 |
 | Orange | 120 | 40 |
 | **Total** | **360** | **120** |
+
+![Actual Fruits-360 training photos: three views each of apple, banana and orange](docs/images/fruit-dataset.png)
+
+Examples from our Fruits-360 subset, photographed on white backgrounds. The grid
+shows training photos; testing uses separate images. Photos: Mihai Oltean /
+Fruits-360, CC BY-SA 4.0. Resized and labelled;
+[attribution](models/FRUIT_DATASET.md) and [source records](docs/images/fruit-dataset-sources.json).
 
 **Train the model** learns weights from the included photos:
 
