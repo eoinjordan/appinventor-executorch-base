@@ -56,6 +56,16 @@ The first useful edit is inside `RunModel`: add your preprocessing immediately b
 
 ## Build
 
+GitHub Actions builds and publishes release downloads when a `v*` tag is pushed:
+
+```powershell
+git push origin main
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+Choose a new version if that tag already exists. The release includes ARM64 and multi-ABI `.aix` files, both sample `.aia` apps, the Iris model/contract, and SHA-256 checksums. **Actions > Build and release extension > Run workflow** runs the same checks without publishing a release. The workflow uses the checked-in model, so training and PyTorch are not required on the CI runner.
+
 Requires Python 3, Git, JDK 17+ and an Android SDK with a platform and Build Tools/D8 installed. Set `JAVA_HOME` and `ANDROID_HOME`; on this Windows machine the script also detects Android Studio's bundled JDK and the default SDK location.
 
 ```powershell

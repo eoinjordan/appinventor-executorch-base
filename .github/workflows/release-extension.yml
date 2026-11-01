@@ -1,0 +1,114 @@
+name: Build and release extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: extension-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      ANDROID_API: '35'
+      ANDROID_BUILD_TOOLS: '36.0.0'
+    steps:
+      - name: Check out source and pinned App Inventor dependencies
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - name: Set up Java
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.13'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd # v4
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;36.0.0'
+
+      - name: Install host test dependency
+        run: python -m pip install numpy==2.2.6
+
+      - name: Build phone extension and bundled sample apps
+        run: |
+          python scripts/build.py --abi arm64-v8a
+          python scripts/make_example.py
+          python scripts/make_iris_example.py
+          python scripts/verify.py
+          python scripts/verify_iris.py
+
+      - name: Build extension with emulator support
+        run: |
+          python scripts/build.py --abi all
+          python scripts/verify.py
+
+      - name: Collect release files and checksums
+        run: |
+          mkdir -p out/release
+          cp out/ExecuTorch-ARM64.aix out/ExecuTorch-multi-ABI.aix out/release/
+          cp examples/ExecuTorchIris.aia examples/ExecuTorchSmoke.aia out/release/
+          cp models/iris_classifier.pte models/iris_contract.json out/release/
+          cd out/release
+          sha256sum *.aix *.aia *.pte *.json > SHA256SUMS.txt
+
+      - name: Save tested build artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: executorch-extension
+          path: out/release/*
+          if-no-files-found: error
+          retention-days: 30
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Download tested build artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: executorch-extension
+          path: release
+
+      - name: Create release and attach downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          cat > release-notes.md <<'NOTES'
+          Install ExecuTorch-ARM64.aix on ARM64 Android phones.
+          Use ExecuTorch-multi-ABI.aix when x86_64 emulator support is needed.
+          Import ExecuTorchIris.aia for the beginner flower-classification demo.
+          Import ExecuTorchSmoke.aia for the add-one diagnostic.
+
+          Host tests and archive checks passed. Native Android execution remains unverified.
+          NOTES
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" release/* --clobber
+          else
+            prerelease=()
+            if [[ "$RELEASE_TAG" == *-* ]]; then prerelease=(--prerelease); fi
+            gh release create "$RELEASE_TAG" release/* --verify-tag \
+              --title "$RELEASE_TAG" --notes-file release-notes.md "${prerelease[@]}"
+          fi

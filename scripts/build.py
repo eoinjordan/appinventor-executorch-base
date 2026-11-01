@@ -32,7 +32,9 @@ for group,name,version,ext in [('org.pytorch','executorch-android','1.5.1','aar'
 if args.abi != 'all':
     native={key:value for key,value in native.items() if key[0]==args.abi}
 classes=BUILD/'classes'; classes.mkdir(exist_ok=True)
-android=sorted((SDK/'platforms').glob('*/android.jar'))[0]
+api=os.environ.get('ANDROID_API')
+android=SDK/'platforms'/f'android-{api}'/'android.jar' if api else sorted((SDK/'platforms').glob('*/android.jar'))[0]
+if not android.is_file(): raise FileNotFoundError(f'Android platform not installed: {android}')
 deps=ROOT/'lib/appinventor'
 if not (deps/'AnnotationProcessors.jar').exists(): run('git','submodule','update','--init','--depth','1')
 host_jars=[deps/'json.jar',deps/'AnnotationProcessors.jar',deps/'AndroidRuntime.jar',deps/'kawa.jar',deps/'CommonVersion.jar',deps/'guava.jar',deps/'annotation.jar']
@@ -85,7 +87,8 @@ for (abi,fn),data in native.items():
     folder=stage/'files'/abi; folder.mkdir(exist_ok=True)
     (folder/fn).write_bytes(data)
 dex=BUILD/'dex'; dex.mkdir(exist_ok=True)
-bt=sorted((SDK/'build-tools').iterdir())[-1]
+build_tools=os.environ.get('ANDROID_BUILD_TOOLS')
+bt=SDK/'build-tools'/build_tools if build_tools else sorted((SDK/'build-tools').iterdir())[-1]
 # Run D8 through its main class for a platform-independent Python entry point.
 run(JAVA/'java','-cp',bt/'lib/d8.jar','com.android.tools.r8.D8','--min-api','26','--lib',android,'--output',dex,merged)
 with zipfile.ZipFile(stage/'classes.jar','w',zipfile.ZIP_DEFLATED) as z:
