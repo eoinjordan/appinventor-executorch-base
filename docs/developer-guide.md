@@ -124,12 +124,18 @@ git push origin v0.1.0
 ```
 
 Choose a new version if that tag already exists. The release includes the ARM64 and
-multi-ABI `.aix` files, `ExecuTorchFruit.aia`, the fruit model, contract, dataset ZIP
-and manifest, the attribution text and SHA-256 checksums. The workflow uses the
-checked-in model, so the CI runner does not need PyTorch.
+multi-ABI `.aix` files, `ExecuTorchFruit.aia`, `ExecuTorchFruit.apk`, the fruit model,
+contract, dataset ZIP and manifest, the attribution text and SHA-256 checksums. The
+workflow uses the checked-in model, so the CI runner does not need PyTorch.
 
-Before tagging, bump `version` in `ExecuTorch.java`, rebuild, regenerate the sample
-project and run the checks, so the released `.aia` references the new extension version.
+Before tagging:
+
+1. If the extension changed, bump `version` in `ExecuTorch.java`, rebuild, regenerate
+   the sample project and run the checks, so the released `.aia` references the new
+   extension version.
+2. If the sample project changed, import the current `.aia` into App Inventor, choose
+   **Build > Android App (.apk)** and commit the download as `assets/ExecuTorchFruit.apk`.
+   CI copies that file into the release; it does not build APKs itself.
 
 ## Native packaging
 

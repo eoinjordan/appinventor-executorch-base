@@ -66,11 +66,12 @@ jobs:
           mkdir -p out/release
           cp out/ExecuTorch-ARM64.aix out/ExecuTorch-multi-ABI.aix out/release/
           cp examples/ExecuTorchFruit.aia out/release/
+          cp assets/ExecuTorchFruit.apk out/release/
           cp models/fruit_classifier.pte models/fruit_contract.json out/release/
           cp models/fruit_dataset.zip models/fruit_dataset_manifest.json out/release/
           cp models/FRUIT_DATASET.md out/release/FRUIT_ATTRIBUTION.txt
           cd out/release
-          sha256sum *.aix *.aia *.pte *.json *.zip FRUIT_ATTRIBUTION.txt > SHA256SUMS.txt
+          sha256sum *.aix *.aia *.apk *.pte *.json *.zip FRUIT_ATTRIBUTION.txt > SHA256SUMS.txt
 
       - name: Save tested build artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -101,9 +102,10 @@ jobs:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           cat > release-notes.md <<'NOTES'
-          Install ExecuTorch-ARM64.aix on ARM64 Android phones.
+          Install ExecuTorchFruit.apk on a 64-bit Android phone to try the fruit app without App Inventor.
+          Import ExecuTorchFruit.aia into App Inventor to see and change the blocks.
+          Install ExecuTorch-ARM64.aix in your own project on ARM64 Android phones.
           Use ExecuTorch-multi-ABI.aix when x86_64 emulator support is needed.
-          Import ExecuTorchFruit.aia for the fruit photo classification app.
           The trained model and three test photos are already bundled in the app.
           fruit_dataset.zip contains all 360 training and 120 test photos used for this model.
 
