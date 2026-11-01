@@ -1,5 +1,5 @@
 # Beginner fruit classification
-Status: implemented; local tests passed; CI validation pending
+Status: complete; local tests and GitHub CI passed; Android testing unverified
 ## Goal
 Make fruit photos the default beginner classification example.
 ## Through-line
@@ -23,3 +23,5 @@ Native inference/camera validation needs an Android device.
 Dataset-specific model; plain backgrounds and limited fruit varieties.
 ## Status log
 2026-11-01: flow-local unavailable; drafted locally from user request.
+
+CI: https://github.com/eoinjordan/appinventor-executorch-base/actions/runs/41346319011 (success).
