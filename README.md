@@ -36,8 +36,8 @@ phone running Android 8 or later.
 
 A release contains the code at its tag, so it can be older than the example in this repository.
 
-## Blocks (Read on in [blocks.md](https://github.com/eoinjordan/appinventor-executorch-extension/docs/tutorials/blocks.md)
-)
+## Blocks - Read on in [blocks.md](https://github.com/eoinjordan/appinventor-executorch-extension/docs/tutorials/blocks.md)
+
 
 
 ### LoadModel
