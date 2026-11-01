@@ -108,6 +108,24 @@ def main():
             return f'images/blocks/{stem}.png'
         return f'images/blocks/{stem}.svg'
 
+    # One picture of the blocks the fruit app uses, for the README.
+    methods = {m['name']: m for m in api['methods']}
+    events = {e['name']: e for e in api['events']}
+    overview = [
+        method_svg('LoadModel', methods['LoadModel']['params']),
+        event_svg('ModelLoaded', events['ModelLoaded']['params']),
+        method_svg('RunImage', methods['RunImage']['params']),
+        event_svg('InferenceCompleted', events['InferenceCompleted']['params']),
+        event_svg('ErrorOccurred', events['ErrorOccurred']['params']),
+    ]
+    parts, y, width = [], 0, 0
+    for svg in overview:
+        head, body = svg.split('>', 1)
+        w = int(head.split("width='")[1].split("'")[0]); h = int(head.split("height='")[1].split("'")[0])
+        parts.append(f"<g transform='translate(0,{y})'>{body[:-len('</svg>')]}</g>")
+        y += h - 4; width = max(width, w)
+    picture('fruit-app-blocks', f"<svg xmlns='http://www.w3.org/2000/svg' width='{width}' height='{y}' viewBox='0 0 {width} {y}'>" + ''.join(parts) + '</svg>')
+
     lines = [
         '# Block reference',
         '',

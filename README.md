@@ -133,6 +133,12 @@ labels; it does not locate multiple objects or draw boxes around them. The model
 
 ## How the blocks work
 
+![The ExecuTorch blocks the fruit app uses: LoadModel, ModelLoaded, RunImage, InferenceCompleted and ErrorOccurred](docs/images/blocks/fruit-app-blocks.png)
+
+The purple blocks are calls you make; the gold blocks are events the extension raises.
+The [block reference](docs/blocks.md) has a picture of every block and a table of its
+parameters.
+
 | Block or event | What it does |
 | --- | --- |
 | `Screen.Initialize` | Calls `LoadModel("fruit_classifier.pte")` |
@@ -144,8 +150,7 @@ labels; it does not locate multiple objects or draw boxes around them. The model
 Scores arrive in **apple, banana, orange** order, which is positions **1, 2, 3** in an
 App Inventor list. That order belongs to this model; your own model defines its own.
 Loading and inference finish asynchronously: use their completion events before
-starting the next step. The [block reference](docs/blocks.md) shows every block with a
-picture and a table of its parameters.
+starting the next step.
 
 ## Next step: use your own model
 
