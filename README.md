@@ -3,6 +3,8 @@
 
 Build an Android app that predicts whether a photo shows an **apple, banana or orange**. This community extension connects MIT App Inventor blocks to ExecuTorch, which runs a trained model on the phone.
 
+This is a local AI machine learning model. It uses your phone's processor to run a PyTorch ExecuTorch model. Your photos are processed on your phone. To learn more about AI or PyTorch, use the links in the app or the [learning resources below](#learn-more).
+
 Start with the ready-made fruit app. You do not need Python, Java or previous machine learning experience to try it: the extension, model, photos and blocks are included. This is a learning prototype; successful Android inference still needs device verification.
 
 ## What to download
@@ -29,7 +31,7 @@ The screenshots below show earlier versions; the current project includes a revi
 4. Choose **Build > Android App (.apk)**. Transfer the APK to your phone, install it and open it. Use a compiled APK for this first test; a 32-bit Companion process cannot load the runtime.
 5. Wait for **Ready**, then tap **Apple**, **Banana** or **Orange** under **Sample photos**. The prediction should match the selected photo. These buttons classify supplied examples; they do not train the model.
 6. Try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. Allow camera/photo access when Android asks.
-7. Open **Learn ML** or **ExecuTorch docs** at the bottom of the screen for tutorials. These pages need internet access; the bundled model performs classification locally.
+7. Open **Learn about AI** or **PyTorch / ExecuTorch** at the bottom of the screen for tutorials. These pages need internet access; the bundled model performs classification locally.
 
 The app loads its pretrained `fruit_classifier.pte` automatically. If loading fails, photo controls stay disabled and the original error appears with **Retry loading fruit model**. You do not need to supply or train a model. If retry fails, report that loading error; a later "Load a model first" message alone does not identify the cause.
 
@@ -81,8 +83,8 @@ The dataset contains isolated fruit on simple backgrounds and limited varieties.
 - **New to App Inventor:** [MIT's beginner tutorials](https://appinventor.mit.edu/explore/ai2/tutorials) introduce screens, components and blocks.
 - **Classification with blocks:** [Introduction to Machine Learning: Image Classification](https://appinventor.mit.edu/explore/resources/ai/image-classification-look-extension) provides beginner activities and teaching materials. It uses MIT's Look extension, so its blocks differ from this project.
 - **Collect examples and train:** [Personal Image Classifier: Part 1](https://appinventor.mit.edu/explore/resources/ai/personal-image-classifier-part1) introduces training and testing. Its model format is not a drop-in `.pte` for this extension.
-- **ML with Python:** [PyTorch: Learn the Basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) walks through data, models and training. This is the app's **Learn ML** link.
-- **Deploy on a phone:** [ExecuTorch documentation](https://docs.pytorch.org/executorch/stable/index.html) explains the runtime and model deployment. This is the app's **ExecuTorch docs** link. Use the pinned **1.5.1** export/runtime version for this extension.
+- **ML with Python:** [PyTorch: Learn the Basics](https://docs.pytorch.org/tutorials/beginner/basics/intro.html) walks through data, models and training. This is the app's **Learn about AI** link.
+- **Deploy on a phone:** [ExecuTorch documentation](https://docs.pytorch.org/executorch/stable/index.html) explains the runtime and model deployment. This is the app's **PyTorch / ExecuTorch** link. Use the pinned **1.5.1** export/runtime version for this extension.
 
 ## Next step: use your own model
 

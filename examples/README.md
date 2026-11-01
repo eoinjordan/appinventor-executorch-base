@@ -4,7 +4,7 @@ Import **ExecuTorchFruit.aia** through Projects > Import project (.aia) from my 
 
 Tap **Apple**, **Banana** or **Orange** under **Sample photos**. Each sample should produce the matching label. These buttons classify supplied photos; they do not train the model. Then try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. This three-class teaching model may guess a fruit label for unrelated objects; a high score does not guarantee a correct answer.
 
-Use **Learn ML** or **ExecuTorch docs** to open the official tutorials in your browser. Documentation needs internet access; bundled model inference runs locally. The [beginner learning guide](../README.md#learn-more) also links to App Inventor classification lessons and includes experiments to try.
+Use **Learn about AI** or **PyTorch / ExecuTorch** to open the official tutorials in your browser. Documentation needs internet access; bundled model inference runs locally. The [beginner learning guide](../README.md#learn-more) also links to App Inventor classification lessons and includes experiments to try.
 
 The app loads fruit_classifier.pte on startup, then calls RunImage(path,32). Image conversion produces RGB NCHW float32 [1,3,32,32] in [0,1]; the remaining normalization is inside the model. InferenceCompleted returns probabilities in apple, banana, orange order.
 

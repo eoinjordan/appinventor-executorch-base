@@ -46,11 +46,12 @@ component('RetryLoadButton','Button',parent=body,Text='Retry loading fruit model
 gap('HelpSpace',8)
 component('HelpLabel','Label',parent=body,Text='Best with one centred fruit on a plain white background. This demo knows only apple, banana and orange; other objects may be guessed as one of them.',FontSize='12',TextColor=MUTED,Width='-2')
 gap('LearnSpace',8)
+component('LocalAILabel','Label',parent=body,Text="This is a local AI machine learning model. It uses your phone's processor to run a PyTorch ExecuTorch model. Your photos are processed on your phone. To learn more about AI or PyTorch, tap a link below.",FontSize='13',TextColor=INK,Width='-2')
 component('LearnLabel','Label',parent=body,Text='LEARN MORE',FontSize='11',FontBold='True',TextColor=MUTED,Width='-2')
 learning=component('LearningLinks','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
 LEARNING_LINKS=[
-    ('LearnMLButton','MLDocs','Learn ML','https://docs.pytorch.org/tutorials/beginner/basics/intro.html'),
-    ('ExecuTorchDocsButton','ExecuTorchDocs','ExecuTorch docs','https://docs.pytorch.org/executorch/stable/index.html'),
+    ('LearnMLButton','MLDocs','Learn about AI','https://docs.pytorch.org/tutorials/beginner/basics/intro.html'),
+    ('ExecuTorchDocsButton','ExecuTorchDocs','PyTorch / ExecuTorch','https://docs.pytorch.org/executorch/stable/index.html'),
 ]
 for button,starter,title,url in LEARNING_LINKS:
     component(button,'Button',parent=learning,Text=title,Width='-1045',Height='48',FontSize='13',TextColor=GREEN,BackgroundColor=WHITE,Shape='1')
