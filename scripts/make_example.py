@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,zipfile,xml.etree.ElementTree as ET
 root=Path(__file__).resolve().parents[1]
-T='org.community.executorch.ExecuTorch'
+T='ExecuTorch'
 project={'YaVersion':'232','Source':'Form','Properties':{'$Name':'Screen1','$Type':'Form','$Version':'31','Uuid':'0','AppName':'ExecuTorchSmoke','Title':'ExecuTorch Smoke Test','$Components':[{'$Name':'RunButton','$Type':'Button','$Version':'7','Uuid':'1','Text':'Load model and run [1,2,3,4] + 1'},{'$Name':'ResultLabel','$Type':'Label','$Version':'5','Uuid':'2','Text':'Expected: [2,3,4,5]'},{'$Name':'ExecuTorch1','$Type':T,'$Version':'1','Uuid':'3'}]}}
 xml=ET.Element('xml',{'xmlns':'https://developers.google.com/blockly/xml'})
 def field(b,name,value): ET.SubElement(b,'field',{'name':name}).text=str(value)

@@ -4,7 +4,7 @@ import json
 import zipfile
 import xml.etree.ElementTree as E
 ROOT=Path(__file__).resolve().parents[1]
-TYPE='org.community.executorch.ExecuTorch'
+TYPE='ExecuTorch'
 NAME='ExecuTorchIris'
 NS='https://developers.google.com/blockly/xml'
 xml=E.Element('xml',{'xmlns':NS})

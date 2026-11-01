@@ -23,6 +23,7 @@ def main():
         scm=z.read(next(n for n in z.namelist() if n.endswith('.scm'))).decode()
         project=json.loads(scm.split('$JSON\n',1)[1].rsplit('\n|#',1)[0])
         components={c['$Name']:c for c in project['Properties']['$Components']}
+        assert components['ExecuTorch1']['$Type']=='ExecuTorch'
         assert all(n in components for n in ['ClassifyButton','SetosaButton','VersicolorButton','VirginicaButton','ExecuTorch1'])
         tree=E.fromstring(z.read(next(n for n in z.namelist() if n.endswith('.bky'))))
         ns={'b':'https://developers.google.com/blockly/xml'}
