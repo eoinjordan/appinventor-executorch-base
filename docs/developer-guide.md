@@ -55,6 +55,7 @@ edit the script when you want the pictures in the docs to change too.
 | `scripts/make_block_reference.py` | Draw the block pictures and write `docs/blocks.md` and the README Blocks section from the built AIX |
 | `scripts/make_workflow_diagrams.py` | Write `docs/blocks-workflow.drawio` and its PNG/SVG renders from one list of boxes and arrows |
 | `scripts/verify.py`, `scripts/verify_fruit.py` | Host checks for the extension and the fruit project |
+| `scripts/make_fruit_subset.py` | Pick the pinned photo subset from the Zenodo archive (maintainers, once) |
 | `scripts/train_fruit.py`, `scripts/export_fruit.py` | Train the fruit classifier and export it to PTE |
 | `scripts/make_dataset_preview.py`, `scripts/make_training_gifs.py` | Regenerate the dataset contact sheet and the training/export GIFs |
 | `models/` | The `.pte`, contract, parameters, dataset subset, manifest and attribution |
@@ -197,26 +198,28 @@ raises `ModelUnloaded`.
 ## Fruit model reproducibility
 
 The repo includes the pretrained [fruit_classifier.pte](../models/fruit_classifier.pte)
-and the full [480-image dataset subset](../models/fruit_dataset.zip): 360 training
-photos and 120 test photos, with attribution and a manifest inside the ZIP. The app
+and the full [1,200-photo dataset subset](../models/fruit_dataset.zip): 900 training
+photos and 300 test photos, with attribution and a manifest inside the ZIP. The app
 bundles three test photos so beginners can try it without downloading the dataset.
 
 | File | Contents |
 | --- | --- |
 | `models/fruit_contract.json` | Labels, shapes, preprocessing, prediction fixtures and the model hash |
-| `models/fruit_dataset_manifest.json` | Pinned Fruits-360 revision, original paths, URLs and all 480 content hashes |
+| `models/fruit_dataset_manifest.json` | Zenodo DOI and archive MD5, each photo's original path, label, split and content hash |
 | `models/fruit_parameters.json` | Trained classifier weights and biases |
 | `models/FRUIT_DATASET.md` | Attribution, transformations and scope |
 
-`scripts/train_fruit.py` verifies and extracts the checked-in dataset to `.cache/fruits/`
-and trains the classifier. `scripts/export_fruit.py` converts the trained parameters to
+`scripts/make_fruit_subset.py` selects the subset from the extracted Zenodo archive
+(8.5 GB, run once by a maintainer; the result is checked in). `scripts/train_fruit.py`
+verifies and extracts the checked-in dataset to `.cache/fruits/` and trains the classifier. `scripts/export_fruit.py` converts the trained parameters to
 PyTorch and exports them to ExecuTorch 1.5.1. Neither script selects new photos from
 upstream. Training needs PyTorch, ExecuTorch, scikit-learn, NumPy and Pillow; CI uses the
 pretrained model and does not retrain it. Normalization beyond RGB /255 is embedded in
 the model.
 
-The fruit model, derived parameters and sample photographs use CC BY-SA 4.0 with
-attribution to Mihai Oltean, Fruits-360. Extension/application code remains Apache-2.0;
+The fruit model, derived parameters and sample photographs use CC BY 4.0 with
+attribution to Hussain, He, Chen and Xie (Fruit Recognition dataset). Extension and
+application code remains Apache-2.0;
 see [dataset attribution and scope](../models/FRUIT_DATASET.md).
 
 ## Upload troubleshooting

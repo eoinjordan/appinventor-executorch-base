@@ -1,70 +1,80 @@
 {
-  "dataset_revision": "bed1c24ee70de1569272de3882fbde88211c08b5",
-  "license": "CC BY-SA 4.0",
+  "dataset": "Fruit Recognition dataset",
+  "doi": "10.5281/zenodo.1310165",
+  "license": "CC BY 4.0",
   "transformations": "Selected training photographs resized and arranged with labels.",
   "images": [
     {
       "split": "Training",
       "label": "apple",
-      "path": "Training/Apple Red 1/0_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Apple%20Red%201/0_100.jpg",
-      "sha256": "a4e5ebf0f3f677513e73ce80b1fab344237964769fc97ce8aedad9e89f25ec67"
+      "path": "Training/apple/apple-a-Apple-117.jpg",
+      "archive_path": "Apple/Apple A/Apple 117.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "adfff161ddf70dfba7140d41857afaca6f82adedc57afa7ca4729acf9c8a8842"
     },
     {
       "split": "Training",
       "label": "apple",
-      "path": "Training/Apple Red 1/r_100_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Apple%20Red%201/r_100_100.jpg",
-      "sha256": "e6048285e9b82788ba398d74a71172283380c52cdcd1f0a53e4bace22e53e6ff"
+      "path": "Training/apple/apple-d-Apple-dee04401.jpg",
+      "archive_path": "Apple/Apple D/Apple dee04401.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "6265d45e95b293674dcce4bf55227c0af27aba9a3ba55b28eb5f7ae1f90f59ea"
     },
     {
       "split": "Training",
       "label": "apple",
-      "path": "Training/Apple Red 1/r_320_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Apple%20Red%201/r_320_100.jpg",
-      "sha256": "f2128ac5c4e52e814bdf365f8d7e74198a196781f3e794b3183b1127bbb2bba7"
+      "path": "Training/apple/apple-f-scene07301.jpg",
+      "archive_path": "Apple/Apple F/scene07301.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "5f2008920c343821aed7d6ae64443fb8b68054005febde9788601a02f26b9440"
     },
     {
       "split": "Training",
       "label": "banana",
-      "path": "Training/Banana 1/0_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Banana%201/0_100.jpg",
-      "sha256": "b01131974412e89a7ebc337924f5473a5d8dc28af6713205bbda23ae661ab540"
+      "path": "Training/banana/Banana01.jpg",
+      "archive_path": "Banana/Banana01.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "9ecbb538813209a196c09f9885cded2e82afec940debbc9abcc2faada4621eda"
     },
     {
       "split": "Training",
       "label": "banana",
-      "path": "Training/Banana 1/r_100_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Banana%201/r_100_100.jpg",
-      "sha256": "c6d58206fbe9bf1e86ed316689911628ff95da63f8f96848d2d0e3397d2e47e7"
+      "path": "Training/banana/Banana02469.jpg",
+      "archive_path": "Banana/Banana02469.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "b75f8147f5ac7f560f24bc1851bdbd7df13efd9ea06e11d0f32e1e88f1553e85"
     },
     {
       "split": "Training",
       "label": "banana",
-      "path": "Training/Banana 1/r_9_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Banana%201/r_9_100.jpg",
-      "sha256": "f89c9aac9ccda409ea53431ffd8af649cc3db4b54c884d15aac14b41995cc657"
+      "path": "Training/banana/Banana0999.jpg",
+      "archive_path": "Banana/Banana0999.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "ee6e6c308a3490c5adbd0b4fe5072ee7707be968698a15946786cd32ef9f81bb"
     },
     {
       "split": "Training",
       "label": "orange",
-      "path": "Training/Orange 1/0_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Orange%201/0_100.jpg",
-      "sha256": "26102bdce04d0976993078463e5b43fb1b02b4001ce0ef65a077c33b2137050a"
+      "path": "Training/orange/Orange001014.jpg",
+      "archive_path": "Orange/Orange001014.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "475c96637111e312b6309675d9a8e676a94a753d2e3b28f094f2b249590fb258"
     },
     {
       "split": "Training",
       "label": "orange",
-      "path": "Training/Orange 1/r_107_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Orange%201/r_107_100.jpg",
-      "sha256": "77194fd137da81b9d5a977a4ee3c1a7da5fe3021981292d337e82cfbc50cf1ba"
+      "path": "Training/orange/Orange002360.jpg",
+      "archive_path": "Orange/Orange002360.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "610b22c55ad4bc6b9a543e0bc2e77e9c885da39e8e432ed800c3c5aa4d701330"
     },
     {
       "split": "Training",
       "label": "orange",
-      "path": "Training/Orange 1/r_320_100.jpg",
-      "url": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Training/Orange%201/r_320_100.jpg",
-      "sha256": "41641b2012cb326fc16006520201f6a101bd9cce7e757be01ccfc3d47116e94f"
+      "path": "Training/orange/Orange00999.jpg",
+      "archive_path": "Orange/Orange00999.png",
+      "url": "https://zenodo.org/records/1310165",
+      "sha256": "fcf325d3b5d308eecf91efccb8ac3ad0f52d6ef5fa90e977bc93c84bbd6509e6"
     }
   ]
 }

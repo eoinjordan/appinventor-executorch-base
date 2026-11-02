@@ -44,15 +44,15 @@ starting the next step. Pictures of each block and what its parameters mean are 
 ## Experiments to try
 
 - **Establish a baseline:** run each supplied photo and record its label and three scores.
-- **Change one thing:** photograph the same fruit on a white surface, then change only the lighting, angle or background. Which scores change?
+- **Change one thing:** photograph the same fruit on a plain surface, then change only the lighting, angle or background. Which scores change?
 - **Try something unfamiliar:** show a pear or an empty table. The model still chooses one of its three classes. A high score does not guarantee a correct answer.
 - **Check local inference:** after the model loads, enable airplane mode and classify a bundled sample again. Only the **Learn more** links need a connection.
 - **Think about better data:** what additional varieties, lighting and backgrounds would you collect? Keep separate test photos that were not used to train the model.
 
-The dataset contains isolated fruit on simple backgrounds and limited varieties. The
-model has no "unknown" class. Host evaluation matched all 120 test photos, which are
-separate from the 360 training photos, but those test photos look like the training
-photos. Everyday photos, other varieties and unrelated objects are outside what it has
+The dataset shows one kind of fruit at a time on a metal tray under lab lighting, with a
+handful of varieties. The model has no "unknown" class. On the computer it labels 89% of
+the 300 test photos correctly, which are separate from the 900 training photos but look
+like them. Everyday photos, other varieties and unrelated objects are outside what it has
 seen. See [dataset attribution and limitations](../models/FRUIT_DATASET.md).
 
 ## Learn more

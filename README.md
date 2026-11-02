@@ -110,7 +110,7 @@ go to step 5. To see how it is built:
 
 5. Wait for the result card to say **Ready**. The app loads `fruit_classifier.pte` automatically.
 6. Under **Step 1**, tap **Apple**, **Banana** or **Orange**. The prediction should match the selected photo. These buttons classify supplied examples; they do not train the model.
-7. Under **Step 2**, try **Choose photo** or **Take photo**. Use one centred fruit on a plain white background. Allow camera/photo access when Android asks.
+7. Under **Step 2**, try **Choose photo** or **Take photo**. Start with a few fruit of one kind on a plain tray or table. Allow camera/photo access when Android asks.
 8. Turn on airplane mode and tap a sample again. Classification still works because the model runs on the phone.
 
 The result card shows the label, the three class scores and the time inference took on
@@ -124,19 +124,24 @@ If loading fails, the photo controls stay disabled and the original error appear
 
 ## The dataset
 
-![Actual Fruits-360 training photos: three views each of apple, banana and orange](docs/images/fruit-dataset.png)
+![Actual Fruit Recognition training photos: apples, bananas and oranges on a tray under lab lighting](docs/images/fruit-dataset.png)
 
 | Label | Training photos | Separate test photos |
 | --- | ---: | ---: |
-| Apple | 120 | 40 |
-| Banana | 120 | 40 |
-| Orange | 120 | 40 |
-| **Total** | **360** | **120** |
+| Apple | 300 | 100 |
+| Banana | 300 | 100 |
+| Orange | 300 | 100 |
+| **Total** | **900** | **300** |
 
-Examples from our Fruits-360 subset, photographed on white backgrounds. The grid shows
-training photos; testing uses separate images. Photos: Mihai Oltean / Fruits-360,
-CC BY-SA 4.0. Resized and labelled; [attribution](models/FRUIT_DATASET.md) and
-[source records](docs/images/fruit-dataset-sources.json).
+Examples from our subset of the Fruit Recognition dataset: one kind of fruit at a time,
+often several pieces, on a metal tray under varied lab lighting, with several apple
+varieties. The grid shows training photos; testing uses separate photos. Photos: Hussain,
+He, Chen and Xie, South China University of Technology, CC BY 4.0. Resized and labelled;
+[attribution](models/FRUIT_DATASET.md) and [source records](docs/images/fruit-dataset-sources.json).
+
+The model gets 89% of the 300 test photos right. That is a fair score for a small linear
+model on photos with real lighting variation, and the mistakes are part of what the app
+teaches: tap a sample, then try photos that are nothing like the training set.
 
 **Image classification** assigns a label to a whole image. This app chooses among three
 labels; it does not locate multiple objects or draw boxes around them. The model has no
@@ -230,7 +235,8 @@ The [developer guide](docs/developer-guide.md) covers the source files, the buil
 release process, native packaging, the model contract and the checks CI runs.
 
 Code is Apache-2.0; see [LICENSE](LICENSE). The fruit photos, dataset subset and the
-model trained from them are CC BY-SA 4.0 with attribution to Mihai Oltean / Fruits-360.
+model trained from them are CC BY 4.0 with attribution to Hussain, He, Chen and Xie
+(Fruit Recognition dataset, https://doi.org/10.5281/zenodo.1310165).
 Keep those notices when sharing a modified app. See
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [models/FRUIT_DATASET.md](models/FRUIT_DATASET.md).
 
