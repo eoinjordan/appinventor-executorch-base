@@ -23,41 +23,44 @@
     {
       "label": "apple",
       "file": "apple.jpg",
-      "source": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Test/Apple%20Red%201/321_100.jpg",
-      "sha256": "2068b680abaca55dcf2bf63fbf71bcd3cbabdc09718129ea80c4cc1ff0c8f026",
+      "source": "https://zenodo.org/records/1310165",
+      "archive_path": "Apple/Apple A/Apple 200.png",
+      "sha256": "6c691f4d12454888eaeca79c3f302dbfb8af57584721204183f4c2666d702172",
       "expected_probabilities": [
-        0.9972569346427917,
-        0.001579822856001556,
-        0.0011632147943601012
+        0.9966440200805664,
+        0.0009044319740496576,
+        0.0024515765253454447
       ]
     },
     {
       "label": "banana",
       "file": "banana.jpg",
-      "source": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Test/Banana%201/100_100.jpg",
-      "sha256": "9d8bbe3dfff4001831fa8e078515da2f7605ab8829ae4e6c0dfc71c813fc5827",
+      "source": "https://zenodo.org/records/1310165",
+      "archive_path": "Banana/Banana01033.png",
+      "sha256": "38fb1f34da65c80e996da1f777e8ec097e81a69f49f9c9c9d9c372a02376b167",
       "expected_probabilities": [
-        5.481582320499001e-06,
-        0.9999865293502808,
-        8.044942660490051e-06
+        0.008358987979590893,
+        0.9898377656936646,
+        0.0018032396910712123
       ]
     },
     {
       "label": "orange",
       "file": "orange.jpg",
-      "source": "https://raw.githubusercontent.com/fruits-360/fruits-360-100x100/bed1c24ee70de1569272de3882fbde88211c08b5/Test/Orange%201/30_100.jpg",
-      "sha256": "961faf19d427ff8a44ef45cda6f4d0fb23429e7cf631e73301d645baf4f425a3",
+      "source": "https://zenodo.org/records/1310165",
+      "archive_path": "Orange/Orange001026.png",
+      "sha256": "7db74c3bb3d1e115163dad6c4d440ceca6195f39846bd9d56a0a7a07eca45644",
       "expected_probabilities": [
-        0.0006669529830105603,
-        2.9087943403283134e-05,
-        0.999303936958313
+        0.003550767432898283,
+        0.006162525154650211,
+        0.9902867078781128
       ]
     }
   ],
-  "training_samples": 360,
-  "test_samples": 120,
-  "held_out_accuracy": 1.0,
-  "sha256": "e18b494c947881e30a929369efc3c7787c53530925efc2430fc373eddbe90016",
-  "dataset_revision": "bed1c24ee70de1569272de3882fbde88211c08b5",
-  "scope": "Three Fruits-360 varieties photographed as isolated fruit on white backgrounds. Scores are relative probabilities within these three classes; arbitrary objects and everyday backgrounds are not validated."
+  "training_samples": 900,
+  "test_samples": 300,
+  "held_out_accuracy": 0.89,
+  "sha256": "b93286f4b799ba40f4d8a180c9a175b8ddeb0a2c0395917707db3c61353e0e03",
+  "dataset_revision": "10.5281/zenodo.1310165",
+  "scope": "Apple, banana and orange photos from the Fruit Recognition dataset: one kind of fruit, often several pieces, on a metal tray under varied lab lighting. Scores are relative probabilities within these three classes; arbitrary objects and everyday backgrounds are not validated."
 }

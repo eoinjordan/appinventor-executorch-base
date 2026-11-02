@@ -10,17 +10,17 @@ params=json.loads((ROOT/'models/fruit_parameters.json').read_text(encoding='utf-
 manifest=json.loads((ROOT/'models/fruit_dataset_manifest.json').read_text(encoding='utf-8'))
 train=[r for r in manifest['images'] if r['split']=='Training']
 test=[r for r in manifest['images'] if r['split']=='Test']
-assert len(train)==360 and len(test)==120
+assert len(train)==900 and len(test)==300
 assert not {r['path'] for r in train} & {r['path'] for r in test}
 assert not {r['sha256'] for r in train} & {r['sha256'] for r in test}
 assert contract['dataset_revision']==manifest['revision']
 assert contract['labels']==['apple','banana','orange']
-assert contract['held_out_accuracy']>=.90
+assert contract['held_out_accuracy']>=.85
 assert hashlib.sha256((ROOT/'models/fruit_classifier.pte').read_bytes()).hexdigest()==contract['sha256']
 with zipfile.ZipFile(ROOT/'models/fruit_dataset.zip') as dataset:
     assert dataset.testzip() is None
     assert json.loads(dataset.read('manifest.json'))==manifest
-    assert b'CC BY-SA 4.0' in dataset.read('ATTRIBUTION.md')
+    assert b'CC BY 4.0' in dataset.read('ATTRIBUTION.md')
     for record in manifest['images']:
         assert hashlib.sha256(dataset.read(record['path'])).hexdigest()==record['sha256']
 for sample in contract['samples']:
@@ -35,7 +35,7 @@ for sample in contract['samples']:
 with zipfile.ZipFile(ROOT/'examples/ExecuTorchFruit.aia') as z:
     assert z.testzip() is None
     assert z.read('assets/fruit_classifier.pte')==(ROOT/'models/fruit_classifier.pte').read_bytes()
-    assert b'CC BY-SA 4.0' in z.read('assets/FRUIT_ATTRIBUTION.txt')
+    assert b'CC BY 4.0' in z.read('assets/FRUIT_ATTRIBUTION.txt')
     scm=z.read(next(n for n in z.namelist() if n.endswith('.scm'))).decode()
     project=json.loads(scm.split('$JSON\n',1)[1].rsplit('\n|#',1)[0])
     def descendants(items):

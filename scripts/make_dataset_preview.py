@@ -16,7 +16,10 @@ def main():
     canvas = Image.new('RGB', (1000, 960), '#f3f6f2')
     draw = ImageDraw.Draw(canvas)
     draw.text((38, 24), 'Meet the fruit dataset', font=font(32), fill='#18352b')
-    draw.text((38, 70), 'Actual training photos from the pinned Fruits-360 subset', font=font(18), fill='#586a62')
+    draw.text((38, 70), 'Actual training photos from the pinned Fruit Recognition subset', font=font(18), fill='#586a62')
+    counts = {(r['split'], r['label']): 0 for r in manifest['images']}
+    for r in manifest['images']:
+        counts[(r['split'], r['label'])] += 1
     selected = []
     with zipfile.ZipFile(ROOT/'models/fruit_dataset.zip') as archive:
         for row, label in enumerate(['apple', 'banana', 'orange']):
@@ -24,8 +27,8 @@ def main():
             y = 120+row*250
             draw.rounded_rectangle((24, y, 976, y+234), radius=16, fill='white')
             draw.text((42, y+28), label.title(), font=font(26), fill='#246747')
-            draw.text((42, y+76), '120 training', font=font(16), fill='#586a62')
-            draw.text((42, y+102), '40 test', font=font(16), fill='#586a62')
+            draw.text((42, y+76), f"{counts[('Training', label)]} training", font=font(16), fill='#586a62')
+            draw.text((42, y+102), f"{counts[('Test', label)]} test", font=font(16), fill='#586a62')
             for column, index in enumerate([0, len(records)//2, len(records)-1]):
                 record = records[index]
                 data = archive.read(record['path'])
@@ -34,15 +37,17 @@ def main():
                     image = source.convert('RGB').resize((200, 200), Image.Resampling.BILINEAR)
                 canvas.paste(image, (270+column*226, y+17))
                 selected.append(record)
-    draw.text((38, 886), '360 training + 120 separate test photos | 3 classes | white backgrounds',
+    total_train = sum(v for (s, _), v in counts.items() if s == 'Training')
+    total_test = sum(v for (s, _), v in counts.items() if s == 'Test')
+    draw.text((38, 886), f'{total_train} training + {total_test} separate test photos | 3 classes | varied lab lighting',
               font=font(18), fill='#18352b')
-    draw.text((38, 922), 'Photos: Mihai Oltean / Fruits-360 | CC BY-SA 4.0 | See linked attribution',
+    draw.text((38, 922), 'Photos: Hussain, He, Chen, Xie / Fruit Recognition dataset | CC BY 4.0 | See linked attribution',
               font=font(16), fill='#586a62')
     output = ROOT/'docs/images'
     output.mkdir(parents=True, exist_ok=True)
     canvas.save(output/'fruit-dataset.png', optimize=True)
     (output/'fruit-dataset-sources.json').write_text(json.dumps({
-        'dataset_revision': manifest['revision'], 'license': 'CC BY-SA 4.0',
+        'dataset': manifest['dataset'], 'doi': manifest['doi'], 'license': manifest['license'],
         'transformations': 'Selected training photographs resized and arranged with labels.',
         'images': selected,
     }, indent=2), encoding='utf-8')

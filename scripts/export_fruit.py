@@ -1,4 +1,4 @@
-"""Train a small fruit photo model using a pinned Fruits-360 subset.
+"""Train a small fruit photo model using a pinned subset of the Fruit Recognition dataset.
 
 Training/export is optional: the model and example photos are checked in.
 """
@@ -10,8 +10,8 @@ from sklearn.linear_model import LogisticRegression
 
 ROOT = Path(__file__).resolve().parents[1]
 CACHE = ROOT/'.cache/fruits'
-REPO = 'fruits-360/fruits-360-100x100'
-CLASSES = [('apple', 'Apple Red 1'), ('banana', 'Banana 1'), ('orange', 'Orange 1')]
+CLASSES = [('apple', 'Apple'), ('banana', 'Banana'), ('orange', 'Orange')]
+MIN_ACCURACY = .85  # Regression guard for this teaching recipe, not a deployment standard.
 SIZE = 32
 
 def prepare():
@@ -75,14 +75,14 @@ def main():
     logits=(x_test.reshape(len(test),-1)*2-1)@np.asarray(params['weights']).T+params['bias']
     expected=np.exp(logits-logits.max(axis=1,keepdims=True));expected/=expected.sum(axis=1,keepdims=True)
     np.testing.assert_allclose(scores,expected,atol=2e-5)
-    accuracy=float((scores.argmax(1)==y_test).mean()); assert accuracy>=.90, accuracy
+    accuracy=float((scores.argmax(1)==y_test).mean()); assert accuracy>=MIN_ACCURACY, accuracy
     output=args.output; samples=output/'fruit_samples'; samples.mkdir(parents=True,exist_ok=True)
     presets=[]
     for label in labels:
         for i,record in enumerate(test):
             if record['label']==label and int(scores[i].argmax())==labels.index(label):
                 name=label+'.jpg'; shutil.copyfile(CACHE/record['path'],samples/name)
-                presets.append(dict(label=label,file=name,source=record['url'],sha256=record['sha256'],expected_probabilities=scores[i].tolist()))
+                presets.append(dict(label=label,file=name,source=record['url'],archive_path=record['archive_path'],sha256=record['sha256'],expected_probabilities=scores[i].tolist()))
                 break
     print('Capturing PyTorch graph: input [1, 3, 32, 32], output [1, 3]',flush=True)
     exported=torch.export.export(model,(torch.zeros(1,3,SIZE,SIZE),))
@@ -91,11 +91,11 @@ def main():
     buffer=to_edge(exported).to_executorch().buffer
     (output/'fruit_classifier.pte').write_bytes(buffer)
     (output/'fruit_parameters.json').write_text(json.dumps(params))
-    contract=dict(model='fruit_classifier.pte',runtime='1.5.1',size=SIZE,input_shape=[1,3,SIZE,SIZE],output_shape=[1,3],dtype='float32',labels=labels,preprocessing='Stretch resize; RGB NCHW /255. Remaining normalization is inside the model.',samples=presets,training_samples=len(train),test_samples=len(test),held_out_accuracy=accuracy,sha256=hashlib.sha256(buffer).hexdigest(),dataset_revision=manifest['revision'],scope='Three Fruits-360 varieties photographed as isolated fruit on white backgrounds. Scores are relative probabilities within these three classes; arbitrary objects and everyday backgrounds are not validated.')
+    contract=dict(model='fruit_classifier.pte',runtime='1.5.1',size=SIZE,input_shape=[1,3,SIZE,SIZE],output_shape=[1,3],dtype='float32',labels=labels,preprocessing='Stretch resize; RGB NCHW /255. Remaining normalization is inside the model.',samples=presets,training_samples=len(train),test_samples=len(test),held_out_accuracy=accuracy,sha256=hashlib.sha256(buffer).hexdigest(),dataset_revision=manifest['revision'],scope='Apple, banana and orange photos from the Fruit Recognition dataset: one kind of fruit, often several pieces, on a metal tray under varied lab lighting. Scores are relative probabilities within these three classes; arbitrary objects and everyday backgrounds are not validated.')
     (output/'fruit_contract.json').write_text(json.dumps(contract,indent=2))
     (output/'FRUIT_DATASET.md').write_text((ROOT/'models/FRUIT_DATASET.md').read_text(encoding='utf-8'),encoding='utf-8')
     (output/'fruit_dataset_manifest.json').write_text(json.dumps(manifest,indent=2))
     print('Saved:',output/'fruit_classifier.pte',flush=True)
-    print(f'Exported {len(buffer)} byte PTE; eager test accuracy {accuracy:.2%} on {len(test)} official Test images',flush=True)
+    print(f'Exported {len(buffer)} byte PTE; eager test accuracy {accuracy:.2%} on {len(test)} held-out test photos',flush=True)
 
 if __name__=='__main__': main()

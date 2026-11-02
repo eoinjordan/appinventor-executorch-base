@@ -1,6 +1,6 @@
 # Third-party notices
 
-Fruit example: Mihai Oltean, Fruits-360 dataset, 2017–. Source https://github.com/fruits-360/fruits-360-100x100 , CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/). The model, learned parameters and bundled sample JPGs are distributed under CC BY-SA 4.0; see models/FRUIT_DATASET.md for transformations, pinned sources and scope. Extension/application source retains Apache-2.0.
+Fruit example: Israr Hussain, Qianhua He, Zhuliang Chen and Wei Xie, Fruit Recognition dataset, South China University of Technology, 2018. Source https://doi.org/10.5281/zenodo.1310165 , CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). The model, learned parameters and bundled sample JPGs are distributed with that attribution under CC BY 4.0; see models/FRUIT_DATASET.md for transformations, pinned sources and scope. Extension/application source retains Apache-2.0.
 
 Original component, helper, build scripts and example code: Copyright 2026 Eoin. Licensed under Apache-2.0; see LICENSE.
 
@@ -16,6 +16,6 @@ Runtime dependencies packaged in the AIX:
 | org.jetbrains.kotlin:kotlin-stdlib | 1.9.23 | Apache-2.0; see licenses/Kotlin-LICENSE.txt |
 | Android NDK libc++_shared | Supplied by fbjni 0.7.0 | LLVM/Apache-2.0 with LLVM exceptions; see licenses/LLVM-LICENSE.txt |
 
-ExecuTorch and its distributed native binary also contain third-party code; consult its upstream third-party sources and notices at https://github.com/pytorch/executorch/tree/v1.5.1/third-party before redistribution. The fruit classifier is trained by this project using Fruits-360; its pretrained parameters follow the attribution above.
+ExecuTorch and its distributed native binary also contain third-party code; consult its upstream third-party sources and notices at https://github.com/pytorch/executorch/tree/v1.5.1/third-party before redistribution. The fruit classifier is trained by this project using the Fruit Recognition dataset; its pretrained parameters follow the attribution above.
 
 Palette logo: unmodified ExecuTorch logo from https://github.com/pytorch/executorch/blob/v1.5.1/docs/source/_static/img/et-logo.png . ExecuTorch and PyTorch marks belong to their owners.

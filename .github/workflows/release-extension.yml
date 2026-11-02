@@ -107,9 +107,9 @@ jobs:
           Install ExecuTorch-ARM64.aix in your own project on ARM64 Android phones.
           Use ExecuTorch-multi-ABI.aix when x86_64 emulator support is needed.
           The trained model and three test photos are already bundled in the app.
-          fruit_dataset.zip contains all 360 training and 120 test photos used for this model.
+          fruit_dataset.zip contains all 900 training and 300 test photos used for this model.
 
-          Fruit model and sample images: Fruits-360, Mihai Oltean, CC BY-SA 4.0.
+          Fruit model and sample images: Fruit Recognition dataset, Hussain, He, Chen and Xie, CC BY 4.0.
           See FRUIT_ATTRIBUTION.txt for source, transformations and model limitations.
           NOTES
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then

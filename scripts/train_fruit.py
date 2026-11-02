@@ -25,7 +25,7 @@ def main():
         images = np.stack([pixels(CACHE/r['path']) for r in records])
         targets = np.array([labels.index(r['label']) for r in records])
         groups[split] = (images.reshape(len(records), -1)*2-1, targets)
-    print('Training: 360 photos | Testing: 120 separate photos', flush=True)
+    print(f'Training: {len(groups["Training"][1])} photos | Testing: {len(groups["Test"][1])} separate photos', flush=True)
     print(f'Logistic regression: C={args.c}, max_iter={args.max_iter}, solver=lbfgs, tol=0.0001', flush=True)
     classifier = LogisticRegression(C=args.c, max_iter=args.max_iter, random_state=42,
                                     solver='lbfgs', tol=1e-4)

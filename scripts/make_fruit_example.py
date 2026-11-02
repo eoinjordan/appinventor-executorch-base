@@ -50,7 +50,7 @@ heading('Step2Label','STEP 2 · TRY YOUR OWN PHOTO')
 photos=component('PhotoButtons','HorizontalArrangement',parent=body,Width='-2',AlignHorizontal='3')
 component('ChoosePhoto','ImagePicker',parent=photos,Text='Choose photo',Width='-1045',Height='48',FontSize='14',BackgroundColor=GREEN,TextColor=WHITE,Shape='1',Enabled='False')
 component('TakePhotoButton','Button',parent=photos,Text='Take photo',Width='-1045',Height='48',FontSize='14',BackgroundColor=GREEN,TextColor=WHITE,Shape='1',Enabled='False')
-component('HelpLabel','Label',parent=body,Text='Works best with one centred fruit on a plain white background.',FontSize='12',TextColor=MUTED,Width='-2')
+component('HelpLabel','Label',parent=body,Text='Works best with a few fruit of one kind on a plain tray or table.',FontSize='12',TextColor=MUTED,Width='-2')
 gap('ResultSpace',10)
 
 # Result
@@ -86,7 +86,7 @@ for button,starter,title,blurb,url in LEARNING_LINKS:
     component(button,'Button',parent=body,Text=title+'  ›',Width='-2',Height='44',FontSize='13',FontBold='True',TextColor=GREEN,BackgroundColor=WHITE,Shape='1')
     component(starter,'ActivityStarter',Action='android.intent.action.VIEW',DataUri=url)
 gap('CreditSpace',8)
-component('CreditLabel','Label',parent=body,Text='Photos: Mihai Oltean, Fruits-360 (CC BY-SA 4.0).',FontSize='11',TextColor=MUTED,Width='-2')
+component('CreditLabel','Label',parent=body,Text='Photos: Hussain, He, Chen, Xie, Fruit Recognition dataset (CC BY 4.0).',FontSize='11',TextColor=MUTED,Width='-2')
 gap('BottomSpace',12)
 component('Camera1','Camera')
 component('ExecuTorch1',TYPE)

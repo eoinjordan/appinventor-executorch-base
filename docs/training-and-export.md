@@ -7,31 +7,37 @@ The phone performs inference, not training.
 
 ## Dataset
 
-This repo includes a small, pinned subset of
-[Fruits-360](https://github.com/fruits-360/fruits-360-100x100), not the complete dataset.
+This repo includes a small, pinned subset of the
+[Fruit Recognition dataset](https://doi.org/10.5281/zenodo.1310165) (Hussain, He, Chen
+and Xie, South China University of Technology, 2018, CC BY 4.0), not the complete
+8.5 GB archive.
 
-| App label | Original dataset class | Training photos | Test photos | In the sample app |
+| App label | Archive folder | Training photos | Test photos | In the sample app |
 | --- | --- | ---: | ---: | ---: |
-| apple | Apple Red 1 | 120 | 40 | 1 test photo |
-| banana | Banana 1 | 120 | 40 | 1 test photo |
-| orange | Orange 1 | 120 | 40 | 1 test photo |
-| **Total** | **3 classes** | **360** | **120** | **3 photos** |
+| apple | Apple (varieties A to F) | 300 | 100 | 1 test photo |
+| banana | Banana | 300 | 100 | 1 test photo |
+| orange | Orange | 300 | 100 | 1 test photo |
+| **Total** | **3 classes** | **900** | **300** | **3 photos** |
 
-![Nine actual training images: apple, banana and orange photographed from different views](images/fruit-dataset.png)
+![Nine actual training images: apples, bananas and oranges on a tray under lab lighting](images/fruit-dataset.png)
 
-Examples from our Fruits-360 subset: three classes photographed on white backgrounds.
-The grid uses training photos; testing uses separate images. Photos: Mihai Oltean /
-Fruits-360, CC BY-SA 4.0. Images were resized and arranged with labels;
-[source records](images/fruit-dataset-sources.json) and [attribution](../models/FRUIT_DATASET.md).
+Examples from our subset: one kind of fruit at a time, often several pieces, on a metal
+tray under varied lighting. The grid uses training photos; testing uses separate photos.
+Photos: Hussain, He, Chen and Xie, CC BY 4.0. Images were resized and arranged with
+labels; [source records](images/fruit-dataset-sources.json) and
+[attribution](../models/FRUIT_DATASET.md).
 
-- [Download the subset](../models/fruit_dataset.zip): contains original images,
-  attribution and the manifest. Scripts verify hashes before extracting it.
-- [Manifest](../models/fruit_dataset_manifest.json): source revision, file paths,
-  URLs, labels and hashes for every photo. Original Test images stay in Test.
-- Images are RGB, 100 by 100 pixels, with isolated fruit on simple white backgrounds.
-  The model uses resized 32 by 32 RGB images.
-- [Attribution and limitations](../models/FRUIT_DATASET.md): Mihai Oltean,
-  CC BY-SA 4.0. Retain attribution when sharing the images or derived model.
+- [Download the subset](../models/fruit_dataset.zip): contains the photos, attribution
+  and the manifest. Scripts verify hashes before extracting it.
+- [Manifest](../models/fruit_dataset_manifest.json): the Zenodo DOI, archive MD5, each
+  photo's original path inside the archive, label, split and content hash.
+- Stored photos are RGB JPEG with the longer side at most 128 pixels; the originals are
+  about 320 by 258. The model uses resized 32 by 32 RGB images.
+- [Attribution and limitations](../models/FRUIT_DATASET.md): CC BY 4.0. Retain
+  attribution when sharing the images or derived model.
+- `scripts/make_fruit_subset.py` is how the subset was chosen: byte-identical repeats
+  dropped, files sorted, shuffled with seed 42, the first 400 per class taken and split
+  300/100. Re-running it against the extracted archive reproduces the zip and manifest.
 
 ## 1. Prepare Python
 
@@ -94,9 +100,10 @@ regression classifier and writes:
 - `.cache/fruit-training/fruit_parameters.json`: learned weights and biases.
 - `.cache/fruit-training/training_report.json`: settings, iteration count and test accuracy.
 
-The recorded run reached 100% on this 120-photo Test subset in 26 solver iterations.
-That is accuracy on photos like the training set, not on everyday camera photos. This
-is a small linear teaching model, not a pretrained neural network such as YOLO.
+The recorded run reached 89% on the 300-photo Test subset. That is accuracy on photos
+like the training set, not on everyday camera photos, and it is a fair result for a
+linear model on raw pixels with this much lighting variation. This is a small linear
+teaching model, not a pretrained neural network such as YOLO.
 
 ## Model settings and hyperparameters
 
