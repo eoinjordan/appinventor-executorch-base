@@ -1,5 +1,20 @@
 # ExecuTorch for MIT App Inventor
 
+[![Build and release extension](https://github.com/eoinjordan/appinventor-executorch-extension/actions/workflows/release-extension.yml/badge.svg)](https://github.com/eoinjordan/appinventor-executorch-extension/actions/workflows/release-extension.yml)
+[![Latest release](https://img.shields.io/github/v/release/eoinjordan/appinventor-executorch-extension?label=release&color=246747)](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest)
+[![ExecuTorch 1.5.1](https://img.shields.io/badge/ExecuTorch-1.5.1-7c5cbf)](https://docs.pytorch.org/executorch/stable/index.html)
+[![Android 8+ 64-bit](https://img.shields.io/badge/Android-8%2B%2064--bit-586a62)](#what-you-need)
+[![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue)](LICENSE)
+[![Data: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-blue)](models/FRUIT_DATASET.md)
+
+**Downloads** (latest release):
+[![Download the app (.apk)](https://img.shields.io/badge/app-ExecuTorchFruit.apk-246747)](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest/download/ExecuTorchFruit.apk)
+[![Download the project (.aia)](https://img.shields.io/badge/project-ExecuTorchFruit.aia-246747)](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest/download/ExecuTorchFruit.aia)
+[![Download the extension for phones (.aix)](https://img.shields.io/badge/extension-ExecuTorch--ARM64.aix-7c5cbf)](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest/download/ExecuTorch-ARM64.aix)
+[![Download the extension for emulators (.aix)](https://img.shields.io/badge/extension-ExecuTorch--multi--ABI.aix-7c5cbf)](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest/download/ExecuTorch-multi-ABI.aix)
+[![Download the model (.pte)](https://img.shields.io/badge/model-fruit__classifier.pte-b6872c)](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest/download/fruit_classifier.pte)
+[![Download the dataset subset (.zip)](https://img.shields.io/badge/dataset-fruit__dataset.zip-b6872c)](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest/download/fruit_dataset.zip)
+
 A community Android extension for running a local machine learning model from
 App Inventor blocks. The example app classifies a photo as **apple, banana or orange**.
 It uses your phone's processor to run a PyTorch ExecuTorch model; classification
@@ -30,8 +45,8 @@ phone running Android 8 or later.
 | --- | --- | --- |
 | [ExecuTorchFruit.apk](https://github.com/eoinjordan/appinventor-executorch-extension/raw/main/assets/ExecuTorchFruit.apk) | The built app, ready to install (about 13 MB) | Quickest way to try it on a phone; no App Inventor account needed |
 | [ExecuTorchFruit.aia](examples/ExecuTorchFruit.aia) | Editable App Inventor project with the extension and model | Start here to see and change the blocks; download the raw file from GitHub |
-| `ExecuTorch-ARM64.aix` | Extension that adds ExecuTorch blocks | For your own project; not needed separately for the sample. Get it from [Releases](https://github.com/eoinjordan/appinventor-executorch-extension/releases) |
-| `ExecuTorch-multi-ABI.aix` | Larger extension that also supports x86_64 emulators | Only for an emulator |
+| [ExecuTorch-ARM64.aix](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest/download/ExecuTorch-ARM64.aix) | Extension that adds ExecuTorch blocks | For your own project; not needed separately for the sample |
+| [ExecuTorch-multi-ABI.aix](https://github.com/eoinjordan/appinventor-executorch-extension/releases/latest/download/ExecuTorch-multi-ABI.aix) | Larger extension that also supports x86_64 emulators | Only for an emulator |
 | `.pte` | Exported model that ExecuTorch runs | Already included as `fruit_classifier.pte` (about 39 KB) |
 
 A release contains the code at its tag, so it can be older than the example in this repository.
